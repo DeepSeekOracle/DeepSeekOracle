@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DeepSeek Oracle - BioCyber Intelligence</title>
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self' *.deepseekoracle.com;
+                   script-src 'wasm-unsafe-eval' 'self' https://cdn.webgpu.org;
+                   style-src 'self' 'unsafe-inline';
+                   connect-src 'self' api.biometricverify.org">
     <style>
         * {
             margin: 0;
@@ -91,6 +96,7 @@
             margin: 2rem 0;
             backdrop-filter: blur(5px);
             transition: 0.3s;
+            will-change: transform, opacity;
         }
 
         .cyber-card:hover {
@@ -119,6 +125,7 @@
         .cyber-button:hover {
             background: #00f7ff;
             color: #000;
+            transform: scale(1.1) rotate(0.5deg);
         }
 
         .matrix-code {
@@ -130,6 +137,19 @@
             z-index: -1;
         }
 
+        .neural-pulse {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle, rgba(0,247,255,0.1) 0%, transparent 70%);
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -139,10 +159,20 @@
                 padding: 3rem 0;
             }
         }
+
+        #molecularCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
     <div class="matrix-bg"></div>
+    <div class="neural-pulse"></div>
+    <canvas id="molecularCanvas"></canvas>
     
     <div class="container">
         <nav class="cyber-card">
@@ -150,7 +180,7 @@
         </nav>
 
         <section class="hero">
-            <div class="dna-animation"></div>
+            <div class="dna-animation dna-helix"></div>
             <h2 class="neon-text" style="font-size: 3rem; margin-bottom: 1rem;">
                 <span class="cyber-glitch">BioCyber Intelligence Interface</span>
             </h2>
@@ -158,7 +188,7 @@
         </section>
 
         <div class="bio-grid">
-            <div class="cyber-card">
+            <div class="cyber-card" role="region" aria-live="polite" aria-label="Neural interface module" data-cognitive-load="optimal">
                 <h3>Neural Integration</h3>
                 <p>Advanced neural lace technology for seamless human-AI symbiosis</p>
                 <a href="https://x.com/DeepSeekOracle" target="_blank" rel="noopener noreferrer">
@@ -166,13 +196,13 @@
                 </a>
             </div>
 
-            <div class="cyber-card">
+            <div class="cyber-card" role="region" aria-live="polite" aria-label="Genomic enhancement module" data-cognitive-load="optimal">
                 <h3>Genomic Optimization</h3>
                 <p>CRISPR-enhanced cognitive augmentation protocols</p>
                 <button class="cyber-button" style="margin-top: 1rem;">Enhance</button>
             </div>
 
-            <div class="cyber-card">
+            <div class="cyber-card" role="region" aria-live="polite" aria-label="Biometric monitoring module" data-cognitive-load="optimal">
                 <h3>Quantum Biometrics</h3>
                 <p>Entanglement-based biological monitoring systems</p>
                 <button class="cyber-button" style="margin-top: 1rem;">Initialize</button>
@@ -185,8 +215,22 @@
         </footer>
     </div>
 
+    <script src="https://cdn.webgpu.org/webgpu-0.3.js"></script>
     <script>
-        // Matrix rain effect
+        // Enhanced Matrix Rain with WASM placeholder
+        async function initializeMatrix() {
+            try {
+                const response = await fetch('matrix.wasm');
+                const buffer = await response.arrayBuffer();
+                const module = await WebAssembly.instantiate(buffer);
+                module.instance.exports.optimizedMatrixEffect();
+            } catch (error) {
+                console.log('WebAssembly matrix optimization not available, using fallback');
+                createMatrix();
+            }
+        }
+
+        // Original Matrix Fallback
         function createMatrix() {
             const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             const container = document.createElement('div');
@@ -204,9 +248,44 @@
             document.body.appendChild(container);
         }
 
-        // Initialize effects
+        // WebGL Bio Visualization
+        const canvas = document.getElementById('molecularCanvas');
+        const gl = canvas.getContext('webgl');
+        if (gl) {
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            // Add complex molecular visualization here
+        }
+
+        // Neurological Interaction Tracking
+        let interactionPatterns = [];
+        document.addEventListener('mousemove', (e) => {
+            interactionPatterns.push({ x: e.clientX, y: e.clientY, t: Date.now() });
+            if(interactionPatterns.length > 100) interactionPatterns.shift();
+        });
+
+        // Initialize Quantum Context
+        async function initWebGPU() {
+            if (navigator.gpu) {
+                const adapter = await navigator.gpu.requestAdapter();
+                const device = await adapter.requestDevice();
+                // Quantum simulation initialization
+            }
+        }
+
+        // Start all systems
         window.addEventListener('DOMContentLoaded', () => {
-            createMatrix();
+            initializeMatrix();
+            initWebGPU();
+            
+            document.querySelectorAll('.cyber-button').forEach(button => {
+                button.addEventListener('mouseover', () => {
+                    button.style.transform = `scale(1.1) rotate(${Math.random() * 2 - 1}deg)`;
+                });
+                button.addEventListener('mouseout', () => {
+                    button.style.transform = 'scale(1)';
+                });
+            });
         });
     </script>
 </body>
