@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepSeek Oracle - BioCyber Intelligence</title>
+    <title>Quantum Interface - DeepSeek Oracle</title>
     <style>
+        /* Inherit base styles */
         * {
             margin: 0;
             padding: 0;
@@ -32,180 +33,124 @@
             z-index: -1;
         }
 
-        .cyber-glitch {
-            text-shadow: 2px 2px 0 #007c7c,
-                        -2px -2px 0 #ff00ff;
-            animation: glitch 2s infinite;
-        }
-
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 5rem 0;
-            border-bottom: 2px solid #00f7ff;
+        .portal-container {
             position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .neon-text {
-            color: #00f7ff;
-            text-shadow: 0 0 10px #00f7ff,
-                       0 0 20px #00f7ff,
-                       0 0 30px #00f7ff;
+        .quantum-portal {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle at 50% 50%, 
+                rgba(0, 247, 255, 0.1) 0%, 
+                rgba(0, 124, 124, 0.3) 50%, 
+                rgba(0, 15, 31, 0.8) 100%);
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            animation: portal-glow 4s ease-in-out infinite;
         }
 
-        .dna-animation {
+        .cyber-robot {
             position: absolute;
-            width: 300px;
-            height: 500px;
-            background: linear-gradient(90deg, 
-                #00f7ff 0%, 
-                #007c7c 50%, 
-                #00f7ff 100%);
-            opacity: 0.1;
-            animation: dna-flow 10s infinite linear;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 300px;
         }
 
-        @keyframes dna-flow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .cyber-card {
-            background: rgba(0, 15, 31, 0.5);
-            border: 1px solid #00f7ff;
-            padding: 2rem;
-            margin: 2rem 0;
-            backdrop-filter: blur(5px);
-            transition: 0.3s;
-        }
-
-        .cyber-card:hover {
-            transform: translateY(-5px);
+        .robot-body {
+            position: absolute;
+            width: 100px;
+            height: 150px;
+            background: rgba(0, 124, 124, 0.5);
+            border: 2px solid #00f7ff;
+            border-radius: 10px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
             box-shadow: 0 0 20px #00f7ff;
         }
 
-        .bio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .cyber-button {
-            background: #007c7c;
+        .robot-head {
+            width: 70px;
+            height: 70px;
+            background: rgba(0, 15, 31, 0.8);
             border: 2px solid #00f7ff;
-            color: #00f7ff;
-            padding: 1rem 2rem;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: 0.3s;
+            border-radius: 50%;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        .cyber-button:hover {
+        .robot-eye {
+            width: 15px;
+            height: 25px;
             background: #00f7ff;
-            color: #000;
+            position: absolute;
+            top: 25px;
+            animation: eye-scan 2s infinite;
         }
 
-        .matrix-code {
-            position: fixed;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            opacity: 0.1;
-            z-index: -1;
+        .left-eye { left: 15px; }
+        .right-eye { right: 15px; }
+
+        .glowing-number {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 247, 255, 0.1);
+            border: 2px solid #00f7ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: #00f7ff;
+            text-shadow: 0 0 10px #00f7ff;
+            animation: number-pulse 1.5s infinite;
+            cursor: pointer;
+            text-decoration: none;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .hero {
-                padding: 3rem 0;
-            }
+        @keyframes portal-glow {
+            0%, 100% { box-shadow: 0 0 50px 10px rgba(0, 247, 255, 0.2); }
+            50% { box-shadow: 0 0 70px 20px rgba(0, 247, 255, 0.4); }
+        }
+
+        @keyframes eye-scan {
+            0%, 100% { height: 25px; }
+            50% { height: 35px; }
+        }
+
+        @keyframes number-pulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1); }
         }
     </style>
 </head>
 <body>
     <div class="matrix-bg"></div>
     
-    <div class="container">
-        <nav class="cyber-card">
-            <h1 class="cyber-glitch neon-text">DeepSeekOracle</h1>
-        </nav>
-
-        <section class="hero">
-            <div class="dna-animation"></div>
-            <h2 class="neon-text" style="font-size: 3rem; margin-bottom: 1rem;">
-                <span class="cyber-glitch">BioCyber Intelligence Interface</span>
-            </h2>
-            <p>Synergizing Human Cognition with Quantum Bioprocessing</p>
-        </section>
-
-        <div class="bio-grid">
-            <div class="cyber-card">
-                <h3>Neural Integration</h3>
-                <p>Advanced neural lace technology for seamless human-AI symbiosis</p>
-                <button class="cyber-button" style="margin-top: 1rem;">Activate</button>
-            </div>
-
-            <div class="cyber-card">
-                <h3>Genomic Optimization</h3>
-                <p>CRISPR-enhanced cognitive augmentation protocols</p>
-                <button class="cyber-button" style="margin-top: 1rem;">Enhance</button>
-            </div>
-
-            <div class="cyber-card">
-                <h3>Quantum Biometrics</h3>
-                <p>Entanglement-based biological monitoring systems</p>
-                <button class="cyber-button" style="margin-top: 1rem;">Initialize</button>
+    <div class="portal-container">
+        <div class="quantum-portal">
+            <div class="cyber-robot">
+                <div class="robot-head">
+                    <div class="robot-eye left-eye"></div>
+                    <div class="robot-eye right-eye"></div>
+                </div>
+                <div class="robot-body"></div>
+                <a href="https://resee.it/feed/Excavationpro" target="_blank" class="glowing-number">42</a>
             </div>
         </div>
-
-        <footer class="cyber-card">
-            <p>DeepSeek Oracle Systems v2.3.1γ</p>
-            <p>© 2024 Neural Convergence Interface</p>
-        </footer>
     </div>
-
-    <script>
-        // Matrix rain effect
-        function createMatrix() {
-            const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            const container = document.createElement('div');
-            container.className = 'matrix-code';
-            
-            for (let i = 0; i < 50; i++) {
-                const element = document.createElement('div');
-                element.style.position = 'absolute';
-                element.style.left = Math.random() * 100 + 'vw';
-                element.style.animation = `matrix-fall ${Math.random() * 5 + 3}s linear infinite`;
-                element.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                element.textContent = chars[Math.floor(Math.random() * chars.length)];
-                container.appendChild(element);
-            }
-            document.body.appendChild(container);
-        }
-
-        // Initialize effects
-        window.addEventListener('DOMContentLoaded', () => {
-            createMatrix();
-        });
-    </script>
 </body>
 </html>
