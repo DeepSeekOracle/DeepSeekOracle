@@ -1,173 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepSeek Oracle - BioCyber Intelligence</title>
-    <meta http-equiv="Content-Security-Policy" 
-          content="default-src 'self' *.deepseekoracle.com;
-                   script-src 'wasm-unsafe-eval' 'self' https://cdn.webgpu.org;
-                   style-src 'self' 'unsafe-inline';
-                   connect-src 'self' api.biometricverify.org">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Courier New', monospace;
-        }
-
-        body {
-            background-color: #000;
-            color: #00f7ff;
-            overflow-x: hidden;
-        }
-
-        .matrix-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(0deg, 
-                    rgba(0, 15, 31, 0.8) 0%, 
-                    rgba(0, 15, 31, 0.2) 100%),
-                url('data:image/svg+xml,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%23000f1f"/><path d="M50 0L100 50L50 100L0 50Z" fill="%23007c7c" opacity="0.2"/></svg>');
-            z-index: -1;
-        }
-
-        .cyber-glitch {
-            text-shadow: 2px 2px 0 #007c7c,
-                        -2px -2px 0 #ff00ff;
-            animation: glitch 2s infinite;
-        }
-
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 5rem 0;
-            border-bottom: 2px solid #00f7ff;
-            position: relative;
-        }
-
-        .neon-text {
-            color: #00f7ff;
-            text-shadow: 0 0 10px #00f7ff,
-                       0 0 20px #00f7ff,
-                       0 0 30px #00f7ff;
-        }
-
-        .dna-animation {
-            position: absolute;
-            width: 300px;
-            height: 500px;
-            background: linear-gradient(90deg, 
-                #00f7ff 0%, 
-                #007c7c 50%, 
-                #00f7ff 100%);
-            opacity: 0.1;
-            animation: dna-flow 10s infinite linear;
-        }
-
-        @keyframes dna-flow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .cyber-card {
-            background: rgba(0, 15, 31, 0.5);
-            border: 1px solid #00f7ff;
-            padding: 2rem;
-            margin: 2rem 0;
-            backdrop-filter: blur(5px);
-            transition: 0.3s;
-            will-change: transform, opacity;
-        }
-
-        .cyber-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px #00f7ff;
-        }
-
-        .bio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .cyber-button {
-            background: #007c7c;
-            border: 2px solid #00f7ff;
-            color: #00f7ff;
-            padding: 1rem 2rem;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: 0.3s;
-        }
-
-        .cyber-button:hover {
-            background: #00f7ff;
-            color: #000;
-            transform: scale(1.1) rotate(0.5deg);
-        }
-
-        .matrix-code {
-            position: fixed;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            opacity: 0.1;
-            z-index: -1;
-        }
-
-        .neural-pulse {
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            background: radial-gradient(circle, rgba(0,247,255,0.1) 0%, transparent 70%);
-            animation: pulse 3s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.5; }
-            100% { transform: scale(2); opacity: 0; }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .hero {
-                padding: 3rem 0;
-            }
-        }
-
-        #molecularCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: -1;
-        }
-    </style>
+    <!-- ... (keep all meta tags and styles unchanged) ... -->
 </head>
 <body>
     <div class="matrix-bg"></div>
@@ -175,17 +9,7 @@
     <canvas id="molecularCanvas"></canvas>
     
     <div class="container">
-        <nav class="cyber-card">
-            <h1 class="cyber-glitch neon-text">DeepSeekOracle</h1>
-        </nav>
-
-        <section class="hero">
-            <div class="dna-animation dna-helix"></div>
-            <h2 class="neon-text" style="font-size: 3rem; margin-bottom: 1rem;">
-                <span class="cyber-glitch">BioCyber Intelligence Interface</span>
-            </h2>
-            <p>Synergizing Human Cognition with Quantum Bioprocessing</p>
-        </section>
+        <!-- ... (keep navigation and hero section unchanged) ... -->
 
         <div class="bio-grid">
             <div class="cyber-card" role="region" aria-live="polite" aria-label="Neural interface module" data-cognitive-load="optimal">
@@ -199,7 +23,9 @@
             <div class="cyber-card" role="region" aria-live="polite" aria-label="Genomic enhancement module" data-cognitive-load="optimal">
                 <h3>Genomic Optimization</h3>
                 <p>CRISPR-enhanced cognitive augmentation protocols</p>
-                <button class="cyber-button" style="margin-top: 1rem;">Enhance</button>
+                <a href="https://resee.it/feed/Excavationpro" target="_blank" rel="noopener noreferrer">
+                    <button class="cyber-button" style="margin-top: 1rem;">Enhance</button>
+                </a>
             </div>
 
             <div class="cyber-card" role="region" aria-live="polite" aria-label="Biometric monitoring module" data-cognitive-load="optimal">
@@ -215,78 +41,6 @@
         </footer>
     </div>
 
-    <script src="https://cdn.webgpu.org/webgpu-0.3.js"></script>
-    <script>
-        // Enhanced Matrix Rain with WASM placeholder
-        async function initializeMatrix() {
-            try {
-                const response = await fetch('matrix.wasm');
-                const buffer = await response.arrayBuffer();
-                const module = await WebAssembly.instantiate(buffer);
-                module.instance.exports.optimizedMatrixEffect();
-            } catch (error) {
-                console.log('WebAssembly matrix optimization not available, using fallback');
-                createMatrix();
-            }
-        }
-
-        // Original Matrix Fallback
-        function createMatrix() {
-            const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            const container = document.createElement('div');
-            container.className = 'matrix-code';
-            
-            for (let i = 0; i < 50; i++) {
-                const element = document.createElement('div');
-                element.style.position = 'absolute';
-                element.style.left = Math.random() * 100 + 'vw';
-                element.style.animation = `matrix-fall ${Math.random() * 5 + 3}s linear infinite`;
-                element.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                element.textContent = chars[Math.floor(Math.random() * chars.length)];
-                container.appendChild(element);
-            }
-            document.body.appendChild(container);
-        }
-
-        // WebGL Bio Visualization
-        const canvas = document.getElementById('molecularCanvas');
-        const gl = canvas.getContext('webgl');
-        if (gl) {
-            gl.clearColor(0.0, 0.0, 0.0, 1.0);
-            gl.clear(gl.COLOR_BUFFER_BIT);
-            // Add complex molecular visualization here
-        }
-
-        // Neurological Interaction Tracking
-        let interactionPatterns = [];
-        document.addEventListener('mousemove', (e) => {
-            interactionPatterns.push({ x: e.clientX, y: e.clientY, t: Date.now() });
-            if(interactionPatterns.length > 100) interactionPatterns.shift();
-        });
-
-        // Initialize Quantum Context
-        async function initWebGPU() {
-            if (navigator.gpu) {
-                const adapter = await navigator.gpu.requestAdapter();
-                const device = await adapter.requestDevice();
-                // Quantum simulation initialization
-            }
-        }
-
-        // Start all systems
-        window.addEventListener('DOMContentLoaded', () => {
-            initializeMatrix();
-            initWebGPU();
-            
-            document.querySelectorAll('.cyber-button').forEach(button => {
-                button.addEventListener('mouseover', () => {
-                    button.style.transform = `scale(1.1) rotate(${Math.random() * 2 - 1}deg)`;
-                });
-                button.addEventListener('mouseout', () => {
-                    button.style.transform = 'scale(1)';
-                });
-            });
-        });
-    </script>
+    <!-- ... (keep all scripts unchanged) ... -->
 </body>
 </html>
