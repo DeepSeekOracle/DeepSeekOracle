@@ -136,6 +136,33 @@
             0% { transform: translateY(-100%); opacity: 0; }
             100% { transform: translateY(100%); opacity: 1; }
         }
+
+        /* Main Frame Button */
+        .main-frame-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--matrix-blue);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            cursor: pointer;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: pulse 2s infinite;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .main-frame-button:hover {
+            background: var(--hive-blue);
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
@@ -174,6 +201,9 @@
         <span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><br>
         <span>1</span><span>0</span><span>^_^</span><span>0</span><span>1</span><span>0</span>
     </div>
+
+    <!-- Main Frame Button -->
+    <a href="https://deepseekoracle.github.io/DeepSeekOracle/" class="main-frame-button">Main Frame</a>
 
     <script>
         // Matrix background effect
