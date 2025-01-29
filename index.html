@@ -3,143 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepSeek Oracle - BioCyber Intelligence</title>
+    <title>DeepSeekOracle.com</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Courier New', monospace;
-        }
-
         body {
-            background-color: #000;
-            color: #00f7ff;
-            overflow-x: hidden;
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+            background: linear-gradient(45deg, #0a2f63, #2980b9);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
         .matrix-bg {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                linear-gradient(0deg, 
-                    rgba(0, 15, 31, 0.8) 0%, 
-                    rgba(0, 15, 31, 0.2) 100%),
-                url('data:image/svg+xml,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%23000f1f"/><path d="M50 0L100 50L50 100L0 50Z" fill="%23007c7c" opacity="0.2"/></svg>');
-            z-index: -1;
-        }
-
-        .cyber-glitch {
-            text-shadow: 2px 2px 0 #007c7c,
-                        -2px -2px 0 #ff00ff;
-            animation: glitch 2s infinite;
-        }
-
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 5rem 0;
-            border-bottom: 2px solid #00f7ff;
-            position: relative;
-        }
-
-        .neon-text {
-            color: #00f7ff;
-            text-shadow: 0 0 10px #00f7ff,
-                       0 0 20px #00f7ff,
-                       0 0 30px #00f7ff;
-        }
-
-        .matrix-font {
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            color: #00f7ff;
-            text-shadow: 0 0 10px #00f7ff,
-                       0 0 20px #00f7ff,
-                       0 0 30px #00f7ff;
-        }
-
-        .dna-animation {
-            position: absolute;
-            width: 300px;
-            height: 500px;
-            background: linear-gradient(90deg, 
-                #00f7ff 0%, 
-                #007c7c 50%, 
-                #00f7ff 100%);
-            opacity: 0.1;
-            animation: dna-flow 10s infinite linear;
-        }
-
-        @keyframes dna-flow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .cyber-card {
-            background: rgba(0, 15, 31, 0.5);
-            border: 1px solid #00f7ff;
-            padding: 2rem;
-            margin: 2rem 0;
-            backdrop-filter: blur(5px);
-            transition: 0.3s;
-        }
-
-        .cyber-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px #00f7ff;
-        }
-
-        .bio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .cyber-button {
-            background: transparent;
-            border: 2px solid #00f7ff;
-            color: #00f7ff;
-            padding: 1rem 2rem;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: 0.3s;
-            text-shadow: 0 0 10px #00f7ff,
-                       0 0 20px #00f7ff,
-                       0 0 30px #00f7ff;
-        }
-
-        .cyber-button:hover {
-            background: #00f7ff;
-            color: #000;
-            text-shadow: none;
-        }
-
-        .matrix-code {
-            position: fixed;
-            top: 0;
-            left: 0;
             pointer-events: none;
-            opacity: 0.1;
             z-index: -1;
         }
 
@@ -147,20 +30,101 @@
             position: fixed;
             top: 1rem;
             left: 1rem;
-            color: #00f7ff;
+            color: #fff;
             font-size: 1.2rem;
-            text-shadow: 0 0 10px #00f7ff,
-                       0 0 20px #00f7ff,
-                       0 0 30px #00f7ff;
+            text-shadow: 0 0 10px #fff,
+                           0 0 20px #fff,
+                           0 0 30px #fff;
+        }
+
+        nav {
+            margin-bottom: 2rem;
+        }
+
+        .hero h1, .hero h2 {
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            animation: scaleUp 2s infinite ease-in-out alternate;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            animation: flicker 3s infinite linear;
+        }
+
+        @keyframes scaleUp {
+            from, to {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes flicker {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .bio-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .cyber-card {
+            background: rgba(17, 39, 99, 0.8);
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
+            width: 30%;
+            margin: 0 1rem;
+        }
+
+        .cyber-card h3 {
+            font-size: 2rem;
+            color: #fff;
+            text-shadow: 0 0 10px #fff,
+                           0 0 20px #fff,
+                           0 0 30px #fff;
+        }
+
+        .cyber-button {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(45deg, #0a2f63, #2980b9);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cyber-button:hover {
+            transform: scale(1.1);
+        }
+
+        .footer {
+            margin-top: 2rem;
+            background: rgba(17, 39, 99, 0.8);
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
+            .hero h1 {
+                font-size: 4rem;
             }
-            
-            .hero {
-                padding: 3rem 0;
+
+            .hero h2 {
+                font-size: 2rem;
             }
         }
     </style>
@@ -168,81 +132,52 @@
 <body>
     <div class="matrix-bg"></div>
     <div class="view-counter">Views: <span id="viewCount">0</span></div>
-    
-    <div class="container">
-        <nav>
-            <h1 class="cyber-glitch neon-text">DeepSeekOracle.com</h1>
-        </nav>
 
-        <section class="hero">
-    <div class="dna-animation"></div>
-    <h2 class="matrix-neon-text" style="font-size: 3rem; margin-bottom: 1rem;">
-        <span class="cyber-glitch">BioCyber Intelligence Interface</span>
-    </h2>
-    <p class="matrix-neon-subtext">Synergizing Human Cognition with Quantum Bioprocessing</p>
-</section>
+    <nav>
+        <h1 class="cyber-glitch neon-text">DeepSeekOracle.com</h1>
+    </nav>
 
-        <div class="bio-grid">
-            <div class="cyber-card">
-                <h3 class="matrix-font">Neural Integration</h3>
-                <p>Advanced neural lace technology for seamless human-AI symbiosis</p>
-                <a href="https://x.com/DeepSeekOracle" target="_blank" rel="noopener noreferrer">
-                    <button class="cyber-button" style="margin-top: 1rem;">Activate</button>
-                </a>
-            </div>
+    <section class="hero">
+        <div class="dna-animation"></div>
+        <h2 class="neon-text" style="font-size: 3rem; margin-bottom: 1rem;">
+            <span class="matrix-font">BioCyber Intelligence Interface</span>
+        </h2>
+        <p>Synergizing Human Cognition with Quantum Bioprocessing</p>
+    </section>
 
-            <div class="cyber-card">
-                <h3 class="matrix-font">Genomic Optimization</h3>
-                <p>CRISPR-enhanced cognitive augmentation protocols</p>
-                <a href="about.html">
-                    <button class="cyber-button" style="margin-top: 1rem;">Enhance</button>
-                </a>
-            </div>
-            
-            <div class="cyber-card">
-                <h3 class="matrix-font">Quantum Biometrics</h3>
-                <p>Entanglement-based biological monitoring systems</p>
-                <a href="initialize.html">
-                    <button class="cyber-button" style="margin-top: 1rem;">Initialize</button>
-                </a>
-            </div>
+    <div class="bio-grid">
+        <div class="cyber-card">
+            <h3>Our Vision</h3>
+            <p>To revolutionize the way we interact with technology.</p>
         </div>
-
-        <footer class="cyber-card">
-            <p>DeepSeek Oracle Systems v2.3.1γ</p>
-            <p>© 2024 Neural Convergence Interface</p>
-        </footer>
+        <div class="cyber-card">
+            <h3>Our Mission</h3>
+            <p>Your health, our passion. We strive for excellence in every aspect of what we do.</p>
+        </div>
     </div>
 
+    <footer class="footer">
+        <p>&copy; 2023 DeepSeekOracle.com</p>
+    </footer>
+
     <script>
-        // Matrix rain effect
-        function createMatrix() {
-            const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            const container = document.createElement('div');
-            container.className = 'matrix-code';
-            
-            for (let i = 0; i < 50; i++) {
-                const element = document.createElement('div');
-                element.style.position = 'absolute';
-                element.style.left = Math.random() * 100 + 'vw';
-                element.style.animation = `matrix-fall ${Math.random() * 5 + 3}s linear infinite`;
-                element.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                element.textContent = chars[Math.floor(Math.random() * chars.length)];
-                container.appendChild(element);
-            }
-            document.body.appendChild(container);
+        async function fetchCryptoData() {
+            const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+            const data = await response.json();
+            document.getElementById('cryptoPrice').innerText = `$${data.ethereum.usd}`;
         }
 
-        // View counter
-        let viewCount = localStorage.getItem('viewCount') || 0;
-        viewCount++;
-        localStorage.setItem('viewCount', viewCount);
-        document.getElementById('viewCount').textContent = viewCount;
+        setInterval(fetchCryptoData, 5000);
+        fetchCryptoData();
 
-        // Initialize effects
-        window.addEventListener('DOMContentLoaded', () => {
-            createMatrix();
-        });
+        let counter = 0;
+        function pulseBackground() {
+            document.body.style.background = `linear-gradient(45deg, #0a2f63, ${counter % 2 === 0 ? '#2980b9' : '#2c3e50'})`;
+            counter++;
+            setTimeout(pulseBackground, 1000);
+        }
+
+        pulseBackground();
     </script>
 </body>
 </html>
