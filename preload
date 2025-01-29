@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeekOracle.com</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #0f0;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,5
+Q75,25 50,45 Q25,25 50,5" stroke="#0f0" fill="none" stroke-width="2"/></svg>');
+            background-size: cover;
+            z-index: -1;
+        }
+
+        .view-counter {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            color: #0f0;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
+        }
+
+        .container {
+            padding: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        nav {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1, .hero h2 {
+            margin: 0;
+            text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
+        }
+
+        .dna-animation {
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 100%;
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 50%, transparent 50%);
+            animation: DNA-Pulse 2s infinite ease-in-out alternate;
+        }
+
+        .bio-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .cyber-card {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
+        }
+
+        .cyber-card h3 {
+            margin-top: 0;
+            text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
+        }
+
+        .cyber-button {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            color: #0f0;
+            text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .cyber-button:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        @keyframes DNA-Pulse {
+            from { transform: scale(0.8); }
+            to { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0.5rem;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg"></div>
+    <div class="view-counter">Views: 1,234</div>
+
+    <div class="container">
+        <nav>
+            <h1>DeepSeekOracle.com</h1>
+        </nav>
+
+        <div class="hero">
+            <h1>Welcome to DeepSeekOracle.com</h1>
+            <h2>Your Gateway to Knowledge</h2>
+        </div>
+
+        <div class="bio-grid">
+            <div class="cyber-card">
+                <h3>Interactive Content</h3>
+                <p>Explore interactive content that brings learning to life.</p>
+                <button onclick="alert('Coming Soon!')">Learn More</button>
+            </div>
+            <div class="cyber-card">
+                <h3>Real-Time Data</h3>
+                <p>Access real-time data and insights from various sources.</p>
+                <button onclick="alert('Coming Soon!')">Explore Now</button>
+            </div>
+            <div class="cyber-card">
+                <h3>User-Friendly Interface</h3>
+                <p>Enjoy a user-friendly interface designed for ease of use.</p>
+                <button onclick="alert('Coming Soon!')">Get Started</button>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2023 DeepSeekOracle.com. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Smooth scroll to section
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Interactive content
+        document.querySelector('.interactive-content').addEventListener('click', function() {
+            alert('Interactive content is available soon!');
+        });
+    </script>
+</body>
+</html>
