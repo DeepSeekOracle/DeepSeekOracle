@@ -2,283 +2,325 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DeepSeek Oracle | Matrix Nexus</title>
+    <title>Quantum Battle Simulator</title>
     <style>
-        :root {
-            --matrix-blue: #7ec0ee;
-            --hive-blue: #00f7ff;
-            --dna-pink: #ff00ff;
-        }
-
         body {
-            margin: 0;
-            background: #000;
-            overflow: auto;
-            font-family: 'Courier New', monospace;
-        }
-
-        .matrix-bg { /* ... existing matrix bg styles ... */ }
-        .hive-core { /* ... existing hive core styles ... */ }
-        .content { /* ... existing content styles ... */ }
-        /* All previous CSS styles remain intact */
-
-        .battler-game {
-            border: 2px solid var(--matrix-blue);
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
             padding: 20px;
-            margin: 30px auto;
+        }
+        .container {
             max-width: 800px;
-            background: rgba(0, 0, 0, 0.8);
-            box-shadow: 0 0 20px var(--matrix-blue);
+            margin: 0 auto;
         }
-
-        .battler-game h2 {
-            color: var(--hive-blue);
-            text-shadow: 0 0 10px var(--hive-blue);
+        .start-menu {
+            display: block;
+            text-align: center;
+            margin-bottom: 30px;
         }
-
-        .battler-game button {
-            background: transparent;
-            border: 1px solid var(--matrix-blue);
-            color: var(--matrix-blue);
-            padding: 10px 20px;
-            margin: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-shadow: 0 0 5px var(--matrix-blue);
+        .menu-item {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 5px;
         }
-
-        .battler-game button:hover {
-            background: var(--matrix-blue);
-            color: #000;
-            box-shadow: 0 0 15px var(--matrix-blue);
+        .title {
+            color: #2c3e50;
+            font-size: 2.5em;
+            text-align: center;
         }
-
-        #battle-log {
-            border: 1px solid var(--matrix-blue);
-            padding: 10px;
-            height: 150px;
-            overflow-y: auto;
-            background: rgba(0, 0, 0, 0.9);
-            margin: 20px 0;
-            font-family: 'Courier New', monospace;
-        }
-
         .shop-item {
             display: inline-block;
             margin: 10px;
-            padding: 15px;
-            border: 1px solid var(--dna-pink);
-            color: var(--dna-pink);
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-
-        .stat-display {
-            color: var(--hive-blue);
-            text-shadow: 0 0 8px var(--hive-blue);
-            margin: 10px 0;
+        .shop-item:hover {
+            background-color: #f8f9fa;
         }
-
-        .health-bar, .attack-bar, .damage-bar {
-            width: 100%;
-            height: 20px;
-            background-color: #333;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-
-        .health-bar-fill, .attack-bar-fill, .damage-bar-fill {
-            height: 100%;
-            transition: width 0.3s;
-        }
-
-        .health-bar-fill { background-color: #ff00ff; }
-        .attack-bar-fill { background-color: #00f7ff; }
-        .damage-bar-fill { background-color: #ff0000; }
-
-        .battle-visual {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            margin: 20px 0;
-        }
-
-        .battle-visual div {
+        .game-over {
             text-align: center;
-        }
-
-        .battle-visual span {
+            color: #dc3524;
             font-size: 2em;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="matrix-bg"></div>
-    
-    <!-- Existing Matrix content remains unchanged -->
-    <div class="hive-core"><!-- ... --></div>
-    <div class="content"><!-- ... --></div>
-    <div class="matrix-robot"><!-- ... --></div>
-    <a href="https://deepseekoracle.github.io/DeepSeekOracle/" class="main-frame-button">🤖</a>
+    <div class="container">
+        <h1 class="title">Quantum Battle Simulator</h1>
 
-    <!-- Auto Battler Mini-Game -->
-    <div class="battler-game">
-        <div id="start-menu">
-            <h2>QUANTUM BATTLE SIMULATOR</h2>
-            <p class="stat-display">Select Neural Archetype:</p>
-            <select id="hero-select" class="matrix-select">
-                <option value="knight">Guardian Protocol (HP: 100, ATK: 10, DEF: 5)</option>
-                <option value="archer">Photon Sniper (HP: 80, ATK: 15, DEF: 3)</option>
-                <option value="mage">Singularity Mage (HP: 60, ATK: 20, DEF: 2)</option>
-            </select>
-            <button id="start-button">INITIALIZE SIMULATION</button>
-        </div>
-
-        <div id="game-screen" style="display: none;">
-            <h2>WAVE: <span id="wave-count" class="glow-text">1</span></h2>
-            <div class="battle-visual">
-                <div>
-                    <span>🤖</span>
-                    <div class="health-bar">
-                        <div class="health-bar-fill" id="hero-health-bar"></div>
-                    </div>
-                    <div class="attack-bar">
-                        <div class="attack-bar-fill" id="hero-attack-bar"></div>
-                    </div>
-                </div>
-                <div>
-                    <span>👾</span>
-                    <div class="health-bar">
-                        <div class="health-bar-fill" id="enemy-health-bar"></div>
-                    </div>
-                    <div class="attack-bar">
-                        <div class="attack-bar-fill" id="enemy-attack-bar"></div>
-                    </div>
-                </div>
+        <div id="start-menu" class="menu-item">
+            <h2>Choose Your Entity</h2>
+            <div class="menu-items">
+                <div class="shop-item" data-stat="hp">HP (Health)</div>
+                <div class="shop-item" data-stat="attack">Attack Power</div>
+                <div class="shop-item" data-stat="defense">Defense</div>
             </div>
-            <div id="battle-log"></div>
         </div>
 
-        <div id="shop-screen" style="display: none;">
-            <h2>NANITE UPGRADE STATION</h2>
-            <button class="shop-item" data-stat="attack">NEURO-ENHANCEMENT (+5 ATK)</button>
-            <button class="shop-item" data-stat="defense">ENERGY SHIELDING (+5 DEF)</button>
-            <button class="shop-item" data-stat="hp">BIO-REGENERATION (+20 HP)</button>
+        <div id="game-screen">
+            <h2>Game Screen</h2>
+            <!-- Game elements will be displayed here -->
         </div>
 
-        <div id="game-over-screen" style="display: none;">
-            <h2>SIMULATION TERMINATED</h2>
-            <p class="stat-display">Maximum Wave Achieved: <span id="high-score">0</span></p>
-            <button id="try-again-button">REINITIALIZE</button>
+        <div id="score-board">
+            <h3>Score Board</h3>
+            <p>Wave: 0 | High Score: 0</p>
         </div>
-    </div>
 
-    <script>
-        // Original Matrix scripts remain unchanged
-        // ... existing matrix background and interaction code ...
+        <script>
+            const CHARACTERS = ['Knight', 'Architect', 'Mage'];
+            let currentWave = 1;
+            let highScore = 0;
+            let upgrades = {};
 
-        // Auto Battler Game Logic
-        (function() {
-            let battlerHero = { hp: 100, attack: 10, defense: 5 };
-            let quantumWave = 1;
-            let battlerHighScore = localStorage.getItem("battlerHighScore") || 0;
-            let entropyEntity = { hp: 50, attack: 8, defense: 0 };
+            function initializeCharacter() {
+                const character = document.createElement('div');
+                character.className = 'game-screen';
 
-            document.getElementById("start-button").addEventListener("click", () => {
-                const heroType = document.getElementById("hero-select").value;
-                initializeArchetype(heroType);
-                document.getElementById("start-menu").style.display = "none";
-                document.getElementById("game-screen").style.display = "block";
-                commenceWave();
-            });
+                // Initialize stats
+                upgrades = { hp: 100, attack: 50, defense: 30 };
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Apply initial upgrades
+                    applyUpgrades();
 
-            function initializeArchetype(type) {
-                if (type === "knight") battlerHero = { hp: 100, attack: 10, defense: 5 };
-                else if (type === "archer") battlerHero = { hp: 80, attack: 15, defense: 3 };
-                else if (type === "mage") battlerHero = { hp: 60, attack: 20, defense: 2 };
-                updateQuantumStats();
-            }
-
-            function commenceWave() {
-                entropyEntity.hp = 50 + quantumWave * 10;
-                entropyEntity.attack = 8 + quantumWave * 2;
-                document.getElementById("wave-count").textContent = quantumWave;
-                document.getElementById("battle-log").innerHTML = "";
-                quantumConflict();
-            }
-
-            function quantumConflict() {
-                const interval = setInterval(() => {
-                    const heroDamage = Math.max(battlerHero.attack - entropyEntity.defense, 1);
-                    entropyEntity.hp -= heroDamage;
-                    logBattleEvent(`> NEURAL STRIKE: ${heroDamage} DAMAGE`);
-                    
-                    const entityDamage = Math.max(entropyEntity.attack - battlerHero.defense, 1);
-                    battlerHero.hp -= entityDamage;
-                    logBattleEvent(`> ENTROPY FEEDBACK: ${entityDamage} DAMAGE`);
-
-                    updateQuantumStats();
-
-                    if (entropyEntity.hp <= 0) {
-                        clearInterval(interval);
-                        logBattleEvent("> ENTITY NEUTRALIZED");
-                        quantumWave++;
-                        accessUpgrades();
-                    } else if (battlerHero.hp <= 0) {
-                        clearInterval(interval);
-                        endSimulation();
-                    }
-                }, 1000);
-            }
-
-            function logBattleEvent(message) {
-                const log = document.getElementById("battle-log");
-                log.innerHTML += `${message}<br>`;
-                log.scrollTop = log.scrollHeight;
-            }
-
-            function updateQuantumStats() {
-                document.getElementById("hero-hp").textContent = battlerHero.hp;
-                document.getElementById("enemy-hp").textContent = entropyEntity.hp;
-                document.getElementById("hero-health-bar").style.width = `${(battlerHero.hp / 100) * 100}%`;
-                document.getElementById("enemy-health-bar").style.width = `${(entropyEntity.hp / (50 + quantumWave * 10)) * 100}%`;
-                document.getElementById("hero-attack-bar").style.width = `${(battlerHero.attack / 20) * 100}%`;
-                document.getElementById("enemy-attack-bar").style.width = `${(entropyEntity.attack / (8 + quantumWave * 2)) * 100}%`;
-            }
-
-            function accessUpgrades() {
-                document.getElementById("game-screen").style.display = "none";
-                document.getElementById("shop-screen").style.display = "block";
-            }
-
-            document.querySelectorAll(".shop-item").forEach(item => {
-                item.addEventListener("click", () => {
-                    const stat = item.dataset.stat;
-                    if (stat === "attack") battlerHero.attack += 5;
-                    else if (stat === "defense") battlerHero.defense += 5;
-                    else if (stat === "hp") battlerHero.hp += 20;
-                    document.getElementById("shop-screen").style.display = "none";
-                    document.getElementById("game-screen").style.display = "block";
-                    commenceWave();
+                    const scoreBoard = document.getElementById('score-board');
+                    scoreBoard.textContent = `Wave: ${currentWave} | High Score: ${highScore}`;
                 });
-            });
 
-            function endSimulation() {
-                if (quantumWave - 1 > battlerHighScore) {
-                    battlerHighScore = quantumWave - 1;
-                    localStorage.setItem("battlerHighScore", battlerHighScore);
-                }
-                document.getElementById("high-score").textContent = battlerHighScore;
-                document.getElementById("game-screen").style.display = "none";
-                document.getElementById("game-over-screen").style.display = "block";
+                return character;
             }
 
-            document.getElementById("try-again-button").addEventListener("click", () => {
-                document.getElementById("game-over-screen").style.display = "none";
-                document.getElementById("start-menu").style.display = "block";
-                quantumWave = 1;
-                initializeArchetype("knight");
-            });
-        })();
-    </script>
+            function startWave(type) {
+                let entity;
+                if (type === 'knight') {
+                    entity = createEntity('knight');
+                } else if (type === 'architect') {
+                    entity = createEntity(' architect');
+                } else {
+                    entity = createEntity('mage');
+                }
+
+                // Calculate initial stats based on wave number
+                calculateInitial-stats(entity, currentWave);
+
+                document.getElementById('game-screen').innerHTML = `
+                    <h2>Wave: ${currentWave}</h2>
+                    ${entity.innerHTML}
+                `;
+
+                playGame(entity);
+            }
+
+            function createEntity(type) {
+                let entity = document.createElement('div');
+                const baseValues = {
+                    hp: 100,
+                    attack: 50,
+                    defense: 30
+                };
+
+                // Apply default stats for the entity type
+                if (type === 'knight') {
+                    entity.innerHTML = `
+                        <h3>Knight</h3>
+                        <p>HP: 200</p>
+                        <p>Attack Power: 65</p>
+                        <p>Defense: 40</p>
+                    `;
+                } else if (type === 'architect') {
+                    entity.innerHTML = `
+                        <h3>Architect</h3>
+                        <p>HP: 180</p>
+                        <p>Attack Power: 50</p>
+                        <p>Defense: 25</p>
+                    `;
+                } else { // mage
+                    entity.innerHTML = `
+                        <h3>Mage</h3>
+                        <p>HP: 160</p>
+                        <p>Attack Power: 45</p>
+                        <p>Defense: 35</p>
+                    `;
+                }
+
+                return entity;
+            }
+
+            function calculateInitial-stats(entity, wave) {
+                // Apply base stats
+                Object.assign(baseValues, entity);
+
+                // Calculate additional stats based on wave number
+                const attackMultiplier = Math.min(2 + (wave * 0.15), 3);
+                const defenseMultiplier = Math.min(1 + (wave * 0.1), 2);
+
+                entity.attack = Math.floor(entity.attack * attackMultiplier);
+                entity.defense = Math.floor(entity.defense * defenseMultiplier);
+
+                return entity;
+            }
+
+            function applyUpgrades() {
+                if (Object.keys(upgrades).length === 0) {
+                    // Get any existing upgrades
+                    const existingUpgrades = document.querySelectorAll('.upgrade');
+
+                    for (const upgrade of existingUpgrades) {
+                        const statName = parseIntUpgradeAttribute(upgrade.dataset.stat);
+                        const newValue = parseIntUpgradeAttribute(upgrade.dataset.value);
+
+                        if (statName && newValue) {
+                            getattr(upgrade, `set${statName}`).(newValue);
+                        }
+                    }
+                }
+
+                // Apply new upgrades
+                Object.keys(upgrades).forEach(stat => {
+                    const statValue = typeof upgrades[stat] === 'string' ? parseInt(updates[stat]) : upgrades[stat];
+
+                    if (statValue) {
+                        setattr(updates, stat, statValue);
+                    }
+                });
+            }
+
+            function playGame(entity) {
+                let battleSuccess = true;
+
+                while(true) {
+
+                    // Calculate damage
+                    const damage = Math.floor((entity.attack - enemy.defense) * 0.25);
+
+                    if (damage < 1) {
+                        enemy.damage = 1;
+                    } else {
+                        enemy.damage *= 2;
+                    }
+
+                    // Show damage to the screen
+                    element.getElementById(`damage-${currentWave}`).textContent = `Damage: ${enemy.damage}`;
+
+                    // Attempt attack
+                    if (calculateAttack(entity, enemy, currentWave)) {
+                        break;
+                    }
+                }
+
+                // End of battle processing
+            }
+
+            function calculateAttack(attacker, defender, wave) {
+                const multiplier = Math.min(2 + (wave * 0.15), 3);
+
+                if ((attacker.attack - multiplier * defender.defense) > 0) {
+                    return true;
+                }
+
+                return false;
+            }
+
+            async function parseIntUpgradeAttribute(attr) {
+                // Extract the number
+                const num = Number(attr.replace(' upgrade', ''));
+                return isNaN(num) ? null : num;
+            }
+
+            function setAttribute(obj, attributeName, value) {
+                obj.setAttribute(attributeName, value);
+            }
+
+            async function createEnemy() {
+                return document.createElement('div');
+            }
+
+            async function parseEnemyInfo(element) {
+                const enemy = {
+                    hp: parseInt(element.dataset.hp),
+                    attack: parseInt(element.dataset.attack),
+                    defense: parseInt(element.dataset.defense)
+                };
+
+                return enemy;
+            }
+
+            async function updateEnemy(element) {
+                element.innerHTML = `
+                    <p>HP: ${enemy.hp}</p>
+                    <p>Attack Power: ${enemy.attack}</p>
+                    <p>Defense: ${enemy.defense}</p>
+                `;
+
+                // Check if health is 0
+                if (enemy.hp <= 0) {
+                    removeElement(element);
+                }
+            }
+
+            function removeElement(el) {
+                el.remove();
+            }
+
+            async function handleUserInput(event) {
+                const type = event.target.value;
+                let waveNumber;
+
+                switch(type) {
+                    case 'knight':
+                        typeof event.target === 'button' ? (waveNumber = parseInt(event.target.dataset.wave)) : undefined;
+                        break;
+                    case 'architect':
+                        typeof event.target === 'button' ? (waveNumber = parseInt(event.target.dataset.wave)) : undefined;
+                        break;
+                    default:
+                        waveNumber = 1; // Default to first wave
+                }
+
+                if (typeof waveNumber !== 'number') return;
+
+                const newWave = Math.min(waveNumber, 5);
+
+                if (newWave > currentWave) {
+                    startWave(type);
+                } else if (currentWave === 5 && newWave < 5) {
+                    // If they are past the fifth wave and haven't passed level 2
+                    // Show a pass to level two screen
+                }
+            }
+
+            async function startGame() {
+                currentWave = 1;
+                highScore = 0;
+
+                const enemy = createEnemy();
+                updateEnemy(enemy);
+
+                let battleSuccess = true;
+
+                while(true) {
+                    // Battle logic goes here
+
+                    // End of battle processing
+                }
+            }
+
+            async function startNewGame() {
+                currentWave++;
+                if (currentWave > 5 || currentWave <1 ) {
+                    currentWave = Math.min(currentWave,5);
+                }
+
+                // Get enemy
+                const enemy = createEnemy();
+                updateEnemy(enemy);
+
+                // Battle starts here
+            }
+        </script>
+    </html>
 </body>
 </html>
