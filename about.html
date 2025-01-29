@@ -90,6 +90,89 @@
             mix-blend-mode: screen;
             transition: transform 0.1s;
         }
+
+        /* New Button Styles */
+        .main-frame-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--neon-primary) 0%, rgba(0,247,255,0.2) 70%);
+            box-shadow: 0 0 10px var(--neon-primary), 0 0 20px var(--neon-primary);
+            animation: pulse 2s infinite;
+        }
+
+        .main-frame-button::before {
+            content: "🖐️";
+            font-size: 30px;
+            color: var(--neon-primary);
+            text-shadow: 0 0 5px var(--neon-primary), 0 0 10px var(--neon-primary);
+        }
+
+        .main-frame-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px var(--neon-primary), 0 0 30px var(--neon-primary);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* New Styles for Top Center Text */
+        .top-center {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .top-center h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #00f7ff;
+            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
+            animation: glow 1.5s infinite alternate;
+        }
+
+        .top-center h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: #00f7ff;
+            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
+            animation: glow 1.5s infinite alternate;
+        }
+
+        .top-center p {
+            font-size: 1rem;
+            color: #00f7ff;
+            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
+            }
+            100% {
+                text-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff, 0 0 80px #00f7ff;
+            }
+        }
     </style>
 </head>
 <body>
@@ -102,23 +185,31 @@
     </div>
     <div class="neural-cursor"></div>
 
+    <!-- Moved Text to Top Center -->
+    <div class="top-center">
+        <h1 class="cyber-glitch neon-text" aria-label="DeepSeek Oracle">DeepSeekOracle</h1>
+        <h3>Neurovascular Interface</h3>
+        <p>System Symbiosis: <span id="symbiosis-level">OPTIMAL</span></p>
+    </div>
+
     <div class="container">
         <!-- Original content maintained -->
         <nav class="cyber-card" aria-label="Main navigation">
-            <h1 class="cyber-glitch neon-text" aria-label="DeepSeek Oracle">DeepSeekOracle</h1>
+            <!-- Navigation content here -->
         </nav>
 
         <!-- Rest of original HTML content maintained -->
         
         <!-- New Biometric Display -->
         <div class="cyber-card" id="bio-feedback">
-            <h3>Neurovascular Interface</h3>
             <div class="bio-meter">
                 <div class="bio-bar" style="width: var(--bio-rhythm);"></div>
             </div>
-            <p>System Symbiosis: <span id="symbiosis-level">OPTIMAL</span></p>
         </div>
     </div>
+
+    <!-- New Button -->
+    <button class="main-frame-button" onclick="window.location.href='https://deepseekoracle.github.io/DeepSeekOracle/'" aria-label="Main Frame"></button>
 
     <script>
         // Quantum Particle System
