@@ -162,23 +162,11 @@
             100% { transform: translateY(100%); opacity: 1; }
         }
 
-        /* Main Frame Button */
-        .main-frame-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: transparent;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .main-frame-button img {
-            width: 60px;
-            height: 60px;
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            animation: pulse 2s infinite;
+        .main-frame-button::before {
+            content: "🤖";
+            font-size: 30px;
+            color: #00f7ff;
+            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff;
         }
 
         .main-frame-button:hover img {
