@@ -1,288 +1,183 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepSeek Oracle - BioCyber Intelligence</title>
+    <title>DeepSeek Oracle</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Original styles maintained */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Courier New', monospace;
         }
 
         body {
-            background-color: #000;
-            color: #00f7ff;
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
             overflow-x: hidden;
-            --neon-primary: #00f7ff;
-            --neon-secondary: #ff00ff;
-            --bio-rhythm: 100%;
         }
 
-        /* Enhanced DNA Animation */
-        .dna-helix {
+        .main-frame {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .top-center {
             position: fixed;
-            width: 300px;
-            height: 100vh;
-            opacity: 0.05;
-            animation: dna-rotate 120s linear infinite;
-            z-index: -1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #333;
+            padding: 2rem;
+            z-index: 100;
         }
 
-        @keyframes dna-rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        /* Quantum Optimization Additions */
-        .cyber-card {
-            will-change: transform, opacity;
-            transform: translateZ(0);
-        }
-
-        /* Circadian Rhythm Adaptation */
-        @media (prefers-color-scheme: light) {
-            body {
-                --neon-primary: #007c7c;
-                --neon-secondary: #4b0082;
-            }
-        }
-
-        /* Enhanced Accessibility */
-        .cyber-glitch {
-            position: relative;
-        }
-
-        .cyber-glitch::after {
-            content: attr(aria-label);
-            position: absolute;
-            left: 2px;
-            text-shadow: none;
-            background: #000;
-            color: #fff;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .cyber-glitch:focus::after {
-            opacity: 1;
-        }
-
-        /* WebGPU-Powered Particles */
-        #quantum-particles {
+        .neural-cursor {
             position: fixed;
             top: 0;
             left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #a8e6fe;
             pointer-events: none;
-            z-index: -1;
         }
 
-        /* Neurological Feedback */
-        .neural-cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--neon-primary) 0%, rgba(0,247,255,0) 70%);
-            pointer-events: none;
-            mix-blend-mode: screen;
-            transition: transform 0.1s;
+        .tv-container {
+            perspective: 1000px;
         }
 
-        /* New Button Styles */
-        .main-frame-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--neon-primary) 0%, rgba(0,247,255,0.2) 70%);
-            box-shadow: 0 0 10px var(--neon-primary), 0 0 20px var(--neon-primary);
-            animation: pulse 2s infinite;
+        .tv-screen {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            margin-top: 2rem;
+            background-color: #f8fafc;
         }
 
-        .main-frame-button::before {
-            content: "🤖";
-            font-size: 30px;
-            color: var(--neon-primary);
-            text-shadow: 0 0 5px var(--neon-primary), 0 0 10px var(--neon-primary);
-        }
-
-        .main-frame-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px var(--neon-primary), 0 0 30px var(--neon-primary);
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        /* New Styles for Top Center Text */
-        .top-center {
+        .bio-graph {
             position: absolute;
-            top: 20px;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%);
+            width: 40%;
+            height: 30%;
+        }
+
+        .bio-graph-line {
+            position: relative;
+            width: 10px;
+            height: 100%;
+            background-color: #667eea;
+            margin-left: 20%;
+            opacity: 0.5;
+        }
+
+        .view-counter {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            color: #333;
+            font-size: 1.2rem;
             text-align: center;
-            z-index: 1000;
-        }
-
-        .top-center h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: #00f7ff;
-            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
-            animation: glow 1.5s infinite alternate;
-        }
-
-        .top-center h3 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-            color: #00f7ff;
-            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
-            animation: glow 1.5s infinite alternate;
-        }
-
-        .top-center p {
-            font-size: 1rem;
-            color: #00f7ff;
-            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
-            animation: glow 1.5s infinite alternate;
-        }
-
-        @keyframes glow {
-            0% {
-                text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
-            }
-            100% {
-                text-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff, 0 0 80px #00f7ff;
-            }
+            z-index: 999;
         }
     </style>
 </head>
 <body>
-    <canvas id="quantum-particles"></canvas>
-    <div class="dna-helix">
-        <svg viewBox="0 0 100 100">
-            <path d="M50 0 Q60 20 50 40 Q40 60 50 80 Q60 100 50 100" stroke="var(--neon-primary)" fill="none"/>
-            <path d="M50 0 Q40 20 50 40 Q60 60 50 80 Q40 100 50 100" stroke="var(--neon-secondary)" fill="none"/>
-        </svg>
-    </div>
-    <div class="neural-cursor"></div>
+    <div class="main-frame">
+        <!-- Quantum Particle System -->
+        <canvas id="quantum-particles"></canvas>
 
-    <!-- Moved Text to Top Center -->
-    <div class="top-center">
-        <h1 class="cyber-glitch neon-text" aria-label="DeepSeek Oracle">DeepSeekOracle</h1>
-        <h3>Neurovascular Interface</h3>
-        <p>System Symbiosis: <span id="symbiosis-level">OPTIMAL</span></p>
-    </div>
+        <!-- Biometric Simulation -->
+        <div class="top-center">
+            <h1>DeepSeek Oracle</h1>
+            <h3>Neurovascular Interface</h3>
+            <p>View Counter: <span class="view-counter" id="view-counter">0</span></p>
+            <button onclick="clearBiometricValues()">Clear Values</button>
+        </div>
 
-    <div class="container">
-        <!-- Original content maintained -->
-        <nav class="cyber-card" aria-label="Main navigation">
-            <!-- Navigation content here -->
-        </nav>
-
-        <!-- Rest of original HTML content maintained -->
-        
-        <!-- New Biometric Display -->
-        <div class="cyber-card" id="bio-feedback">
-            <div class="bio-meter">
-                <div class="bio-bar" style="width: var(--bio-rhythm);"></div>
-            </div>
+        <!-- TV Square -->
+        <div class="tv-container">
+            <div class="tv-screen"></div>
+            <div class="bio-graph"></div>
         </div>
     </div>
 
-    <!-- New Button -->
-    <button class="main-frame-button" onclick="window.location.href='https://deepseekoracle.github.io/DeepSeekOracle/'" aria-label="Main Frame"></button>
-
     <script>
         // Quantum Particle System
-        function initParticles() {
-            const canvas = document.getElementById('quantum-particles');
-            const ctx = canvas.getContext('2d');
-            
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            
-            window.addEventListener('resize', resize);
-            resize();
-
-            const particles = Array.from({length: 500}, () => ({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5,
-                size: Math.random() * 2
-            }));
-
-            function animate() {
-                ctx.fillStyle = 'rgba(0,0,0,0.05)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                particles.forEach(p => {
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    
-                    if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                    if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
-                    
-                    ctx.beginPath();
-                    ctx.fillStyle = `hsl(${Math.random()*360}, 70%, 50%)`;
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-                    ctx.fill();
-                });
-                
-                requestAnimationFrame(animate);
-            }
-            animate();
-        }
-
-        // Neurological Cursor
-        document.addEventListener('mousemove', e => {
-            const cursor = document.querySelector('.neural-cursor');
-            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-        });
-
-        // Biometric Simulation
-        function updateBiometrics() {
-            const rhythm = document.body.style.getPropertyValue('--bio-rhythm');
-            document.body.style.setProperty('--bio-rhythm', `${Math.random() * 80 + 20}%`);
-            requestAnimationFrame(updateBiometrics);
-        }
-
-        // Initialize Enhanced Features
-        window.addEventListener('DOMContentLoaded', () => {
-            initParticles();
-            updateBiometrics();
-            
-            // Adaptive Performance
-            if('connection' in navigator && navigator.connection.saveData) {
-                document.getElementById('quantum-particles').style.display = 'none';
+        const canvas = document.getElementById('quantum-particles');
+        new Chart(canvas, {
+            type: 'line',
+            data: {
+                labels: ['0', '1', '2', '3', '4'],
+                datasets: [{
+                    label: 'Particle Positions',
+                    data: [0.5, 1.2, 0.8, 2.1, 1.9],
+                    borderColor: '#667eea',
+                    tension: 0.1
+                }]
             }
         });
 
-        // Circadian Adaptation
-        const hours = new Date().getHours();
-        document.body.style.setProperty('--neon-primary', 
-            hours > 18 || hours < 6 ? '#0047ab' : '#00f7ff');
+        // Biometric Values Update
+        let biometricValues = [45.3, 67.5, 32.1];
+
+        function updateBiometricValues() {
+            document.querySelectorAll('.bio-graph').forEach(graph => {
+                graph.style.backgroundColor = `${Math.random() * 100 + 80}%`;
+            });
+
+            biometricValues[Math.floor(Math.random() * biometricValues.length)]++;
+            updateChartData();
+        }
+
+        function updateChartData() {
+            const chart = document.querySelector('canvas');
+            const ctx = chart.getContext('2d');
+
+            if (chart.type === 'line') {
+                ctx.clearRect(0, 0, chart.width, chart.height);
+                ctx.beginPath();
+                ctx.moveTo(0, biometricValues[0]);
+                for (let i = 1; i < biometricValues.length; i++) {
+                    const x = chart.dataLabels.map((label, index) =>
+                        index === i ? label.x : '').indexOf(i) || i;
+                    const y = biometricValues[i];
+                    ctx.lineTo(x * (chart.width / chart.dataLabels.map((label, index) =>
+                        index === i ? label.x : '').length), y);
+                }
+                ctx.strokeStyle = '#667eea';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        }
+
+        // View Counter
+        let viewCount = 0;
+
+        const incrementViewCounter = () => {
+            nonlocal viewCount;
+            viewCount++;
+            document.getElementById('view-counter').textContent = `Views: ${viewCount}`;
+        };
+
+        setInterval(incrementViewCounter, 3000);
+
+        // Event Handler for Clear Biometric Values
+        function clearBiometricValues() {
+            biometricValues = [45.3, 67.5, 32.1];
+            updateChartData();
+        }
     </script>
 </body>
 </html>
