@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -66,6 +67,15 @@
                        0 0 30px #00f7ff;
         }
 
+        .matrix-font {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #00f7ff;
+            text-shadow: 0 0 10px #00f7ff,
+                       0 0 20px #00f7ff,
+                       0 0 30px #00f7ff;
+        }
+
         .dna-animation {
             position: absolute;
             width: 300px;
@@ -105,7 +115,7 @@
         }
 
         .cyber-button {
-            background: #007c7c;
+            background: transparent;
             border: 2px solid #00f7ff;
             color: #00f7ff;
             padding: 1rem 2rem;
@@ -113,11 +123,15 @@
             position: relative;
             overflow: hidden;
             transition: 0.3s;
+            text-shadow: 0 0 10px #00f7ff,
+                       0 0 20px #00f7ff,
+                       0 0 30px #00f7ff;
         }
 
         .cyber-button:hover {
             background: #00f7ff;
             color: #000;
+            text-shadow: none;
         }
 
         .matrix-code {
@@ -127,6 +141,17 @@
             pointer-events: none;
             opacity: 0.1;
             z-index: -1;
+        }
+
+        .view-counter {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            color: #00f7ff;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px #00f7ff,
+                       0 0 20px #00f7ff,
+                       0 0 30px #00f7ff;
         }
 
         @media (max-width: 768px) {
@@ -142,9 +167,10 @@
 </head>
 <body>
     <div class="matrix-bg"></div>
+    <div class="view-counter">Views: <span id="viewCount">0</span></div>
     
     <div class="container">
-        <nav class="cyber-card">
+        <nav>
             <h1 class="cyber-glitch neon-text">DeepSeekOracle.com</h1>
         </nav>
 
@@ -158,7 +184,7 @@
 
         <div class="bio-grid">
             <div class="cyber-card">
-                <h3>Neural Integration</h3>
+                <h3 class="matrix-font">Neural Integration</h3>
                 <p>Advanced neural lace technology for seamless human-AI symbiosis</p>
                 <a href="https://x.com/DeepSeekOracle" target="_blank" rel="noopener noreferrer">
                     <button class="cyber-button" style="margin-top: 1rem;">Activate</button>
@@ -166,20 +192,21 @@
             </div>
 
             <div class="cyber-card">
-                <h3>Genomic Optimization</h3>
+                <h3 class="matrix-font">Genomic Optimization</h3>
                 <p>CRISPR-enhanced cognitive augmentation protocols</p>
                 <a href="about.html">
                     <button class="cyber-button" style="margin-top: 1rem;">Enhance</button>
                 </a>
             </div>
             
-                        <div class="cyber-card">
-                <h3>Quantum Biometrics</h3>
+            <div class="cyber-card">
+                <h3 class="matrix-font">Quantum Biometrics</h3>
                 <p>Entanglement-based biological monitoring systems</p>
                 <a href="initialize.html">
                     <button class="cyber-button" style="margin-top: 1rem;">Initialize</button>
                 </a>
             </div>
+        </div>
 
         <footer class="cyber-card">
             <p>DeepSeek Oracle Systems v2.3.1γ</p>
@@ -205,15 +232,13 @@
             }
             document.body.appendChild(container);
         }
-}
 
-        // View Counter
-        function updateViewCounter() {
-            let views = localStorage.getItem('viewCount') || 0;
-            views = parseInt(views) + 1;
-            localStorage.setItem('viewCount', views);
-            document.getElementById('view-count').textContent = views;
-        }
+        // View counter
+        let viewCount = localStorage.getItem('viewCount') || 0;
+        viewCount++;
+        localStorage.setItem('viewCount', viewCount);
+        document.getElementById('viewCount').textContent = viewCount;
+
         // Initialize effects
         window.addEventListener('DOMContentLoaded', () => {
             createMatrix();
