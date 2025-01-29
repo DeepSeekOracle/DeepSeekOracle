@@ -10,7 +10,6 @@
             --dna-pink: #ff00ff;
         }
 
-        /* Existing Matrix styles remain unchanged */
         body {
             margin: 0;
             background: #000;
@@ -23,7 +22,6 @@
         .content { /* ... existing content styles ... */ }
         /* All previous CSS styles remain intact */
 
-        /* Auto Battler Mini-Game Styles */
         .battler-game {
             border: 2px solid var(--matrix-blue);
             padding: 20px;
@@ -78,6 +76,39 @@
             text-shadow: 0 0 8px var(--hive-blue);
             margin: 10px 0;
         }
+
+        .health-bar, .attack-bar, .damage-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .health-bar-fill, .attack-bar-fill, .damage-bar-fill {
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .health-bar-fill { background-color: #ff00ff; }
+        .attack-bar-fill { background-color: #00f7ff; }
+        .damage-bar-fill { background-color: #ff0000; }
+
+        .battle-visual {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .battle-visual div {
+            text-align: center;
+        }
+
+        .battle-visual span {
+            font-size: 2em;
+        }
     </style>
 </head>
 <body>
@@ -104,8 +135,26 @@
 
         <div id="game-screen" style="display: none;">
             <h2>WAVE: <span id="wave-count" class="glow-text">1</span></h2>
-            <p class="stat-display">NEURAL INTEGRITY: <span id="hero-hp">100</span></p>
-            <p class="stat-display">THREAT LEVEL: <span id="enemy-hp">50</span></p>
+            <div class="battle-visual">
+                <div>
+                    <span>🤖</span>
+                    <div class="health-bar">
+                        <div class="health-bar-fill" id="hero-health-bar"></div>
+                    </div>
+                    <div class="attack-bar">
+                        <div class="attack-bar-fill" id="hero-attack-bar"></div>
+                    </div>
+                </div>
+                <div>
+                    <span>👾</span>
+                    <div class="health-bar">
+                        <div class="health-bar-fill" id="enemy-health-bar"></div>
+                    </div>
+                    <div class="attack-bar">
+                        <div class="attack-bar-fill" id="enemy-attack-bar"></div>
+                    </div>
+                </div>
+            </div>
             <div id="battle-log"></div>
         </div>
 
@@ -190,6 +239,10 @@
             function updateQuantumStats() {
                 document.getElementById("hero-hp").textContent = battlerHero.hp;
                 document.getElementById("enemy-hp").textContent = entropyEntity.hp;
+                document.getElementById("hero-health-bar").style.width = `${(battlerHero.hp / 100) * 100}%`;
+                document.getElementById("enemy-health-bar").style.width = `${(entropyEntity.hp / (50 + quantumWave * 10)) * 100}%`;
+                document.getElementById("hero-attack-bar").style.width = `${(battlerHero.attack / 20) * 100}%`;
+                document.getElementById("enemy-attack-bar").style.width = `${(entropyEntity.attack / (8 + quantumWave * 2)) * 100}%`;
             }
 
             function accessUpgrades() {
