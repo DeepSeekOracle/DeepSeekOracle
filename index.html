@@ -262,6 +262,33 @@
             100% { text-shadow: 0 0 15px #00f7ff; }
         }
 
+        /* New Link Styles */
+        .cyber-link {
+            display: block;
+            margin-top: 1rem;
+            text-align: center;
+            color: #00f7ff;
+            text-decoration: none;
+            font-family: 'Matrix Code NFI', 'Courier New', monospace;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            border: 1px solid #00f7ff;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            animation: linkPulse 2s infinite alternate;
+        }
+
+        .cyber-link:hover {
+            background: rgba(0, 247, 255, 0.1);
+            box-shadow: 0 0 15px #00f7ff;
+            transform: translateY(-2px);
+        }
+
+        @keyframes linkPulse {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -302,6 +329,11 @@
                     </a>
                 </div>
             </div>
+
+            <!-- New Link -->
+            <a href="https://deepseekoracle.github.io/DeepSeekOracle/CyberVideo.html" class="cyber-link">
+                ░▒▓ CYBER VIDEO FEED ▓▒░
+            </a>
         </section>
 
         <div class="bio-grid">
@@ -332,7 +364,7 @@
 
         <footer class="cyber-card">
             <p>DeepSeek Oracle Systems v2.3.1γ</p>
-            <p>© 2024 Neural Convergence Interface</p>
+            <p><a href="https://deepseekoracle.github.io/DeepSeekOracle/index2.html" style="color: #00f7ff; text-decoration: none;">© 2024 Neural Convergence Interface</a></p>
         </footer>
     </div>
 
