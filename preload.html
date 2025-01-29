@@ -8,165 +8,168 @@
         body {
             margin: 0;
             font-family: 'Arial', sans-serif;
-            background-color: #000;
-            color: #0f0;
+            background-color: #0f0f0f;
+            color: #ffffff;
+            overflow-x: hidden;
         }
 
-        .matrix-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,5
-Q75,25 50,45 Q25,25 50,5" stroke="#0f0" fill="none" stroke-width="2"/></svg>');
-            background-size: cover;
-            z-index: -1;
-        }
-
-        .view-counter {
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            color: #0f0;
-            font-size: 1.2rem;
-            text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
-        }
-
-        .container {
+        header, footer {
+            text-align: center;
             padding: 1rem;
-            max-width: 800px;
-            margin: 0 auto;
+            background-color: #333333;
+        }
+
+        .header {
             position: relative;
         }
 
-        nav {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
         .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             text-align: center;
-            margin-bottom: 3rem;
+            background-image: url('https://via.placeholder.com/1920x600?text=High+Tech+Environment');
+            background-size: cover;
+            color: #ffffff;
         }
 
-        .hero h1, .hero h2 {
+        .hero h1 {
+            font-size: 3rem;
             margin: 0;
-            text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
         }
 
-        .dna-animation {
-            position: absolute;
-            top: -50%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 1px;
-            height: 100%;
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 50%, transparent 50%);
-            animation: DNA-Pulse 2s infinite ease-in-out alternate;
+        .hero h2 {
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
         }
 
-        .bio-grid {
-            display: grid;
-            gap: 1rem;
+        .content-section {
+            padding: 2rem;
+            text-align: center;
         }
 
-        .cyber-card {
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
+        .content-section h2, .content-section h3 {
+            color: #1e88e5;
+            font-weight: bold;
         }
 
-        .cyber-card h3 {
-            margin-top: 0;
-            text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
+        .content-section p {
+            margin-bottom: 1.5rem;
         }
 
-        .cyber-button {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            color: #0f0;
-            text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
-            border-radius: 4px;
+        .interactive-element {
             cursor: pointer;
         }
 
-        .cyber-button:hover {
-            background-color: rgba(255, 255, 255, 0.15);
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
         }
 
-        @keyframes DNA-Pulse {
-            from { transform: scale(0.8); }
-            to { transform: scale(1); }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 2rem;
+            border: 1px solid #888;
+            width: 80%;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 0.5rem;
-            }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
 
-            .hero h2 {
-                font-size: 2rem;
-            }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @keyframes neon-effect {
+            0% { background-color: #1e88e5; }
+            50% { background-color: #3f51b5; }
+            100% { background-color: #1e88e5; }
+        }
+
+        .neon-effect {
+            animation-name: neon-effect;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
         }
     </style>
 </head>
 <body>
-    <div class="matrix-bg"></div>
-    <div class="view-counter">Views: 1,234</div>
 
-    <div class="container">
-        <nav>
-            <h1>DeepSeekOracle.com</h1>
-        </nav>
+<header class="header">
+    <h1>DeepSeekOracle.com</h1>
+    <h2>Your Gateway to Knowledge</h2>
+</header>
 
-        <div class="hero">
-            <h1>Welcome to DeepSeekOracle.com</h1>
-            <h2>Your Gateway to Knowledge</h2>
-        </div>
+<div class="hero">
+    <h1>Welcome to DeepSeekOracle.com</h1>
+    <h2>Discover cutting-edge technology and biohuman interfaces</h2>
+</div>
 
-        <div class="bio-grid">
-            <div class="cyber-card">
-                <h3>Interactive Content</h3>
-                <p>Explore interactive content that brings learning to life.</p>
-                <button onclick="alert('Coming Soon!')">Learn More</button>
-            </div>
-            <div class="cyber-card">
-                <h3>Real-Time Data</h3>
-                <p>Access real-time data and insights from various sources.</p>
-                <button onclick="alert('Coming Soon!')">Explore Now</button>
-            </div>
-            <div class="cyber-card">
-                <h3>User-Friendly Interface</h3>
-                <p>Enjoy a user-friendly interface designed for ease of use.</p>
-                <button onclick="alert('Coming Soon!')">Get Started</button>
-            </div>
-        </div>
+<section class="content-section" id="robotic-nano-technology">
+    <h2>Explore Robotic Nano Technology</h2>
+    <p>Discover how nanotechnology is revolutionizing robotics.</p>
+    <button class="interactive-element" onclick="openModal('roboticNano')">Learn More</button>
+</section>
 
-        <footer>
-            <p>&copy; 2023 DeepSeekOracle.com. All rights reserved.</p>
-        </footer>
+<section class="content-section" id="crispr-bio-hacking">
+    <h2>CRISPR Bio Hacking</h2>
+    <p>Learn about the latest advancements in CRISPR bio hacking and how it's transforming healthcare.</p>
+    <div class="interactive-element" onclick="openModal('crisprBioHacking')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M448 273.5c-13.3-6.6-27.9-2.6-35.4 8.1l-80 80a15 15 0 0 1
+-21.4 0L133.4 273.5C116.2 266.9 92.6 280.9 80 293.4c-6.6 13.3-2.6 27.9 8.1 35.4l80 80a15 15 0 0 1 0 21.4L80 476.6c-13.3 13.3-37.9
+7.3-44.5-8.1L14.1 294a15 15 0 0 1 0-21.4L80 137.4c13.3-13.3 37.9-7.3 44.5 8.1l80 80a15 15 0 0 1 0 21.4L368.6 293.5C381.8 300.9 405.4 316.9
+423 329.4c13.3 13.3 27.9 7.3 35.4-8.1l80-80a15 15 0 0 1 21.4 0L448 273.5z"></path></svg>
     </div>
+</section>
 
-    <script>
-        // Smooth scroll to section
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
+<footer class="footer">
+    &copy; 2023 DeepSeekOracle.com. All rights reserved.
+</footer>
 
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+<div id="roboticNanoModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('roboticNano')">&times;</span>
+        <h2>Robotic Nano Technology</h2>
+        <p>Nanotechnology is revolutionizing robotics by enabling the creation of incredibly small robots that can perform tasks at a
+microscopic scale. These robots have applications in areas such as medicine, manufacturing, and environmental monitoring.</p>
+    </div>
+</div>
 
-        // Interactive content
-        document.querySelector('.interactive-content').addEventListener('click', function() {
-            alert('Interactive content is available soon!');
-        });
-    </script>
+<div id="crisprBioHackingModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('crisprBioHacking')">&times;</span>
+        <h2>CRISPR Bio Hacking</h2>
+        <p>CRISPR bio hacking involves using CRISPR technology to modify biological systems at the genetic level. This can lead to
+advancements in medical research, personalized medicine, and other fields of biotechnology.</p>
+    </div>
+</div>
+
+<script>
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+</script>
+
 </body>
 </html>
