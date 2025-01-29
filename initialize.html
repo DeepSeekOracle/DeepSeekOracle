@@ -17,11 +17,12 @@
             font-family: 'Courier New', monospace;
         }
 
+        /* Moving Matrix Background */
         .matrix-bg {
             position: fixed;
             width: 100%;
             height: 100%;
-            opacity: 0.1;
+            opacity: 0.75;
             background: repeating-linear-gradient(
                 0deg,
                 transparent,
@@ -29,6 +30,23 @@
                 rgba(126, 192, 238, 0.1) 2px,
                 rgba(126, 192, 238, 0.1) 4px
             );
+            z-index: -1;
+        }
+
+        .matrix-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 90%, rgba(126, 192, 238, 0.1) 100%);
+            animation: matrix-fall 5s linear infinite;
+        }
+
+        @keyframes matrix-fall {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
         }
 
         .hive-core {
@@ -86,7 +104,7 @@
 
         h1 {
             font-size: 2.5em;
-            text-shadow: 0 0 10px var(--matrix-blue);
+            text-shadow: 0 0 10px var(--matrix-blue), 0 0 20px var(--matrix-blue), 0 0 30px var(--matrix-blue);
             margin: 20px 0;
         }
 
@@ -101,12 +119,19 @@
             background: rgba(126, 192, 238, 0.05);
             padding: 15px;
             border: 1px solid var(--matrix-blue);
+            border-image: linear-gradient(45deg, var(--matrix-blue), var(--hive-blue)) 1;
             transition: 0.3s;
+            box-shadow: 0 0 10px rgba(126, 192, 238, 0.2);
         }
 
         .stat-item:hover {
             transform: scale(1.05);
             background: rgba(126, 192, 238, 0.1);
+            box-shadow: 0 0 20px rgba(126, 192, 238, 0.5);
+        }
+
+        .stat-item h3, .stat-item p {
+            text-shadow: 0 0 5px var(--matrix-blue), 0 0 10px var(--matrix-blue);
         }
 
         /* Matrix Robot Animation */
@@ -142,26 +167,23 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: var(--matrix-blue);
-            color: #000;
+            background: transparent;
             border: none;
-            padding: 10px 20px;
-            font-family: 'Courier New', monospace;
-            font-size: 1em;
+            padding: 0;
             cursor: pointer;
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            animation: pulse 2s infinite;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
             transition: 0.3s;
         }
 
-        .main-frame-button:hover {
-            background: var(--hive-blue);
+        .main-frame-button img {
+            width: 60px;
+            height: 60px;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: pulse 2s infinite;
+        }
+
+        .main-frame-button:hover img {
             transform: scale(1.1);
+            filter: drop-shadow(0 0 10px var(--hive-blue));
         }
     </style>
 </head>
@@ -203,7 +225,9 @@
     </div>
 
     <!-- Main Frame Button -->
-    <a href="https://deepseekoracle.github.io/DeepSeekOracle/" class="main-frame-button">Main Frame</a>
+    <a href="https://deepseekoracle.github.io/DeepSeekOracle/" class="main-frame-button">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA100 100IiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCI+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNTAiIGZpbGw9IiMwMGY3ZmYiIC8+CiAgPHBvbHlnb24gcG9pbnRzPSI1MCw1IDkwLDI1IDkwLDc1IDUwLDEwMCAxMCw3NSAxMCwyNSIgZmlsbD0iIzdlYzBlZSIgLz4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSIyMCIgZmlsbD0iI2ZmMDBmZiIgLz4KPC9zdmc+" alt="Robot Icon">
+    </a>
 
     <script>
         // Matrix background effect
