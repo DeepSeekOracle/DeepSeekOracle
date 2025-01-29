@@ -2,368 +2,249 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepSeek Oracle - BioCyber Intelligence</title>
+    <title>DeepSeek Oracle | Matrix Nexus</title>
     <style>
-        /* Original styles maintained */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Courier New', monospace;
+        :root {
+            --matrix-blue: #7ec0ee; /* Smokey light blue */
+            --hive-blue: #00f7ff;
+            --dna-pink: #ff00ff;
         }
 
         body {
-            background-color: #000;
-            color: #00f7ff;
-            overflow-x: hidden;
-            --neon-primary: #00f7ff;
-            --neon-secondary: #00f7ff;
-            --bio-rhythm: 100%;
+            margin: 0;
+            background: #000;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
         }
 
-        /* Enhanced DNA Animation */
-        .dna-helix {
+        /* Moving Matrix Background */
+        .matrix-bg {
             position: fixed;
-            width: 300px;
-            height: 100vh;
-            opacity: 0.05;
-            animation: dna-rotate 120s linear infinite;
+            width: 100%;
+            height: 100%;
+            opacity: 0.75;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(126, 192, 238, 0.1) 2px,
+                rgba(126, 192, 238, 0.1) 4px
+            );
             z-index: -1;
         }
 
-        @keyframes dna-rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Quantum Optimization Additions */
-        .cyber-card {
-            will-change: transform, opacity;
-            transform: translateZ(0);
-        }
-
-        /* Circadian Rhythm Adaptation */
-        @media (prefers-color-scheme: light) {
-            body {
-                --neon-primary: #00f7ff;
-                --neon-secondary: #00f7ff;
-            }
-        }
-
-        /* Enhanced Accessibility */
-        .cyber-glitch {
-            position: relative;
-        }
-
-        .cyber-glitch::after {
-            content: attr(aria-label);
+        .matrix-bg::before {
+            content: '';
             position: absolute;
-            left: 2px;
-            text-shadow: none;
-            background: #000;
-            color: #00f7ff; /* Changed to match main text color */
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .cyber-glitch:focus::after {
-            opacity: 1;
-        }
-
-        /* WebGPU-Powered Particles */
-        #quantum-particles {
-            position: fixed;
             top: 0;
             left: 0;
-            pointer-events: none;
-            z-index: -1;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 90%, rgba(126, 192, 238, 0.1) 100%);
+            animation: matrix-fall 5s linear infinite;
         }
 
-        /* Neurological Feedback */
-        .neural-cursor {
+        @keyframes matrix-fall {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .hive-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+        }
+
+        .hexagon {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: radial-gradient(circle, var(--hive-blue) 0%, transparent 70%);
+            animation: pulse 2s infinite;
+        }
+
+        .inner-grid {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+        }
+
+        .cell {
+            background: rgba(126, 192, 238, 0.1);
+            animation: scan 5s infinite linear;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        @keyframes scan {
+            0% { background: rgba(126, 192, 238, 0.1); }
+            50% { background: rgba(126, 192, 238, 0.3); }
+            100% { background: rgba(126, 192, 238, 0.1); }
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            color: var(--matrix-blue);
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-shadow: 0 0 10px var(--matrix-blue), 0 0 20px var(--matrix-blue), 0 0 30px var(--matrix-blue);
+            margin: 20px 0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .stat-item {
+            padding: 15px;
+            transition: 0.3s;
+        }
+
+        .stat-item h3, .stat-item p {
+            text-shadow: 0 0 5px var(--matrix-blue), 0 0 10px var(--matrix-blue), 0 0 20px var(--matrix-blue);
+            margin: 0;
+        }
+
+        /* Matrix Robot Animation */
+        .matrix-robot {
             position: fixed;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--neon-primary) 0%, rgba(0,247,255,0) 70%);
-            pointer-events: none;
-            mix-blend-mode: screen;
-            transition: transform 0.1s;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3em;
+            font-size: 24px;
+            color: var(--matrix-blue);
+            text-align: center;
+            white-space: pre;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* New Button Styles */
+        .matrix-robot span {
+            display: inline-block;
+            animation: matrix-fall 1s infinite linear;
+        }
+
+        @keyframes matrix-fall {
+            0% { transform: translateY(-100%); opacity: 0; }
+            100% { transform: translateY(100%); opacity: 1; }
+        }
+
+        /* Main Frame Button */
         .main-frame-button {
             position: fixed;
             bottom: 20px;
             right: 20px;
             background: transparent;
             border: none;
+            padding: 0;
             cursor: pointer;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #00f7ff 0%, rgba(0,247,255,0.2) 70%);
-            box-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff;
-            animation: pulse 2s infinite;
-        }
-
-        .main-frame-button::before {
-            content: "🤖";
-            font-size: 30px;
-            color: #00f7ff;
-            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff;
+            transition: 0.3s;
+            font-size: 2.5em;
+            text-decoration: none;
+            color: var(--hive-blue);
+            text-shadow: 0 0 10px var(--hive-blue), 0 0 20px var(--hive-blue);
         }
 
         .main-frame-button:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 15px #00f7ff, 0 0 30px #00f7ff;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        /* New Styles for Top Center Text */
-        .top-center {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            z-index: 1000;
-        }
-
-        .top-center h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: #00f7ff;
-            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
-            animation: glow 1.5s infinite alternate;
-        }
-
-        .top-center h3 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-            color: #00f7ff;
-            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
-            animation: glow 1.5s infinite alternate;
-        }
-
-        .top-center p {
-            font-size: 1rem;
-            color: #00f7ff;
-            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
-            animation: glow 1.5s infinite alternate;
-        }
-
-        @keyframes glow {
-            0% {
-                text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
-            }
-            100% {
-                text-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff, 0 0 80px #00f7ff;
-            }
-        }
-
-        /* New TV Square with Biometrics */
-        .tv-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            height: 300px;
-            background: #000;
-            border: 4px solid #00f7ff;
-            box-shadow: 0 0 20px #00f7ff, 0 0 40px #00f7ff;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .tv-screen {
-            flex: 1;
-            background: #111;
-            border: 2px solid #00f7ff;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-        }
-
-        .bio-metric {
-            color: #ff0000; /* Changed to neon red */
-            font-size: 1.2rem;
-            text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000;
-        }
-
-        .bio-graph {
-            width: 100%;
-            height: 100px;
-            background: #000;
-            border: 1px solid #00ff00; /* Changed to neon green */
-            position: relative;
-        }
-
-        .bio-graph-line {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, #00ff00 0%, rgba(0, 255, 0, 0) 100%);
-            animation: graph-animate 2s infinite alternate;
-        }
-
-        @keyframes graph-animate {
-            0% { height: 20%; }
-            100% { height: 80%; }
-        }
-
-        /* View Counter */
-        .view-counter {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: #00f7ff; /* Changed to match main text color */
-            font-size: 1rem;
-            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
+            text-shadow: 0 0 20px var(--hive-blue), 0 0 40px var(--hive-blue);
         }
     </style>
 </head>
 <body>
-    <canvas id="quantum-particles"></canvas>
-    <div class="dna-helix">
-        <svg viewBox="0 0 100 100">
-            <path d="M50 0 Q60 20 50 40 Q40 60 50 80 Q60 100 50 100" stroke="var(--neon-primary)" fill="none"/>
-            <path d="M50 0 Q40 20 50 40 Q60 60 50 80 Q40 100 50 100" stroke="var(--neon-secondary)" fill="none"/>
-        </svg>
-    </div>
-    <div class="neural-cursor"></div>
-
-    <!-- View Counter -->
-    <div class="view-counter">Views: <span id="view-count">0</span></div>
-
-    <!-- Moved Text to Top Center -->
-    <div class="top-center">
-        <h1 class="cyber-glitch neon-text" aria-label="DeepSeek Oracle">DeepSeek Oracle</h1>
-        <h3>Neurovascular Interface</h3>
-        <p>System Symbiosis: <span id="symbiosis-level">OPTIMAL</span></p>
+    <div class="matrix-bg"></div>
+    
+    <div class="hive-core">
+        <div class="hexagon"></div>
+        <div class="inner-grid">
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        </div>
     </div>
 
-    <!-- TV Square with Biometrics -->
-    <div class="tv-container">
-        <div class="tv-screen">
-            <div class="bio-metric">Heart Rate: <span id="heart-rate">--</span> BPM</div>
-            <div class="bio-metric">Oxygen Level: <span id="oxygen-level">--</span>%</div>
-            <div class="bio-metric">Brain Activity: <span id="brain-activity">--</span>%</div>
-            <div class="bio-graph">
-                <div class="bio-graph-line"></div>
+    <div class="content">
+        <h1>DEEPSEEK ORACLE</h1>
+        <div class="stats">
+            <div class="stat-item">
+                <h3>CRISPR Sequence</h3>
+                <p>Δ Editing: 99.97%</p>
+            </div>
+            <div class="stat-item">
+                <h3>Nanobot Swarm</h3>
+                <p>Units: 2.5M+</p>
+            </div>
+            <div class="stat-item">
+                <h3>Quantum Entanglement</h3>
+                <p>Qubits: 512</p>
             </div>
         </div>
     </div>
 
-    <!-- New Button -->
-    <button class="main-frame-button" onclick="window.location.href='https://deepseekoracle.github.io/DeepSeekOracle/'" aria-label="Main Frame"></button>
+    <!-- Matrix Robot -->
+    <div class="matrix-robot">
+        <span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><br>
+        <span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><br>
+        <span>1</span><span>0</span><span>^_^</span><span>0</span><span>1</span><span>0</span>
+    </div>
+
+    <!-- Main Frame Button -->
+    <a href="https://deepseekoracle.github.io/DeepSeekOracle/" class="main-frame-button">
+        🤖
+    </a>
 
     <script>
-        // Quantum Particle System
-        function initParticles() {
-            const canvas = document.getElementById('quantum-particles');
-            const ctx = canvas.getContext('2d');
-
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-
-            window.addEventListener('resize', resize);
-            resize();
-
-            const particles = Array.from({length: 500}, () => ({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5,
-                size: Math.random() * 2
-            }));
-
-            function animate() {
-                ctx.fillStyle = 'rgba(0,0,0,0.05)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                particles.forEach(p => {
-                    p.x += p.vx;
-                    p.y += p.vy;
-
-                    if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                    if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-                    ctx.beginPath();
-                    ctx.fillStyle = `hsl(${Math.random()*360}, 70%, 50%)`;
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-                    ctx.fill();
-                });
-
-                requestAnimationFrame(animate);
-            }
-            animate();
+        // Matrix background effect
+        const bg = document.querySelector('.matrix-bg');
+        function createGrid() {
+            const size = Math.max(window.innerWidth, window.innerHeight) / 20;
+            bg.style.backgroundSize = `${size}px ${size}px`;
         }
+        window.addEventListener('resize', createGrid);
+        createGrid();
 
-        // Neurological Cursor
-        document.addEventListener('mousemove', e => {
-            const cursor = document.querySelector('.neural-cursor');
-            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+        // Hive interaction
+        const hexagon = document.querySelector('.hexagon');
+        hexagon.addEventListener('click', () => {
+            window.location.href = 'https://deepseekoracle.com';
         });
 
-        // Biometric Simulation
-        function updateBiometrics() {
-            const heartRate = Math.floor(Math.random() * 40 + 60);
-            const oxygenLevel = Math.floor(Math.random() * 10 + 90);
-            const brainActivity = Math.floor(Math.random() * 20 + 80);
-
-            document.getElementById('heart-rate').textContent = heartRate;
-            document.getElementById('oxygen-level').textContent = oxygenLevel;
-            document.getElementById('brain-activity').textContent = brainActivity;
-
-            setTimeout(updateBiometrics, 2000);
+        // Matrix Robot animation
+        const matrixRobot = document.querySelector('.matrix-robot');
+        const characters = ['0', '1', '^_^'];
+        function updateMatrix() {
+            const spans = matrixRobot.querySelectorAll('span');
+            spans.forEach(span => {
+                if (Math.random() > 0.8) {
+                    span.textContent = characters[Math.floor(Math.random() * characters.length)];
+                }
+            });
         }
-
-        // View Counter
-        function updateViewCounter() {
-            let views = localStorage.getItem('viewCount') || 0;
-            views = parseInt(views) + 1;
-            localStorage.setItem('viewCount', views);
-            document.getElementById('view-count').textContent = views;
-        }
-
-        // Initialize Enhanced Features
-        window.addEventListener('DOMContentLoaded', () => {
-            initParticles();
-            updateBiometrics();
-            updateViewCounter();
-
-            // Adaptive Performance
-            if('connection' in navigator && navigator.connection.saveData) {
-                document.getElementById('quantum-particles').style.display = 'none';
-            }
-        });
-
-        // Circadian Adaptation
-        const hours = new Date().getHours();
-        document.body.style.setProperty('--neon-primary',
-            hours > 18 || hours < 6 ? '#0047ab' : '#00f7ff');
+        setInterval(updateMatrix, 100);
     </script>
 </body>
 </html>
