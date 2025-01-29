@@ -8,335 +8,302 @@
         :root {
             --hive-blue: #00f7ff;
             --dna-pink: #ff00ff;
-            --matrix-green: #00ff00;
         }
 
         body {
             background: #000;
-            color: #fff;
-            font-family: 'Courier New', monospace;
-            margin: 0;
-            padding: 20px;
-            touch-action: manipulation;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .battle-screen {
-            border: 2px solid var(--hive-blue);
-            padding: 20px;
-            margin: 20px 0;
-            position: relative;
-            background: rgba(0,0,0,0.8);
-        }
-
-        .health-bar {
-            width: 100%;
-            height: 20px;
-            background: #333;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-
-        .health-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--dna-pink), var(--hive-blue));
-            transition: width 0.3s;
-        }
-
-        .skills-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .skill-button {
-            background: rgba(0, 247, 255, 0.3);
-            border: 1px solid var(--hive-blue);
             color: white;
-            padding: 10px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            border-radius: 5px;
+            font-family: Arial, sans-serif;
         }
 
-        .skill-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .enemy-type-indicator {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px var(--dna-pink);
         }
 
         .cooldown-overlay {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            background: rgba(255,0,255,0.5);
+            background: rgba(0,0,0,0.7);
             width: 100%;
-            transition: height 0.3s linear;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: none;
+            border-radius: 4px;
         }
 
         .upgrade-menu {
-            display: none;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.9);
-            padding: 20px;
-            border: 2px solid var(--matrix-green);
+            background: #000;
+            padding: 2rem;
+            border: 2px solid var(--hive-blue);
             z-index: 1000;
+            display: none;
         }
 
-        .upgrade-button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            background: rgba(0,255,0,0.2);
-            border: 1px solid var(--matrix-green);
-            color: white;
+        .skill-buttons {
+            display: grid;
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .skill-button {
+            background: var(--hive-blue);
+            border: none;
+            padding: 15px 25px;
+            color: black;
             cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
         }
 
-        .enemy-info {
-            position: absolute;
+        #audio-toggle {
+            position: fixed;
             top: 10px;
-            right: 10px;
-            background: rgba(255,0,0,0.3);
+            left: 10px;
             padding: 5px 10px;
-            border-radius: 5px;
+            background: var(--hive-blue);
+            border: none;
+            color: white;
         }
 
-        @media (max-width: 600px) {
-            .skills-container {
-                grid-template-columns: 1fr;
+        @media (max-width: 768px) {
+            .skill-button {
+                padding: 12px 20px;
+                font-size: 1.1rem;
             }
-            
-            .battle-screen {
-                padding: 10px;
-            }
-            
-            button {
-                min-width: 60px;
-                padding: 12px;
+            #mobile-controls {
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
             }
         }
-
-        /* Existing animations remain */
     </style>
 </head>
 <body>
-    <div class="container">
-        <div id="game-screen">
-            <h1>Quantum Battle Simulator</h1>
-            <div class="battle-screen">
-                <div class="enemy-info" id="enemy-type"></div>
-                <div id="wave-display">Wave: <span>1</span></div>
-                <div class="health-bar">
-                    <div class="health-bar-fill" style="width: 100%"></div>
-                </div>
-                <div class="battle-visual">
-                    <span>🤖</span> vs <span id="enemy-emote">👾</span>
-                </div>
-                <div class="skills-container" id="skills-container"></div>
-                <div id="battle-log"></div>
-            </div>
-            <div class="stats">
-                <div>Level: <span id="level">1</span></div>
-                <div>Score: <span id="score">0</span></div>
-                <div>Attack: <span id="attack">10</span></div>
-                <div>Defense: <span id="defense">5</span></div>
-            </div>
-        </div>
+    <div class="enemy-type-indicator"></div>
+    <button id="audio-toggle">Toggle Sound</button>
+
+    <div class="skill-buttons">
+        <button class="skill-button" data-skill="Quantum Strike">Quantum Strike</button>
+        <button class="skill-button" data-skill="Neural Shield">Neural Shield</button>
     </div>
 
-    <div class="upgrade-menu" id="upgrade-menu">
+    <div id="mobile-controls" style="display: none;">
+        <button class="skill-button mobile-btn">SKILL 1</button>
+        <button class="skill-button mobile-btn">SKILL 2</button>
+    </div>
+
+    <div class="upgrade-menu">
         <h3>Choose Upgrade</h3>
-        <button class="upgrade-button" data-stat="attack" data-cost="50">+5 Attack (50)</button>
-        <button class="upgrade-button" data-stat="defense" data-cost="50">+3 Defense (50)</button>
-        <button class="upgrade-button" data-stat="health" data-cost="75">+50 Health (75)</button>
-        <button class="upgrade-button" id="close-upgrades">Continue Fighting</button>
+        <div id="upgrade-options"></div>
     </div>
 
     <script>
+        let gameState = {
+            score: 0,
+            upgrades: [],
+            currentWave: 1,
+            audioEnabled: true,
+            enemyTypes: ['Brute', 'Mage', 'Healer'],
+            critMultiplier: 1
+        };
+
+        let battlerHero = {
+            attack: 10,
+            defense: 5,
+            critChance: 0.1
+        };
+
+        let entropyEntity;
+
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         
-        // Sound effects
-        const playSound = (frequency, duration) => {
+        function playSound(frequency, type = 'square') {
+            if(!gameState.audioEnabled) return;
+            
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
+            
+            oscillator.type = type;
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
             
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
             
-            oscillator.frequency.value = frequency;
-            gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
-            
             oscillator.start();
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
-            oscillator.stop(audioContext.currentTime + duration);
-        };
+            oscillator.stop(audioContext.currentTime + 0.3);
+        }
 
-        let gameState = {
-            level: 1,
-            score: 0,
-            xp: 0,
-            nextLevel: 100,
-            attack: 10,
-            defense: 5,
-            maxHealth: 100,
-            currentHealth: 100,
-            skills: [],
-            activeCooldowns: {},
-            enemiesDefeated: 0
-        };
-
-        const enemyTypes = [
-            {
-                name: "Quantum Drone",
-                emote: "👾",
-                hp: 50,
-                attack: 8,
-                defense: 2,
-                ability: null
-            },
-            {
-                name: "Neural Parasite",
-                emote: "🦠",
-                hp: 30,
-                attack: 15,
-                defense: 1,
-                ability: "lifeSteal"
-            },
-            {
-                name: "Singularity Titan",
-                emote: "🛡️",
-                hp: 150,
-                attack: 5,
-                defense: 10,
-                ability: "damageReflect"
+        class Enemy {
+            constructor(type, wave) {
+                this.type = type;
+                this.hp = 50 + wave * 10;
+                this.attack = 8 + wave * 2;
+                this.defense = Math.floor(wave / 5);
+                
+                switch(type) {
+                    case 'Brute':
+                        this.hp *= 1.5;
+                        break;
+                    case 'Mage':
+                        this.attack *= 1.3;
+                        break;
+                    case 'Healer':
+                        this.hp += wave * 5;
+                        break;
+                }
             }
-        ];
+        }
 
         const skillTree = [
             { 
-                name: "Quantum Strike", 
-                level: 2, 
-                effect: { type: "damage", multiplier: 2 }, 
-                cooldown: 10 
+                name: 'Quantum Strike', 
+                multiplier: 2,
+                cooldown: 15000,
+                duration: 10000,
+                type: 'damage',
+                cooldownActive: false
             },
             { 
-                name: "Temporal Shield", 
-                level: 5, 
-                effect: { type: "defense", multiplier: 3 }, 
-                cooldown: 15 
+                name: 'Neural Shield', 
+                multiplier: 0.5,
+                cooldown: 20000,
+                duration: 8000,
+                type: 'defense',
+                cooldownActive: false
             }
         ];
 
-        let currentEnemy = null;
-        let battleInterval = null;
-
-        function spawnEnemy() {
-            currentEnemy = {...enemyTypes[Math.floor(Math.random() * enemyTypes.length)]};
-            currentEnemy.hp += gameState.level * 5;
-            currentEnemy.attack += gameState.level;
-            document.getElementById('enemy-emote').textContent = currentEnemy.emote;
-            document.getElementById('enemy-type').textContent = currentEnemy.name;
-            updateHealthBars();
+        function activateSkill(skill) {
+            if(skill.cooldownActive) return;
+            
+            playSound(800, 'sine');
+            
+            switch(skill.type) {
+                case 'damage':
+                    gameState.critMultiplier = skill.multiplier;
+                    break;
+                case 'defense':
+                    battlerHero.defense *= skill.multiplier;
+                    break;
+            }
+            
+            skill.cooldownActive = true;
+            showCooldown(skill);
+            
+            setTimeout(() => {
+                resetSkill(skill);
+            }, skill.duration);
         }
 
-        function attackEnemy() {
-            if (battleInterval) return;
-
-            playSound(440, 0.1);
-            let damage = Math.max(gameState.attack - currentEnemy.defense, 1);
+        function showCooldown(skill) {
+            const btn = document.querySelector(`[data-skill="${skill.name}"]`);
+            const overlay = document.createElement('div');
+            overlay.className = 'cooldown-overlay';
+            btn.appendChild(overlay);
             
-            if (Math.random() < 0.2 + (gameState.level * 0.01)) {
-                damage *= 2;
-                showCriticalPopup(damage);
-                playSound(880, 0.2);
-            }
-
-            currentEnemy.hp -= damage;
-            updateHealthBars();
-            
-            if (currentEnemy.hp <= 0) {
-                handleVictory();
-                return;
-            }
-
-            battleInterval = setTimeout(() => enemyAttack(), 1000);
+            let remaining = skill.cooldown;
+            const interval = setInterval(() => {
+                remaining -= 100;
+                overlay.style.display = 'block';
+                overlay.style.height = `${(remaining / skill.cooldown) * 100}%`;
+                if(remaining <= 0) {
+                    clearInterval(interval);
+                    overlay.remove();
+                    skill.cooldownActive = false;
+                }
+            }, 100);
         }
 
-        function enemyAttack() {
-            let damage = Math.max(currentEnemy.attack - gameState.defense, 1);
-            
-            if (currentEnemy.ability === 'lifeSteal') {
-                currentEnemy.hp += damage;
-            }
-            
-            if (currentEnemy.ability === 'damageReflect') {
-                damage = Math.floor(damage * 0.5);
-            }
-
-            gameState.currentHealth -= damage;
-            updateHealthBars();
-            
-            if (gameState.currentHealth <= 0) {
-                gameOver();
-                return;
-            }
-
-            battleInterval = null;
-        }
-
-        function updateHealthBars() {
-            const playerHealth = document.querySelector('.health-bar-fill');
-            const enemyHealth = document.querySelector('#enemy-health');
-            
-            playerHealth.style.width = `${(gameState.currentHealth / gameState.maxHealth) * 100}%`;
-            if (enemyHealth) {
-                enemyHealth.style.width = `${(currentEnemy.hp / currentEnemy.maxHp) * 100}%`;
+        function resetSkill(skill) {
+            switch(skill.type) {
+                case 'damage':
+                    gameState.critMultiplier = 1;
+                    break;
+                case 'defense':
+                    battlerHero.defense /= skill.multiplier;
+                    break;
             }
         }
+
+        const upgradesList = [
+            { cost: 100, effect: 'attack', value: 5 },
+            { cost: 150, effect: 'defense', value: 3 },
+            { cost: 200, effect: 'critChance', value: 0.05 }
+        ];
 
         function showUpgrades() {
-            const menu = document.getElementById('upgrade-menu');
-            menu.style.display = 'block';
+            const container = document.getElementById('upgrade-options');
+            container.innerHTML = '';
             
-            document.querySelectorAll('.upgrade-button').forEach(button => {
-                if (button.dataset.stat) {
-                    button.disabled = gameState.score < parseInt(button.dataset.cost);
-                }
-            });
-        }
-
-        // Initialize game
-        function init() {
-            spawnEnemy();
-            document.querySelectorAll('button').forEach(button => {
-                button.addEventListener('click', () => playSound(220, 0.05));
+            upgradesList.forEach(upgrade => {
+                const btn = document.createElement('button');
+                btn.className = 'skill-button';
+                btn.innerHTML = `
+                    ${upgrade.effect} +${upgrade.value}<br>
+                    <small>Cost: ${upgrade.cost} XP</small>
+                `;
+                btn.onclick = () => purchaseUpgrade(upgrade);
+                container.appendChild(btn);
             });
             
-            document.getElementById('upgrade-menu').addEventListener('click', (e) => {
-                if (e.target.dataset.stat) {
-                    const cost = parseInt(e.target.dataset.cost);
-                    if (gameState.score >= cost) {
-                        gameState[e.target.dataset.stat] += parseInt(e.target.textContent.match(/\+(\d+)/)[1]);
-                        gameState.score -= cost;
-                        updateUI();
-                    }
-                }
-                document.getElementById('upgrade-menu').style.display = 'none';
-            });
+            document.querySelector('.upgrade-menu').style.display = 'block';
         }
 
-        init();
+        function purchaseUpgrade(upgrade) {
+            if(gameState.score >= upgrade.cost) {
+                gameState.score -= upgrade.cost;
+                battlerHero[upgrade.effect] += upgrade.value;
+                updateQuantumStats();
+                document.querySelector('.upgrade-menu').style.display = 'none';
+            }
+        }
+
+        function commenceWave() {
+            const enemyType = gameState.enemyTypes[Math.floor(Math.random() * gameState.enemyTypes.length)];
+            entropyEntity = new Enemy(enemyType, gameState.currentWave);
+            document.querySelector('.enemy-type-indicator').textContent = `${enemyType} Enemy`;
+        }
+
+        function updateQuantumStats() {
+            document.getElementById('attack-value').textContent = battlerHero.attack;
+            document.getElementById('defense-value').textContent = battlerHero.defense;
+        }
+
+        function initMobileControls() {
+            if(/Mobi|Android/i.test(navigator.userAgent)) {
+                document.getElementById('mobile-controls').style.display = 'flex';
+                document.querySelectorAll('.mobile-btn').forEach((btn, i) => {
+                    btn.onclick = () => {
+                        const skills = document.querySelectorAll('[data-skill]');
+                        if(skills[i]) skills[i].click();
+                    };
+                });
+            }
+        }
+
+        document.querySelectorAll('[data-skill]').forEach(button => {
+            const skillName = button.dataset.skill;
+            const skill = skillTree.find(s => s.name === skillName);
+            button.addEventListener('click', () => activateSkill(skill));
+        });
+
+        document.getElementById('audio-toggle').addEventListener('click', () => {
+            gameState.audioEnabled = !gameState.audioEnabled;
+        });
+
+        initMobileControls();
+        commenceWave();
     </script>
 </body>
 </html>
