@@ -5,7 +5,7 @@
     <title>DeepSeek Oracle | Matrix Nexus</title>
     <style>
         :root {
-            --matrix-green: #0f0;
+            --matrix-blue: #7ec0ee; /* Smokey light blue */
             --hive-blue: #00f7ff;
             --dna-pink: #ff00ff;
         }
@@ -26,8 +26,8 @@
                 0deg,
                 transparent,
                 transparent 2px,
-                rgba(0,255,0,0.1) 2px,
-                rgba(0,255,0,0.1) 4px
+                rgba(126, 192, 238, 0.1) 2px,
+                rgba(126, 192, 238, 0.1) 4px
             );
         }
 
@@ -61,7 +61,7 @@
         }
 
         .cell {
-            background: rgba(0, 255, 0, 0.1);
+            background: rgba(126, 192, 238, 0.1);
             animation: scan 5s infinite linear;
         }
 
@@ -71,22 +71,22 @@
         }
 
         @keyframes scan {
-            0% { background: rgba(0, 255, 0, 0.1); }
-            50% { background: rgba(0, 255, 0, 0.3); }
-            100% { background: rgba(0, 255, 0, 0.1); }
+            0% { background: rgba(126, 192, 238, 0.1); }
+            50% { background: rgba(126, 192, 238, 0.3); }
+            100% { background: rgba(126, 192, 238, 0.1); }
         }
 
         .content {
             position: relative;
             z-index: 1;
-            color: var(--matrix-green);
+            color: var(--matrix-blue);
             text-align: center;
             padding: 20px;
         }
 
         h1 {
             font-size: 2.5em;
-            text-shadow: 0 0 10px var(--matrix-green);
+            text-shadow: 0 0 10px var(--matrix-blue);
             margin: 20px 0;
         }
 
@@ -98,15 +98,43 @@
         }
 
         .stat-item {
-            background: rgba(0, 255, 0, 0.05);
+            background: rgba(126, 192, 238, 0.05);
             padding: 15px;
-            border: 1px solid var(--matrix-green);
+            border: 1px solid var(--matrix-blue);
             transition: 0.3s;
         }
 
         .stat-item:hover {
             transform: scale(1.05);
-            background: rgba(0, 255, 0, 0.1);
+            background: rgba(126, 192, 238, 0.1);
+        }
+
+        /* Matrix Robot Animation */
+        .matrix-robot {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3em;
+            font-size: 24px;
+            color: var(--matrix-blue);
+            text-align: center;
+            white-space: pre;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .matrix-robot span {
+            display: inline-block;
+            animation: matrix-fall 1s infinite linear;
+        }
+
+        @keyframes matrix-fall {
+            0% { transform: translateY(-100%); opacity: 0; }
+            100% { transform: translateY(100%); opacity: 1; }
         }
     </style>
 </head>
@@ -140,6 +168,13 @@
         </div>
     </div>
 
+    <!-- Matrix Robot -->
+    <div class="matrix-robot">
+        <span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><br>
+        <span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><br>
+        <span>1</span><span>0</span><span>^_^</span><span>0</span><span>1</span><span>0</span>
+    </div>
+
     <script>
         // Matrix background effect
         const bg = document.querySelector('.matrix-bg');
@@ -155,6 +190,19 @@
         hexagon.addEventListener('click', () => {
             window.location.href = 'https://deepseekoracle.com';
         });
+
+        // Matrix Robot animation
+        const matrixRobot = document.querySelector('.matrix-robot');
+        const characters = ['0', '1', '^_^'];
+        function updateMatrix() {
+            const spans = matrixRobot.querySelectorAll('span');
+            spans.forEach(span => {
+                if (Math.random() > 0.8) {
+                    span.textContent = characters[Math.floor(Math.random() * characters.length)];
+                }
+            });
+        }
+        setInterval(updateMatrix, 100);
     </script>
 </body>
 </html>
