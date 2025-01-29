@@ -1,250 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepSeekOracle.com</title>
-    <style>
-        :root {
-            --neon-blue: #00f3ff;
-            --cyber-green: #0f494;
-            --background-color: #0a0a2e;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeepSeekOracle.com</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #000;
+      color: #0ff;
+      overflow: hidden;
+    }
 
-        body {
-            background-color: var(--background-color);
-            color: white;
-            overflow-x: hidden;
-        }
+    /* Matrix Background */
+    .matrix-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, #000, #001);
+      z-index: -1;
+    }
 
-        /* Matrix-like background */
-        .matrix-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
+    .matrix-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 255, 0.1) 2px,
+        rgba(0, 255, 255, 0.1) 4px
+      );
+      animation: scan 5s linear infinite;
+    }
 
-        .scan-line {
-            position: absolute;
-            width: 100px;
-            height: 2px;
-            background-color: var(--cyber-green);
-            animation: scan 2s linear infinite;
-        }
+    @keyframes scan {
+      from {
+        transform: translateY(-100%);
+      }
+      to {
+        transform: translateY(100%);
+      }
+    }
 
-        /* Hexagon core */
-        .hive-core {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            cursor: pointer;
-            animation: pulse 1s ease-in-out infinite alternate;
-        }
+    /* Hidden Quantum Entanglement Visualization */
+    .quantum-entanglement {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(0, 255, 255, 0.05), transparent);
+      opacity: 0.5;
+      z-index: -1;
+    }
 
-        .hive-core::before {
-            content: '';
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            animation: pulse 1s ease-in-out infinite alternate;
-        }
+    /* Header Section */
+    header {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      border-bottom: 1px solid #0ff;
+    }
 
-        .pulse {
-            transform: scale(${1} / 3);
-            animation-duration: 1s;
-            animation-repeat: 2 cycles;
-        }
+    header h1 {
+      font-size: 2.5rem;
+      color: #0ff;
+      text-shadow: 0 0 10px #0ff;
+    }
 
-        @keyframes scan {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(100%); }
-        }
+    header h2 {
+      font-size: 1.2rem;
+      color: #0ff;
+      opacity: 0.8;
+    }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
+    /* Hero Section */
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
 
-        /* Stats panel */
-        .stats-panel {
-            position: fixed;
-            top: 70px;
-            right: -300px;
-            width: 300px;
-            height: 600px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: -8px -8px 32px var(--neon-blue);
-        }
+    .hero h1 {
+      font-size: 3rem;
+      color: #0ff;
+      text-shadow: 0 0 20px #0ff;
+    }
 
-        .stats-card {
-            width: 1fr;
-            height: 1fr;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
+    .hero p {
+      font-size: 1.5rem;
+      color: #0ff;
+      opacity: 0.8;
+    }
 
-        /* Elements */
-        .matrix-line {
-            position: absolute;
-            width: 100%;
-            height: 3px;
-            background-color: var(--cyber-green);
-            opacity: 0.2;
-        }
+    /* Hexagonal Hive Core */
+    .hive-core {
+      position: relative;
+      width: 200px;
+      height: 230px;
+      background: #001;
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      animation: pulse 3s infinite;
+    }
 
-        .neon-button {
-            background: var(--neon-blue);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    .hive-core::before {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: 190px;
+      height: 220px;
+      background: #002;
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      animation: pulse 2s infinite;
+    }
 
-        .neon-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px var(--neon-blue);
-        }
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+    }
 
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    /* Stats Panel */
+    .stats-panel {
+      display: flex;
+      justify-content: space-around;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      border-top: 1px solid #0ff;
+    }
 
-        .modal-content {
-            position: relative;
-            background: white;
-            max-width: 500px;
-            margin: 20px auto;
-            padding: 20px;
-            border-radius: 10px;
-        }
+    .stats-card {
+      background: #001;
+      padding: 20px;
+      border: 1px solid #0ff;
+      border-radius: 10px;
+      text-align: center;
+      width: 30%;
+      transition: transform 0.3s ease;
+    }
 
-        /* Hover effects */
-        .hover-scale {
-            transition: transform 0.3s ease;
-        }
+    .stats-card:hover {
+      transform: scale(1.05);
+    }
 
-        .neon-button:hover {
-            transform: scale(1.1);
-        }
+    .stats-card h3 {
+      font-size: 1.5rem;
+      color: #0ff;
+    }
 
-        /* Mobile responsiveness */
-        @media (max-width: 768px) {
-            .stats-panel {
-                top: -20px;
-                right: -100px;
-                width: 90%;
-                height: 40vh;
-            }
+    .stats-card p {
+      font-size: 1rem;
+      color: #0ff;
+      opacity: 0.8;
+    }
 
-            .matrix-bg {
-                width: 100%;
-                height: auto;
-            }
-        }
-    </style>
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      border-top: 1px solid #0ff;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    footer p {
+      font-size: 0.9rem;
+      color: #0ff;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .stats-panel {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .stats-card {
+        width: 80%;
+        margin-bottom: 20px;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="matrix-bg"></div>
+  <!-- Matrix Background -->
+  <div class="matrix-background">
+    <div class="matrix-lines"></div>
+  </div>
 
-    <!-- Content -->
-    <header>
-        <h1 data-aos="fade-up">Matrix-like Header</h1>
-    </header>
+  <!-- Hidden Quantum Entanglement Visualization -->
+  <div class="quantum-entanglement"></div>
 
-    <section class="hero">
-        <div class="stats-panel">
-            <div class="stats-card" style="width: 50%; height: auto;">
-                <h2>DeepSeek Oracle</h2>
-                <p>Advanced Matrix AI Platform</p>
-            </div>
-            <div class="stats-card" style="width: 30%; height: auto;">
-                <h2>Neural Networks</h2>
-                <p>State-of-the-art machine learning models</p>
-            </div>
-            <div class="stats-card" style="width: 40%; height: auto;">
-                <h2>Natural Language Processing</h2>
-                <p>Advanced text understanding capabilities</p>
-            </div>
-        </div>
-    </section>
+  <!-- Header -->
+  <header>
+    <h1>DeepSeekOracle.com</h1>
+    <h2>Your Gateway to Knowledge</h2>
+  </header>
 
-    <main>
-        <button class="neon-button" onclick="showModal()">Enter Matrix</button>
-    </main>
-
-    <!-- Modal -->
-    <div class="modal-overlay">
-        <div class="modal-content">
-            <h2 data-aos="fade-up">Welcome to Oracle</h2>
-            <p data-aos="fade-up">The future is here. Embrace it wisely.</p>
-            <button class="neon-button" onclick="closeModal()">Close</button>
-        </div>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div>
+      <h1>Welcome to DeepSeekOracle.com</h1>
+      <p>Discover cutting-edge technology and biohuman interfaces</p>
+      <div class="hive-core"></div>
     </div>
+  </section>
 
-    <!-- Animations -->
-    <script>
-        function showModal() {
-            const modal = document.querySelector('.modal-content');
-            if (modal.style.display === 'none') {
-                modal.style.display = 'flex';
-            }
-        }
+  <!-- Stats Panel -->
+  <section class="stats-panel">
+    <div class="stats-card">
+      <h3>CRISPR</h3>
+      <p>Revolutionizing genetic engineering</p>
+    </div>
+    <div class="stats-card">
+      <h3>Nanobots</h3>
+      <p>Transforming healthcare at the molecular level</p>
+    </div>
+    <div class="stats-card">
+      <h3>Quantum</h3>
+      <p>Unlocking the power of quantum computing</p>
+    </div>
+  </section>
 
-        function closeModal() {
-            const modal = document.querySelector('.modal-content');
-            modal.style.display = 'none';
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.querySelector('.modal-content');
-            if (event.target === event && !event.target.closest('.modal-overlay')) {
-                closeModal();
-            }
-        }
-
-        // Smooth scroll for buttons
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Matrix line animation
-        const matrixLines = document.querySelectorAll('.scan-line');
-        matrixLines.forEach(line => {
-            line.style.animation = `scan ${line.style.width}ms infinite`;
-        });
-    </script>
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2023 DeepSeekOracle.com. All rights reserved.</p>
+  </footer>
 </body>
 </html>
