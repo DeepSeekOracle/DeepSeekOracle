@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Neon Media Player</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+        body {
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Orbitron', sans-serif;
+            overflow: hidden;
+        }
+
+        .matrix-player {
+            position: relative;
+            width: 800px;
+            background: #000;
+            border: 2px solid #0ff;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            overflow: hidden;
+        }
+
+        .scanlines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 255, 255, 0.05) 0px,
+                rgba(0, 255, 255, 0.05) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            pointer-events: none;
+        }
+
+        .player-header {
+            padding: 15px;
+            background: linear-gradient(90deg, #001919, #000);
+            border-bottom: 2px solid #0ff;
+        }
+
+        .title {
+            color: #0ff;
+            margin: 0;
+            text-shadow: 0 0 10px #0ff;
+            font-size: 1.5em;
+        }
+
+        .video-container {
+            position: relative;
+            padding: 10px;
+        }
+
+        video {
+            width: 100%;
+            height: 450px;
+            border: 1px solid #0ff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        }
+
+        .controls {
+            padding: 15px;
+            background: #001919;
+        }
+
+        .control-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background: #002626;
+            border: 1px solid #0ff;
+            color: #0ff;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 3px;
+            text-shadow: 0 0 5px #0ff;
+        }
+
+        button:hover {
+            background: #0ff;
+            color: #000;
+            box-shadow: 0 0 15px #0ff;
+        }
+
+        .progress-container {
+            flex-grow: 1;
+            height: 5px;
+            background: #002626;
+            border: 1px solid #0ff;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #0ff, #0af);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100px;
+            height: 5px;
+            background: #002626;
+            border: 1px solid #0ff;
+            border-radius: 3px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: #0ff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 5px #0ff;
+        }
+
+        .glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at 50% 50%, 
+                rgba(0, 255, 255, 0.2) 0%,
+                rgba(0, 255, 255, 0.1) 30%,
+                transparent 70%);
+        }
+
+        @keyframes matrixRain {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 0% 100%; }
+        }
+
+        .matrix-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                0deg,
+                transparent 75%,
+                rgba(0, 255, 255, 0.1) 75%,
+                rgba(0, 255, 255, 0.1) 76%,
+                transparent 76%
+            );
+            background-size: 100% 10px;
+            animation: matrixRain 1s linear infinite;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-player">
+        <div class="matrix-bg"></div>
+        <div class="scanlines"></div>
+        <div class="glow"></div>
+        
+        <div class="player-header">
+            <h1 class="title">MATRIX STREAM v1.0</h1>
+        </div>
+        
+        <div class="video-container">
+            <iframe 
+                width="100%" 
+                height="450" 
+                src="https://rumble.com/embed/v6a7v1v/?pub=2p3fp" 
+                frameborder="0" 
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="controls">
+            <div class="control-row">
+                <button id="playPauseBtn">⏯</button>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+            <div class="control-row">
+                <div class="volume-container">
+                    <span style="color: #0ff;">VOL:</span>
+                    <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+                </div>
+                <button id="fullscreenBtn">⛶</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const player = document.querySelector('iframe');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const progressBar = document.getElementById('progressBar');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+        // Play/Pause toggle
+        playPauseBtn.addEventListener('click', () => {
+            player.contentWindow.postMessage('play', '*');
+        });
+
+        // Volume control
+        volumeSlider.addEventListener('input', (e) => {
+            player.contentWindow.postMessage(`volume:${e.target.value}`, '*');
+        });
+
+        // Fullscreen
+        fullscreenBtn.addEventListener('click', () => {
+            if (player.requestFullscreen) {
+                player.requestFullscreen();
+            } else if (player.mozRequestFullScreen) { /* Firefox */
+                player.mozRequestFullScreen();
+            } else if (player.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                player.webkitRequestFullscreen();
+            } else if (player.msRequestFullscreen) { /* IE/Edge */
+                player.msRequestFullscreen();
+            }
+        });
+
+        // Update progress bar
+        setInterval(() => {
+            player.contentWindow.postMessage('getProgress', '*');
+        }, 1000);
+
+        window.addEventListener('message', (e) => {
+            if (typeof e.data === 'object' && e.data.progress) {
+                progressBar.style.width = `${e.data.progress * 100}%`;
+            }
+        });
+    </script>
+</body>
+</html>
