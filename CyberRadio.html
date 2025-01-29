@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Matrix Neon Music Player</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
+        body {
+            background: #000;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .player-container {
+            position: relative;
+            background: rgba(0, 20, 30, 0.9);
+            border: 2px solid #0ff;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            width: 350px;
+            overflow: hidden;
+        }
+
+        .holographic-effect {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                #00f7ff 0% 15%,
+                transparent 30% 45%,
+                #00f7ff 60% 75%,
+                transparent 85% 100%
+            );
+            animation: rotate 4s linear infinite;
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        .display {
+            background: rgba(0, 10, 20, 0.9);
+            border: 1px solid #0ff;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .track-info {
+            color: #0ff;
+            text-shadow: 0 0 10px #0ff;
+            font-size: 1.2rem;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .marquee {
+            animation: marquee 10s linear infinite;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        button {
+            background: none;
+            border: 2px solid #0ff;
+            color: #0ff;
+            padding: 10px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        button:hover {
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 20px #0ff;
+            transform: scale(1.1);
+        }
+
+        .progress-container {
+            background: rgba(0, 255, 255, 0.1);
+            height: 4px;
+            border-radius: 2px;
+            margin: 1rem 0;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #0ff;
+            width: 0%;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 10px #0ff;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 255, 255, 0.3);
+            animation: scan 3s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: -2px; }
+            100% { top: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <canvas class="matrix-bg" id="matrixCanvas"></canvas>
+    
+    <div class="player-container">
+        <div class="holographic-effect"></div>
+        <div class="display">
+            <div class="scanline"></div>
+            <div class="track-info" id="trackInfo">
+                <span class="marquee">Initializing System...</span>
+            </div>
+        </div>
+        
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="controls">
+            <button id="prevBtn"><i class="fas fa-step-backward"></i></button>
+            <button id="playBtn"><i class="fas fa-play"></i></button>
+            <button id="nextBtn"><i class="fas fa-step-forward"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // Matrix Background
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
+        const drops = Array(Math.floor(canvas.width / 10)).fill(0);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0f0';
+            
+            drops.forEach((drop, i) => {
+                const char = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(char, i * 10, drop * 10);
+                if (drop * 10 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            });
+        }
+        setInterval(drawMatrix, 50);
+
+        // Music Player
+        const tracks = [
+            { title: 'Cyber Revolution', file: 'https://example.com/track1.mp3' },
+            { title: 'Neon Dreams', file: 'https://example.com/track2.mp3' },
+            { title: 'Digital Frontier', file: 'https://example.com/track3.mp3' }
+        ];
+
+        const audio = new Audio();
+        let currentTrack = 0;
+        let isPlaying = false;
+
+        const trackInfo = document.getElementById('trackInfo');
+        const playBtn = document.getElementById('playBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+
+        function updateTrackInfo() {
+            trackInfo.innerHTML = `<span class="marquee">${tracks[currentTrack].title}</span>`;
+        }
+
+        function playTrack() {
+            audio.src = tracks[currentTrack].file;
+            audio.play();
+            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            isPlaying = true;
+        }
+
+        audio.addEventListener('timeupdate', () => {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = `${progress}%`;
+        });
+
+        progressContainer.addEventListener('click', (e) => {
+            const rect = progressContainer.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = pos * audio.duration;
+        });
+
+        playBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                audio.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+            updateTrackInfo();
+            playTrack();
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            currentTrack = (currentTrack + 1) % tracks.length;
+            updateTrackInfo();
+            playTrack();
+        });
+
+        // Initialize
+        updateTrackInfo();
+    </script>
+</body>
+</html>
