@@ -246,5 +246,204 @@
         }
         setInterval(updateMatrix, 100);
     </script>
+<!-- Minigame -->
+<div class="minigame" id="minigame">
+  <h2>Cyber Clicker 🕹️</h2>
+  <p id="timer">Time: 30</p>
+  <p id="score">Score: 0</p>
+  <p id="high-score">High Score: 0</p>
+  <button id="click-button" onclick="clickScore()">Click Me!</button>
+  <button id="reset-button" onclick="resetGame()">Reset Game</button>
+  <div id="power-up" class="power-up">🚀 +5 Points!</div>
+</div>
+
+<script>
+  // Minigame Script
+  let score = 0;
+  let highScore = 0;
+  let time = 30;
+  let timerInterval;
+  let powerUpActive = false;
+  const minigame = document.getElementById('minigame');
+  const scoreDisplay = document.getElementById('score');
+  const highScoreDisplay = document.getElementById('high-score');
+  const timerDisplay = document.getElementById('timer');
+  const clickButton = document.getElementById('click-button');
+  const powerUp = document.getElementById('power-up');
+
+  // Sound Effects
+  const clickSound = new Audio('https://www.soundjay.com/button/button-3.mp3');
+  const powerUpSound = new Audio('https://www.soundjay.com/button/button-09.mp3');
+  const winSound = new Audio('https://www.soundjay.com/button/button-15.mp3');
+
+  // Start the game
+  function startGame() {
+    score = 0;
+    time = 30;
+    scoreDisplay.textContent = `Score: ${score}`;
+    timerDisplay.textContent = `Time: ${time}`;
+    timerInterval = setInterval(updateTimer, 1000);
+    spawnPowerUp();
+  }
+
+  // Update the timer
+  function updateTimer() {
+    time--;
+    timerDisplay.textContent = `Time: ${time}`;
+    if (time <= 0) {
+      endGame();
+    }
+  }
+
+  // Handle button clicks
+  function clickScore() {
+    score += powerUpActive ? 5 : 1; // Bonus points if power-up is active
+    scoreDisplay.textContent = `Score: ${score}`;
+    clickButton.style.transform = 'scale(0.95)';
+    setTimeout(() => (clickButton.style.transform = 'scale(1)'), 100);
+    clickSound.play();
+
+    if (score > highScore) {
+      highScore = score;
+      highScoreDisplay.textContent = `High Score: ${highScore}`;
+    }
+  }
+
+  // Spawn power-ups randomly
+  function spawnPowerUp() {
+    if (time > 0) {
+      powerUp.style.display = 'block';
+      powerUp.style.left = `${Math.random() * 80 + 10}%`;
+      powerUp.style.top = `${Math.random() * 50 + 20}%`;
+      powerUp.style.animation = 'float 2s infinite';
+
+      setTimeout(() => {
+        powerUp.style.display = 'none';
+        powerUpActive = false;
+        spawnPowerUp();
+      }, 2000); // Power-up lasts for 2 seconds
+    }
+  }
+
+  // Collect power-up
+  powerUp.addEventListener('click', () => {
+    powerUpActive = true;
+    powerUp.style.display = 'none';
+    powerUpSound.play();
+  });
+
+  // End the game
+  function endGame() {
+    clearInterval(timerInterval);
+    alert(`Game Over! Your score: ${score}`);
+    winSound.play();
+    resetGame();
+  }
+
+  // Reset the game
+  function resetGame() {
+    clearInterval(timerInterval);
+    score = 0;
+    time = 30;
+    scoreDisplay.textContent = `Score: ${score}`;
+    timerDisplay.textContent = `Time: ${time}`;
+    powerUp.style.display = 'none';
+    powerUpActive = false;
+    startGame();
+  }
+
+  // Show minigame after 5 seconds
+  setTimeout(() => {
+    minigame.style.display = 'block';
+    startGame();
+  }, 5000);
+</script>
+
+<style>
+  /* Minigame Styling */
+  .minigame {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    border: 2px solid #0ff;
+    border-radius: 10px;
+    display: none;
+    color: #0ff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+  }
+
+  .minigame h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px #0ff;
+  }
+
+  .minigame p {
+    font-size: 1.5rem;
+    margin: 10px 0;
+  }
+
+  #click-button {
+    background: #0ff;
+    color: #000;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px;
+  }
+
+  #click-button:hover {
+    background: #000;
+    color: #0ff;
+    border: 1px solid #0ff;
+  }
+
+  #reset-button {
+    background: #000;
+    color: #0ff;
+    border: 1px solid #0ff;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  #reset-button:hover {
+    background: #0ff;
+    color: #000;
+  }
+
+  .power-up {
+    display: none;
+    position: absolute;
+    background: rgba(0, 255, 255, 0.8);
+    color: #000;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    animation: float 2s infinite;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+</style>
 </body>
 </html>
