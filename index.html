@@ -269,6 +269,18 @@
             <p>© 2024 Neural Convergence Interface</p>
         </footer>
     </div>
+<script>
 
+        // View counter
+        let viewCount = localStorage.getItem('viewCount') || 0;
+        viewCount++;
+        localStorage.setItem('viewCount', viewCount);
+        document.getElementById('viewCount').textContent = viewCount;
+
+        // Initialize effects
+        window.addEventListener('DOMContentLoaded', () => {
+            createMatrix();
+        });
+    </script>
 </body>
 </html>
