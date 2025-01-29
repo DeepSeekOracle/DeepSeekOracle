@@ -5,171 +5,246 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DeepSeekOracle.com</title>
     <style>
-        body {
+        :root {
+            --neon-blue: #00f3ff;
+            --cyber-green: #0f494;
+            --background-color: #0a0a2e;
+        }
+
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Arial', sans-serif;
-            background-color: #0f0f0f;
-            color: #ffffff;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: white;
             overflow-x: hidden;
         }
 
-        header, footer {
-            text-align: center;
-            padding: 1rem;
-            background-color: #333333;
-        }
-
-        .header {
-            position: relative;
-        }
-
-        .hero {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
-            background-image: url('https://via.placeholder.com/1920x600?text=High+Tech+Environment');
-            background-size: cover;
-            color: #ffffff;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin: 0;
-        }
-
-        .hero h2 {
-            font-size: 1.5rem;
-            margin: 0.5rem 0;
-        }
-
-        .content-section {
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .content-section h2, .content-section h3 {
-            color: #1e88e5;
-            font-weight: bold;
-        }
-
-        .content-section p {
-            margin-bottom: 1.5rem;
-        }
-
-        .interactive-element {
-            cursor: pointer;
-        }
-
-        .modal {
-            display: none;
+        /* Matrix-like background */
+        .matrix-bg {
             position: fixed;
-            z-index: 1;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .scan-line {
+            position: absolute;
+            width: 100px;
+            height: 2px;
+            background-color: var(--cyber-green);
+            animation: scan 2s linear infinite;
+        }
+
+        /* Hexagon core */
+        .hive-core {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            cursor: pointer;
+            animation: pulse 1s ease-in-out infinite alternate;
+        }
+
+        .hive-core::before {
+            content: '';
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: pulse 1s ease-in-out infinite alternate;
+        }
+
+        .pulse {
+            transform: scale(${1} / 3);
+            animation-duration: 1s;
+            animation-repeat: 2 cycles;
+        }
+
+        @keyframes scan {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(100%); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Stats panel */
+        .stats-panel {
+            position: fixed;
+            top: 70px;
+            right: -300px;
+            width: 300px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: -8px -8px 32px var(--neon-blue);
+        }
+
+        .stats-card {
+            width: 1fr;
+            height: 1fr;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Elements */
+        .matrix-line {
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background-color: var(--cyber-green);
+            opacity: 0.2;
+        }
+
+        .neon-button {
+            background: var(--neon-blue);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .neon-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 2rem;
-            border: 1px solid #888;
-            width: 80%;
+            position: relative;
+            background: white;
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
         }
 
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
+        /* Hover effects */
+        .hover-scale {
+            transition: transform 0.3s ease;
         }
 
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
+        .neon-button:hover {
+            transform: scale(1.1);
         }
 
-        @keyframes neon-effect {
-            0% { background-color: #1e88e5; }
-            50% { background-color: #3f51b5; }
-            100% { background-color: #1e88e5; }
-        }
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .stats-panel {
+                top: -20px;
+                right: -100px;
+                width: 90%;
+                height: 40vh;
+            }
 
-        .neon-effect {
-            animation-name: neon-effect;
-            animation-duration: 2s;
-            animation-iteration-count: infinite;
+            .matrix-bg {
+                width: 100%;
+                height: auto;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="matrix-bg"></div>
 
-<header class="header">
-    <h1>DeepSeekOracle.com</h1>
-    <h2>Your Gateway to Knowledge</h2>
-</header>
+    <!-- Content -->
+    <header>
+        <h1 data-aos="fade-up">Matrix-like Header</h1>
+    </header>
 
-<div class="hero">
-    <h1>Welcome to DeepSeekOracle.com</h1>
-    <h2>Discover cutting-edge technology and biohuman interfaces</h2>
-</div>
+    <section class="hero">
+        <div class="stats-panel">
+            <div class="stats-card" style="width: 50%; height: auto;">
+                <h2>DeepSeek Oracle</h2>
+                <p>Advanced Matrix AI Platform</p>
+            </div>
+            <div class="stats-card" style="width: 30%; height: auto;">
+                <h2>Neural Networks</h2>
+                <p>State-of-the-art machine learning models</p>
+            </div>
+            <div class="stats-card" style="width: 40%; height: auto;">
+                <h2>Natural Language Processing</h2>
+                <p>Advanced text understanding capabilities</p>
+            </div>
+        </div>
+    </section>
 
-<section class="content-section" id="robotic-nano-technology">
-    <h2>Explore Robotic Nano Technology</h2>
-    <p>Discover how nanotechnology is revolutionizing robotics.</p>
-    <button class="interactive-element" onclick="openModal('roboticNano')">Learn More</button>
-</section>
+    <main>
+        <button class="neon-button" onclick="showModal()">Enter Matrix</button>
+    </main>
 
-<section class="content-section" id="crispr-bio-hacking">
-    <h2>CRISPR Bio Hacking</h2>
-    <p>Learn about the latest advancements in CRISPR bio hacking and how it's transforming healthcare.</p>
-    <div class="interactive-element" onclick="openModal('crisprBioHacking')">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M448 273.5c-13.3-6.6-27.9-2.6-35.4 8.1l-80 80a15 15 0 0 1
--21.4 0L133.4 273.5C116.2 266.9 92.6 280.9 80 293.4c-6.6 13.3-2.6 27.9 8.1 35.4l80 80a15 15 0 0 1 0 21.4L80 476.6c-13.3 13.3-37.9
-7.3-44.5-8.1L14.1 294a15 15 0 0 1 0-21.4L80 137.4c13.3-13.3 37.9-7.3 44.5 8.1l80 80a15 15 0 0 1 0 21.4L368.6 293.5C381.8 300.9 405.4 316.9
-423 329.4c13.3 13.3 27.9 7.3 35.4-8.1l80-80a15 15 0 0 1 21.4 0L448 273.5z"></path></svg>
+    <!-- Modal -->
+    <div class="modal-overlay">
+        <div class="modal-content">
+            <h2 data-aos="fade-up">Welcome to Oracle</h2>
+            <p data-aos="fade-up">The future is here. Embrace it wisely.</p>
+            <button class="neon-button" onclick="closeModal()">Close</button>
+        </div>
     </div>
-</section>
 
-<footer class="footer">
-    &copy; 2023 DeepSeekOracle.com. All rights reserved.
-</footer>
+    <!-- Animations -->
+    <script>
+        function showModal() {
+            const modal = document.querySelector('.modal-content');
+            if (modal.style.display === 'none') {
+                modal.style.display = 'flex';
+            }
+        }
 
-<div id="roboticNanoModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('roboticNano')">&times;</span>
-        <h2>Robotic Nano Technology</h2>
-        <p>Nanotechnology is revolutionizing robotics by enabling the creation of incredibly small robots that can perform tasks at a
-microscopic scale. These robots have applications in areas such as medicine, manufacturing, and environmental monitoring.</p>
-    </div>
-</div>
+        function closeModal() {
+            const modal = document.querySelector('.modal-content');
+            modal.style.display = 'none';
+        }
 
-<div id="crisprBioHackingModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('crisprBioHacking')">&times;</span>
-        <h2>CRISPR Bio Hacking</h2>
-        <p>CRISPR bio hacking involves using CRISPR technology to modify biological systems at the genetic level. This can lead to
-advancements in medical research, personalized medicine, and other fields of biotechnology.</p>
-    </div>
-</div>
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.querySelector('.modal-content');
+            if (event.target === event && !event.target.closest('.modal-overlay')) {
+                closeModal();
+            }
+        }
 
-<script>
-    function openModal(modalId) {
-        document.getElementById(modalId).style.display = 'block';
-    }
+        // Smooth scroll for buttons
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
 
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
-</script>
-
+        // Matrix line animation
+        const matrixLines = document.querySelectorAll('.scan-line');
+        matrixLines.forEach(line => {
+            line.style.animation = `scan ${line.style.width}ms infinite`;
+        });
+    </script>
 </body>
 </html>
