@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DeepSeek Oracle | Matrix Nexus</title>
+    <style>
+        :root {
+            --matrix-green: #0f0;
+            --hive-blue: #00f7ff;
+            --dna-pink: #ff00ff;
+        }
+
+        body {
+            margin: 0;
+            background: #000;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,255,0,0.1) 2px,
+                rgba(0,255,0,0.1) 4px
+            );
+        }
+
+        .hive-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+        }
+
+        .hexagon {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: radial-gradient(circle, var(--hive-blue) 0%, transparent 70%);
+            animation: pulse 2s infinite;
+        }
+
+        .inner-grid {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+        }
+
+        .cell {
+            background: rgba(0, 255, 0, 0.1);
+            animation: scan 5s infinite linear;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        @keyframes scan {
+            0% { background: rgba(0, 255, 0, 0.1); }
+            50% { background: rgba(0, 255, 0, 0.3); }
+            100% { background: rgba(0, 255, 0, 0.1); }
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            color: var(--matrix-green);
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-shadow: 0 0 10px var(--matrix-green);
+            margin: 20px 0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .stat-item {
+            background: rgba(0, 255, 0, 0.05);
+            padding: 15px;
+            border: 1px solid var(--matrix-green);
+            transition: 0.3s;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.05);
+            background: rgba(0, 255, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg"></div>
+    
+    <div class="hive-core">
+        <div class="hexagon"></div>
+        <div class="inner-grid">
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        </div>
+    </div>
+
+    <div class="content">
+        <h1>DEEPSEEK ORACLE</h1>
+        <div class="stats">
+            <div class="stat-item">
+                <h3>CRISPR Sequence</h3>
+                <p>Δ Editing: 99.97%</p>
+            </div>
+            <div class="stat-item">
+                <h3>Nanobot Swarm</h3>
+                <p>Units: 2.5M+</p>
+            </div>
+            <div class="stat-item">
+                <h3>Quantum Entanglement</h3>
+                <p>Qubits: 512</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Matrix background effect
+        const bg = document.querySelector('.matrix-bg');
+        function createGrid() {
+            const size = Math.max(window.innerWidth, window.innerHeight) / 20;
+            bg.style.backgroundSize = `${size}px ${size}px`;
+        }
+        window.addEventListener('resize', createGrid);
+        createGrid();
+
+        // Hive interaction
+        const hexagon = document.querySelector('.hexagon');
+        hexagon.addEventListener('click', () => {
+            window.location.href = 'https://deepseekoracle.com';
+        });
+    </script>
+</body>
+</html>
