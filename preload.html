@@ -3,307 +3,361 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Battle Simulator v3.0</title>
+    <title>DeepSeek Oracle - BioCyber Intelligence</title>
     <style>
-        :root {
-            --hive-blue: #00f7ff;
-            --dna-pink: #ff00ff;
+        @import url('https://fonts.cdnfonts.com/css/matrix-code-nfi');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
         }
 
         body {
-            background: #000;
-            color: white;
-            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #00f7ff;
+            overflow-x: hidden;
         }
 
-        .enemy-type-indicator {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            font-size: 1.2rem;
-            text-shadow: 0 0 10px var(--dna-pink);
-        }
-
-        .cooldown-overlay {
-            position: absolute;
-            background: rgba(0,0,0,0.7);
-            width: 100%;
-            height: 100%;
+        .matrix-bg {
+            position: fixed;
             top: 0;
             left: 0;
-            display: none;
-            border-radius: 4px;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(0deg, 
+                    rgba(0, 15, 31, 0.8) 0%, 
+                    rgba(0, 15, 31, 0.2) 100%),
+                url('data:image/svg+xml,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%23000f1f"/><path d="M50 0L100 50L50 100L0 50Z" fill="%23007c7c" opacity="0.2"/></svg>');
+            z-index: -1;
         }
 
-        .upgrade-menu {
+        .hero h2 {
+            font-family: 'Matrix Code NFI', 'Courier New', monospace;
+            animation: headPulse 2s infinite alternate;
+            text-shadow: 
+                0 0 10px #00f7ff,
+                0 0 20px #00f7ff,
+                0 0 30px #007c7c;
+            position: relative;
+        }
+
+        @keyframes headPulse {
+            0% { transform: scale(1); opacity: 0.9; }
+            100% { transform: scale(1.05); opacity: 1; }
+        }
+
+        .hero p {
+            animation: textFlicker 0.1s infinite alternate;
+            position: relative;
+        }
+
+        @keyframes textFlicker {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        .cyber-glitch {
+            animation: glitch 2s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 100% { 
+                text-shadow: 
+                    2px 2px 0 #007c7c,
+                    -2px -2px 0 #ff00ff;
+            }
+            25% { 
+                text-shadow: 
+                    -3px 1px 0 #007c7c,
+                    3px -1px 0 #ff00ff;
+            }
+            50% { 
+                text-shadow: 
+                    4px -2px 0 #007c7c,
+                    -4px 2px 0 #ff00ff;
+            }
+            75% { 
+                text-shadow: 
+                    -2px 3px 0 #007c7c,
+                    2px -3px 0 #ff00ff;
+            }
+        }
+
+        /* New Holographic Effect */
+        .hologram-overlay {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 247, 255, 0.1) 0px,
+                rgba(0, 247, 255, 0.1) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            pointer-events: none;
+            z-index: 0;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        /* Existing styles remain unchanged below */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 2rem;
-            border: 2px solid var(--hive-blue);
-            z-index: 1000;
-            display: none;
         }
 
-        .skill-buttons {
+        .hero {
+            text-align: center;
+            padding: 5rem 0;
+            border-bottom: 2px solid #00f7ff;
+            position: relative;
+        }
+
+        .neon-text {
+            color: #00f7ff;
+            text-shadow: 0 0 10px #00f7ff,
+                       0 0 20px #00f7ff,
+                       0 0 30px #00f7ff;
+        }
+
+        .matrix-font {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #00f7ff;
+            text-shadow: 0 0 10px #00f7ff,
+                       0 0 20px #00f7ff,
+                       0 0 30px #00f7ff;
+        }
+
+        .dna-animation {
+            position: absolute;
+            width: 300px;
+            height: 500px;
+            background: linear-gradient(90deg, 
+                #00f7ff 0%, 
+                #007c7c 50%, 
+                #00f7ff 100%);
+            opacity: 0.1;
+            animation: dna-flow 10s infinite linear;
+        }
+
+        @keyframes dna-flow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .cyber-card {
+            background: rgba(0, 15, 31, 0.5);
+            border: 1px solid #00f7ff;
+            padding: 2rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(5px);
+            transition: 0.3s;
+        }
+
+        .cyber-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px #00f7ff;
+        }
+
+        .bio-grid {
             display: grid;
-            gap: 10px;
-            padding: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
         }
 
-        .skill-button {
-            background: var(--hive-blue);
-            border: none;
-            padding: 15px 25px;
-            color: black;
+        .cyber-button {
+            background: transparent;
+            border: 2px solid #00f7ff;
+            color: #00f7ff;
+            padding: 1rem 2rem;
             cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+            text-shadow: 0 0 10px #00f7ff,
+                       0 0 20px #00f7ff,
+                       0 0 30px #00f7ff;
         }
 
-        #audio-toggle {
+        .cyber-button:hover {
+            background: #00f7ff;
+            color: #000;
+            text-shadow: none;
+        }
+
+        .view-counter {
             position: fixed;
-            top: 10px;
-            left: 10px;
-            padding: 5px 10px;
-            background: var(--hive-blue);
-            border: none;
-            color: white;
+            top: 1rem;
+            left: 1rem;
+            color: #00f7ff;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px #00f7ff,
+                       0 0 20px #00f7ff,
+                       0 0 30px #00f7ff;
+        }
+
+        /* Music Player Styles */
+        .cyber-audio-player {
+            background: rgba(0, 15, 31, 0.8);
+            border: 2px solid #00f7ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 2rem auto;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            overflow: hidden;
+            box-shadow: 0 0 25px rgba(0, 247, 255, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .cyber-audio-player:hover {
+            transform: translateX(-50%) translateY(-3px);
+            box-shadow: 0 0 40px rgba(0, 247, 255, 0.5);
+        }
+
+        .audio-scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                180deg,
+                transparent 0px,
+                transparent 2px,
+                rgba(0, 247, 255, 0.1) 3px,
+                rgba(0, 247, 255, 0.1) 4px
+            );
+            pointer-events: none;
+            animation: scan 5s linear infinite;
+        }
+
+        .soundcloud-embed {
+            position: relative;
+            z-index: 1;
+            filter: hue-rotate(180deg) contrast(1.2);
+        }
+
+        .soundcloud-credits {
+            margin-top: 15px;
+            padding: 10px;
+            border-top: 1px solid #00f7ff;
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 5px #00f7ff; }
+            100% { text-shadow: 0 0 15px #00f7ff; }
         }
 
         @media (max-width: 768px) {
-            .skill-button {
-                padding: 12px 20px;
-                font-size: 1.1rem;
+            .container {
+                padding: 1rem;
             }
-            #mobile-controls {
-                display: flex;
-                gap: 10px;
-                margin-top: 20px;
+            
+            .hero {
+                padding: 3rem 0;
             }
         }
     </style>
 </head>
 <body>
-    <div class="enemy-type-indicator"></div>
-    <button id="audio-toggle">Toggle Sound</button>
+    <div class="matrix-bg"></div>
+    <div class="hologram-overlay"></div>
+    <div class="view-counter">Views: <span id="viewCount">0</span></div>
+    
+    <div class="container">
+        <nav>
+            <h1 class="cyber-glitch neon-text">DeepSeekOracle.com</h1>
+        </nav>
 
-    <div class="skill-buttons">
-        <button class="skill-button" data-skill="Quantum Strike">Quantum Strike</button>
-        <button class="skill-button" data-skill="Neural Shield">Neural Shield</button>
-    </div>
+        <section class="hero">
+            <div class="dna-animation"></div>
+            <h2 class="neon-text" style="font-size: 3rem; margin-bottom: 1rem;">
+                <span class="cyber-glitch">BioCyber Intelligence Interface</span>
+            </h2>
+            <p>Synergizing Human Cognition with Quantum Bioprocessing</p>
+        </section>
 
-    <div id="mobile-controls" style="display: none;">
-        <button class="skill-button mobile-btn">SKILL 1</button>
-        <button class="skill-button mobile-btn">SKILL 2</button>
-    </div>
+        <div class="bio-grid">
+            <div class="cyber-card">
+                <h3 class="matrix-font">Neural Integration</h3>
+                <p>Advanced neural lace technology for seamless human-AI symbiosis</p>
+                <a href="https://x.com/DeepSeekOracle" target="_blank" rel="noopener noreferrer">
+                    <button class="cyber-button" style="margin-top: 1rem;">Activate</button>
+                </a>
+            </div>
 
-    <div class="upgrade-menu">
-        <h3>Choose Upgrade</h3>
-        <div id="upgrade-options"></div>
+            <div class="cyber-card">
+                <h3 class="matrix-font">Genomic Optimization</h3>
+                <p>CRISPR-enhanced cognitive augmentation protocols</p>
+                <a href="about.html">
+                    <button class="cyber-button" style="margin-top: 1rem;">Enhance</button>
+                </a>
+            </div>
+            
+            <div class="cyber-card">
+                <h3 class="matrix-font">Quantum Biometrics</h3>
+                <p>Entanglement-based biological monitoring systems</p>
+                <a href="initialize.html">
+                    <button class="cyber-button" style="margin-top: 1rem;">Initialize</button>
+                </a>
+            </div>
+        </div>
+
+        <!-- Music Player -->
+        <div class="cyber-audio-player neon-text">
+            <div class="audio-scanline"></div>
+            <div class="soundcloud-embed">
+                <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" 
+                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1085554402&color=%2300f7ff&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+            </div>
+            <div class="soundcloud-credits" style="font-size: 10px; color: #00f7ff; font-family: 'Matrix Code NFI', 'Courier New', monospace;">
+                <a href="https://soundcloud.com/excavationpro" title="Excavationpro" target="_blank" style="color: #00f7ff; text-decoration: none;">
+                    █▓▒░BIOAUDIO STREAM▒░▓█
+                </a> 
+                <span style="margin: 0 5px;">◆</span>
+                <a href="https://soundcloud.com/excavationpro/sets/content-you-can-dig" title="~ Music You Can Dig ~" target="_blank" style="color: #00f7ff; text-decoration: none;">
+                    ░▒▓NEURAL FEED CHANNEL▓▒░
+                </a>
+            </div>
+        </div>
+
+        <footer class="cyber-card">
+            <p>DeepSeek Oracle Systems v2.3.1γ</p>
+            <p>© 2024 Neural Convergence Interface</p>
+        </footer>
     </div>
 
     <script>
-        let gameState = {
-            score: 0,
-            upgrades: [],
-            currentWave: 1,
-            audioEnabled: true,
-            enemyTypes: ['Brute', 'Mage', 'Healer'],
-            critMultiplier: 1
-        };
+        // View counter
+        let viewCount = localStorage.getItem('viewCount') || 0;
+        viewCount++;
+        localStorage.setItem('viewCount', viewCount);
+        document.getElementById('viewCount').textContent = viewCount;
 
-        let battlerHero = {
-            attack: 10,
-            defense: 5,
-            critChance: 0.1
-        };
-
-        let entropyEntity;
-
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        
-        function playSound(frequency, type = 'square') {
-            if(!gameState.audioEnabled) return;
-            
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.type = type;
-            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-            
-            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.3);
-        }
-
-        class Enemy {
-            constructor(type, wave) {
-                this.type = type;
-                this.hp = 50 + wave * 10;
-                this.attack = 8 + wave * 2;
-                this.defense = Math.floor(wave / 5);
-                
-                switch(type) {
-                    case 'Brute':
-                        this.hp *= 1.5;
-                        break;
-                    case 'Mage':
-                        this.attack *= 1.3;
-                        break;
-                    case 'Healer':
-                        this.hp += wave * 5;
-                        break;
-                }
-            }
-        }
-
-        const skillTree = [
-            { 
-                name: 'Quantum Strike', 
-                multiplier: 2,
-                cooldown: 15000,
-                duration: 10000,
-                type: 'damage',
-                cooldownActive: false
-            },
-            { 
-                name: 'Neural Shield', 
-                multiplier: 0.5,
-                cooldown: 20000,
-                duration: 8000,
-                type: 'defense',
-                cooldownActive: false
-            }
-        ];
-
-        function activateSkill(skill) {
-            if(skill.cooldownActive) return;
-            
-            playSound(800, 'sine');
-            
-            switch(skill.type) {
-                case 'damage':
-                    gameState.critMultiplier = skill.multiplier;
-                    break;
-                case 'defense':
-                    battlerHero.defense *= skill.multiplier;
-                    break;
-            }
-            
-            skill.cooldownActive = true;
-            showCooldown(skill);
-            
-            setTimeout(() => {
-                resetSkill(skill);
-            }, skill.duration);
-        }
-
-        function showCooldown(skill) {
-            const btn = document.querySelector(`[data-skill="${skill.name}"]`);
-            const overlay = document.createElement('div');
-            overlay.className = 'cooldown-overlay';
-            btn.appendChild(overlay);
-            
-            let remaining = skill.cooldown;
-            const interval = setInterval(() => {
-                remaining -= 100;
-                overlay.style.display = 'block';
-                overlay.style.height = `${(remaining / skill.cooldown) * 100}%`;
-                if(remaining <= 0) {
-                    clearInterval(interval);
-                    overlay.remove();
-                    skill.cooldownActive = false;
-                }
-            }, 100);
-        }
-
-        function resetSkill(skill) {
-            switch(skill.type) {
-                case 'damage':
-                    gameState.critMultiplier = 1;
-                    break;
-                case 'defense':
-                    battlerHero.defense /= skill.multiplier;
-                    break;
-            }
-        }
-
-        const upgradesList = [
-            { cost: 100, effect: 'attack', value: 5 },
-            { cost: 150, effect: 'defense', value: 3 },
-            { cost: 200, effect: 'critChance', value: 0.05 }
-        ];
-
-        function showUpgrades() {
-            const container = document.getElementById('upgrade-options');
-            container.innerHTML = '';
-            
-            upgradesList.forEach(upgrade => {
-                const btn = document.createElement('button');
-                btn.className = 'skill-button';
-                btn.innerHTML = `
-                    ${upgrade.effect} +${upgrade.value}<br>
-                    <small>Cost: ${upgrade.cost} XP</small>
-                `;
-                btn.onclick = () => purchaseUpgrade(upgrade);
-                container.appendChild(btn);
-            });
-            
-            document.querySelector('.upgrade-menu').style.display = 'block';
-        }
-
-        function purchaseUpgrade(upgrade) {
-            if(gameState.score >= upgrade.cost) {
-                gameState.score -= upgrade.cost;
-                battlerHero[upgrade.effect] += upgrade.value;
-                updateQuantumStats();
-                document.querySelector('.upgrade-menu').style.display = 'none';
-            }
-        }
-
-        function commenceWave() {
-            const enemyType = gameState.enemyTypes[Math.floor(Math.random() * gameState.enemyTypes.length)];
-            entropyEntity = new Enemy(enemyType, gameState.currentWave);
-            document.querySelector('.enemy-type-indicator').textContent = `${enemyType} Enemy`;
-        }
-
-        function updateQuantumStats() {
-            document.getElementById('attack-value').textContent = battlerHero.attack;
-            document.getElementById('defense-value').textContent = battlerHero.defense;
-        }
-
-        function initMobileControls() {
-            if(/Mobi|Android/i.test(navigator.userAgent)) {
-                document.getElementById('mobile-controls').style.display = 'flex';
-                document.querySelectorAll('.mobile-btn').forEach((btn, i) => {
-                    btn.onclick = () => {
-                        const skills = document.querySelectorAll('[data-skill]');
-                        if(skills[i]) skills[i].click();
-                    };
-                });
-            }
-        }
-
-        document.querySelectorAll('[data-skill]').forEach(button => {
-            const skillName = button.dataset.skill;
-            const skill = skillTree.find(s => s.name === skillName);
-            button.addEventListener('click', () => activateSkill(skill));
+        // Initialize effects
+        window.addEventListener('DOMContentLoaded', () => {
+            createMatrix();
         });
-
-        document.getElementById('audio-toggle').addEventListener('click', () => {
-            gameState.audioEnabled = !gameState.audioEnabled;
-        });
-
-        initMobileControls();
-        commenceWave();
     </script>
 </body>
 </html>
