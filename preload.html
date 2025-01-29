@@ -2,276 +2,341 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Quantum Battle Simulator v2.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Battle Simulator v3.0</title>
     <style>
-        /* Existing styles remain unchanged */
-        /* New Additions */
-        .progress-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+        :root {
+            --hive-blue: #00f7ff;
+            --dna-pink: #ff00ff;
+            --matrix-green: #00ff00;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            touch-action: manipulation;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .battle-screen {
+            border: 2px solid var(--hive-blue);
+            padding: 20px;
             margin: 20px 0;
-            padding: 15px;
-            border: 1px solid var(--hive-blue);
-        }
-
-        .skill-button {
-            background: linear-gradient(45deg, #ff00ff, #00f7ff);
-            border: 1px solid var(--dna-pink);
-            color: white;
-            padding: 8px 15px;
-            margin: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-radius: 4px;
-        }
-
-        .flash {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255,0.3);
-            pointer-events: none;
-            opacity: 0;
-            animation: flash 0.3s;
-        }
-
-        @keyframes flash {
-            0% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-
-        .critical-popup {
-            position: absolute;
-            color: #ff0000;
-            font-size: 24px;
-            font-weight: bold;
-            animation: popup 1s;
-            text-shadow: 0 0 10px #ff0000;
-        }
-
-        .powerup-popup {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--hive-blue);
-            color: #000;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            animation: pulse 1s infinite;
+            position: relative;
+            background: rgba(0,0,0,0.8);
         }
 
         .health-bar {
-            border: 2px solid #333;
-            box-shadow: 0 0 10px var(--dna-pink);
+            width: 100%;
+            height: 20px;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
         }
 
         .health-bar-fill {
-            background: linear-gradient(90deg, #ff00ff, #7ec0ee);
+            height: 100%;
+            background: linear-gradient(90deg, var(--dna-pink), var(--hive-blue));
+            transition: width 0.3s;
         }
 
-        @keyframes popup {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-50px) scale(2); opacity: 0; }
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
         }
 
-        @keyframes attack {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
+        .skill-button {
+            background: rgba(0, 247, 255, 0.3);
+            border: 1px solid var(--hive-blue);
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border-radius: 5px;
         }
 
-        .emote-hit {
-            animation: attack 0.3s;
+        .skill-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
+
+        .cooldown-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: rgba(255,0,255,0.5);
+            width: 100%;
+            transition: height 0.3s linear;
+        }
+
+        .upgrade-menu {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.9);
+            padding: 20px;
+            border: 2px solid var(--matrix-green);
+            z-index: 1000;
+        }
+
+        .upgrade-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(0,255,0,0.2);
+            border: 1px solid var(--matrix-green);
+            color: white;
+            cursor: pointer;
+        }
+
+        .enemy-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,0,0,0.3);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .battle-screen {
+                padding: 10px;
+            }
+            
+            button {
+                min-width: 60px;
+                padding: 12px;
+            }
+        }
+
+        /* Existing animations remain */
     </style>
 </head>
 <body>
-    <div class="matrix-bg"></div>
-    <div class="battler-game">
-        <!-- Existing screens remain unchanged -->
-        <!-- Updated Game Screen -->
-        <div id="game-screen" style="display: none;">
-            <h2>WAVE: <span id="wave-count" class="glow-text">1</span></h2>
-            <div class="progress-container">
-                <div class="stat-display">Level: <span id="current-level">1</span></div>
-                <div class="stat-display">XP: <span id="current-xp">0</span>/<span id="next-level-xp">100</span></div>
-                <div class="stat-display">Enemies Defeated: <span id="enemies-defeated">0</span></div>
-                <div class="stat-display">Score: <span id="current-score">0</span></div>
+    <div class="container">
+        <div id="game-screen">
+            <h1>Quantum Battle Simulator</h1>
+            <div class="battle-screen">
+                <div class="enemy-info" id="enemy-type"></div>
+                <div id="wave-display">Wave: <span>1</span></div>
+                <div class="health-bar">
+                    <div class="health-bar-fill" style="width: 100%"></div>
+                </div>
+                <div class="battle-visual">
+                    <span>🤖</span> vs <span id="enemy-emote">👾</span>
+                </div>
+                <div class="skills-container" id="skills-container"></div>
+                <div id="battle-log"></div>
             </div>
-            <div id="skills-container"></div>
-            <!-- Rest of game screen remains -->
+            <div class="stats">
+                <div>Level: <span id="level">1</span></div>
+                <div>Score: <span id="score">0</span></div>
+                <div>Attack: <span id="attack">10</span></div>
+                <div>Defense: <span id="defense">5</span></div>
+            </div>
         </div>
     </div>
 
+    <div class="upgrade-menu" id="upgrade-menu">
+        <h3>Choose Upgrade</h3>
+        <button class="upgrade-button" data-stat="attack" data-cost="50">+5 Attack (50)</button>
+        <button class="upgrade-button" data-stat="defense" data-cost="50">+3 Defense (50)</button>
+        <button class="upgrade-button" data-stat="health" data-cost="75">+50 Health (75)</button>
+        <button class="upgrade-button" id="close-upgrades">Continue Fighting</button>
+    </div>
+
     <script>
-        // Enhanced Game State
-        let gameState = {
-            xp: 0,
-            level: 1,
-            enemiesDefeated: 0,
-            score: 0,
-            nextLevelXP: 100,
-            skills: [],
-            activeBuffs: [],
-            critMultiplier: 1,
-            enemyEmotes: ['👾', '👹', '🤡', '💀', '🐉', '👻', '☠️', '🐲']
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Sound effects
+        const playSound = (frequency, duration) => {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = frequency;
+            gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
+            
+            oscillator.start();
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+            oscillator.stop(audioContext.currentTime + duration);
         };
 
-        // Critical Hit System
-        function calculateDamage(baseDamage) {
-            const critChance = 0.2 + (gameState.level * 0.01);
-            if(Math.random() < critChance) {
-                const critDamage = Math.floor(baseDamage * (2 + (gameState.level * 0.1)));
-                showCriticalPopup(critDamage);
-                return critDamage;
+        let gameState = {
+            level: 1,
+            score: 0,
+            xp: 0,
+            nextLevel: 100,
+            attack: 10,
+            defense: 5,
+            maxHealth: 100,
+            currentHealth: 100,
+            skills: [],
+            activeCooldowns: {},
+            enemiesDefeated: 0
+        };
+
+        const enemyTypes = [
+            {
+                name: "Quantum Drone",
+                emote: "👾",
+                hp: 50,
+                attack: 8,
+                defense: 2,
+                ability: null
+            },
+            {
+                name: "Neural Parasite",
+                emote: "🦠",
+                hp: 30,
+                attack: 15,
+                defense: 1,
+                ability: "lifeSteal"
+            },
+            {
+                name: "Singularity Titan",
+                emote: "🛡️",
+                hp: 150,
+                attack: 5,
+                defense: 10,
+                ability: "damageReflect"
             }
-            return baseDamage;
-        }
-
-        function showCriticalPopup(damage) {
-            const popup = document.createElement('div');
-            popup.className = 'critical-popup';
-            popup.textContent = `CRIT! ${damage}`;
-            popup.style.left = `${Math.random() * 80 + 10}%`;
-            popup.style.top = `${Math.random() * 50 + 25}%`;
-            document.body.appendChild(popup);
-            setTimeout(() => popup.remove(), 1000);
-        }
-
-        // XP and Level System
-        function gainXP(amount) {
-            gameState.xp += amount;
-            gameState.score += amount * 10;
-            if(gameState.xp >= gameState.nextLevelXP) {
-                gameState.level++;
-                gameState.xp -= gameState.nextLevelXP;
-                gameState.nextLevelXP = Math.floor(gameState.nextLevelXP * 1.5);
-                unlockSkill();
-            }
-            updateProgressUI();
-        }
-
-        // Skill System
-        const skillTree = [
-            { level: 2, name: 'Quantum Strike', multiplier: 2 },
-            { level: 5, name: 'Neural Overdrive', multiplier: 3 },
-            { level: 10, name: 'Singularity Impact', multiplier: 5 }
         ];
 
-        function unlockSkill() {
-            const availableSkills = skillTree.filter(skill => 
-                skill.level <= gameState.level && 
-                !gameState.skills.includes(skill.name)
-            );
+        const skillTree = [
+            { 
+                name: "Quantum Strike", 
+                level: 2, 
+                effect: { type: "damage", multiplier: 2 }, 
+                cooldown: 10 
+            },
+            { 
+                name: "Temporal Shield", 
+                level: 5, 
+                effect: { type: "defense", multiplier: 3 }, 
+                cooldown: 15 
+            }
+        ];
+
+        let currentEnemy = null;
+        let battleInterval = null;
+
+        function spawnEnemy() {
+            currentEnemy = {...enemyTypes[Math.floor(Math.random() * enemyTypes.length)]};
+            currentEnemy.hp += gameState.level * 5;
+            currentEnemy.attack += gameState.level;
+            document.getElementById('enemy-emote').textContent = currentEnemy.emote;
+            document.getElementById('enemy-type').textContent = currentEnemy.name;
+            updateHealthBars();
+        }
+
+        function attackEnemy() {
+            if (battleInterval) return;
+
+            playSound(440, 0.1);
+            let damage = Math.max(gameState.attack - currentEnemy.defense, 1);
             
-            availableSkills.forEach(skill => {
-                const skillButton = document.createElement('button');
-                skillButton.className = 'skill-button';
-                skillButton.textContent = `${skill.name} (x${skill.multiplier})`;
-                skillButton.onclick = () => activateSkill(skill);
-                document.getElementById('skills-container').appendChild(skillButton);
-                gameState.skills.push(skill.name);
+            if (Math.random() < 0.2 + (gameState.level * 0.01)) {
+                damage *= 2;
+                showCriticalPopup(damage);
+                playSound(880, 0.2);
+            }
+
+            currentEnemy.hp -= damage;
+            updateHealthBars();
+            
+            if (currentEnemy.hp <= 0) {
+                handleVictory();
+                return;
+            }
+
+            battleInterval = setTimeout(() => enemyAttack(), 1000);
+        }
+
+        function enemyAttack() {
+            let damage = Math.max(currentEnemy.attack - gameState.defense, 1);
+            
+            if (currentEnemy.ability === 'lifeSteal') {
+                currentEnemy.hp += damage;
+            }
+            
+            if (currentEnemy.ability === 'damageReflect') {
+                damage = Math.floor(damage * 0.5);
+            }
+
+            gameState.currentHealth -= damage;
+            updateHealthBars();
+            
+            if (gameState.currentHealth <= 0) {
+                gameOver();
+                return;
+            }
+
+            battleInterval = null;
+        }
+
+        function updateHealthBars() {
+            const playerHealth = document.querySelector('.health-bar-fill');
+            const enemyHealth = document.querySelector('#enemy-health');
+            
+            playerHealth.style.width = `${(gameState.currentHealth / gameState.maxHealth) * 100}%`;
+            if (enemyHealth) {
+                enemyHealth.style.width = `${(currentEnemy.hp / currentEnemy.maxHp) * 100}%`;
+            }
+        }
+
+        function showUpgrades() {
+            const menu = document.getElementById('upgrade-menu');
+            menu.style.display = 'block';
+            
+            document.querySelectorAll('.upgrade-button').forEach(button => {
+                if (button.dataset.stat) {
+                    button.disabled = gameState.score < parseInt(button.dataset.cost);
+                }
             });
         }
 
-        function activateSkill(skill) {
-            gameState.critMultiplier = skill.multiplier;
-            setTimeout(() => {
-                gameState.critMultiplier = 1;
-            }, 10000);
-            showPowerupPopup(skill.name);
-        }
-
-        // Visual Enhancements
-        function showFlash() {
-            const flash = document.createElement('div');
-            flash.className = 'flash';
-            document.body.appendChild(flash);
-            setTimeout(() => flash.remove(), 300);
-        }
-
-        function showPowerupPopup(skillName) {
-            const popup = document.createElement('div');
-            popup.className = 'powerup-popup';
-            popup.textContent = `${skillName} ACTIVE!`;
-            popup.onclick = () => {
-                popup.remove();
-                battlerHero.attack += 10;
-                setTimeout(() => battlerHero.attack -= 10, 5000);
-            };
-            document.body.appendChild(popup);
-            setTimeout(() => popup.remove(), 5000);
-        }
-
-        // Updated Battle Logic
-        function quantumConflict() {
-            const interval = setInterval(() => {
-                showFlash();
-                document.querySelectorAll('.battle-visual span').forEach(e => {
-                    e.classList.add('emote-hit');
-                    setTimeout(() => e.classList.remove('emote-hit'), 300);
-                });
-
-                const heroDamage = calculateDamage(Math.max(
-                    (battlerHero.attack * gameState.critMultiplier) - entropyEntity.defense, 
-                    1
-                ));
-                
-                entropyEntity.hp -= heroDamage;
-                logBattleEvent(`> NEURAL STRIKE: ${heroDamage} DAMAGE`);
-
-                const entityDamage = Math.max(entropyEntity.attack - battlerHero.defense, 1);
-                battlerHero.hp -= entityDamage;
-                logBattleEvent(`> ENTROPY FEEDBACK: ${entityDamage} DAMAGE`);
-
-                updateQuantumStats();
-
-                if(entropyEntity.hp <= 0) {
-                    clearInterval(interval);
-                    handleEnemyDefeat();
-                } else if(battlerHero.hp <= 0) {
-                    clearInterval(interval);
-                    endSimulation();
+        // Initialize game
+        function init() {
+            spawnEnemy();
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', () => playSound(220, 0.05));
+            });
+            
+            document.getElementById('upgrade-menu').addEventListener('click', (e) => {
+                if (e.target.dataset.stat) {
+                    const cost = parseInt(e.target.dataset.cost);
+                    if (gameState.score >= cost) {
+                        gameState[e.target.dataset.stat] += parseInt(e.target.textContent.match(/\+(\d+)/)[1]);
+                        gameState.score -= cost;
+                        updateUI();
+                    }
                 }
-            }, 1000);
+                document.getElementById('upgrade-menu').style.display = 'none';
+            });
         }
 
-        function handleEnemyDefeat() {
-            gameState.enemiesDefeated++;
-            gainXP(3);
-            logBattleEvent("> ENTITY NEUTRALIZED");
-            quantumWave++;
-            accessUpgrades();
-            commenceWave();
-        }
-
-        // Enhanced Enemy System
-        function commenceWave() {
-            const randomEmote = gameState.enemyEmotes[Math.floor(Math.random() * gameState.enemyEmotes.length)];
-            document.querySelector('#game-screen .battle-visual span:last-child').textContent = randomEmote;
-            
-            entropyEntity.hp = 50 + quantumWave * 10;
-            entropyEntity.attack = 8 + quantumWave * 2;
-            entropyEntity.defense = Math.floor(quantumWave / 5);
-            
-            document.getElementById("wave-count").textContent = quantumWave;
-            battleLog.innerHTML = "";
-            quantumConflict();
-        }
-
-        function updateProgressUI() {
-            document.getElementById('current-level').textContent = gameState.level;
-            document.getElementById('current-xp').textContent = gameState.xp;
-            document.getElementById('next-level-xp').textContent = gameState.nextLevelXP;
-            document.getElementById('enemies-defeated').textContent = gameState.enemiesDefeated;
-            document.getElementById('current-score').textContent = gameState.score;
-        }
-
-        // Rest of existing code remains with minor adjustments for new features
+        init();
     </script>
 </body>
 </html>
