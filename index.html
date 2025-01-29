@@ -207,7 +207,7 @@
                        0 0 30px #00f7ff;
         }
 
-        /* Updated Music Player Styles */
+        /* Updated Rumble Player Styles */
         .cyber-audio-player {
             background: rgba(0, 15, 31, 0.8);
             border: 2px solid #00f7ff;
@@ -244,13 +244,13 @@
             animation: scan 5s linear infinite;
         }
 
-        .soundcloud-embed {
+        .rumble-embed {
             position: relative;
             z-index: 1;
             filter: hue-rotate(180deg) contrast(1.2);
         }
 
-        .soundcloud-credits {
+        .rumble-credits {
             margin-top: 15px;
             padding: 10px;
             border-top: 1px solid #00f7ff;
@@ -290,18 +290,13 @@
             </h2>
             <p>Synergizing Human Cognition with Quantum Bioprocessing</p>
             
-            <!-- Moved Music Player Here -->
+            <!-- Rumble Player -->
             <div class="cyber-audio-player neon-text">
                 <div class="audio-scanline"></div>
-                <div class="soundcloud-embed">
-                    <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" 
-                        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1085554402&color=%2300f7ff&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                <div class="rumble-embed">
+                    <div id="rumble_v67zg11"></div>
                 </div>
-                <div class="soundcloud-credits" style="font-size: 10px; color: #00f7ff; font-family: 'Matrix Code NFI', 'Courier New', monospace;">
-                    <a href="https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S?si=NE99D3YRQ3SLoXrn96_--A" title="Excavationpro" target="_blank" style="color: #00f7ff; text-decoration: none;">
-                        █▓▒░BIOAUDIO STREAM▒░▓█
-                    </a> 
-                    <span style="margin: 0 5px;">◆</span>
+                <div class="rumble-credits" style="font-size: 10px; color: #00f7ff; font-family: 'Matrix Code NFI', 'Courier New', monospace;">
                     <a href="https://rumble.com/v6a7v1v-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html?mref=1th29y&mc=2p3fp" title="~ Music You Can Dig ~" target="_blank" style="color: #00f7ff; text-decoration: none;">
                         ░▒▓NEURAL FEED CHANNEL▓▒░
                     </a>
@@ -349,6 +344,25 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             createMatrix();
+        });
+
+        // Rumble Player Initialization
+        !function(r,u,m,b,l,e){
+            r._Rumble=b,r[b]||(r[b]=function(){
+                (r[b]._=r[b]._||[]).push(arguments);
+                if(r[b]._.length==1){
+                    l=u.createElement(m),e=u.getElementsByTagName(m)[0],
+                    l.async=1,
+                    l.src="https://rumble.com/embedJS/u1th29y"+(arguments[1].video?'.'+arguments[1].video:'')+"/?url="+encodeURIComponent(location.href)+"&args="+encodeURIComponent(JSON.stringify([].slice.apply(arguments))),
+                    e.parentNode.insertBefore(l,e)
+                }
+            })
+        }(window, document, "script", "Rumble");
+
+        Rumble("play", {
+            "video":"v67zg11",
+            "div":"rumble_v67zg11",
+            "autoplay":2
         });
     </script>
 </body>
