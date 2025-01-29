@@ -116,22 +116,13 @@
         }
 
         .stat-item {
-            background: rgba(126, 192, 238, 0.05);
             padding: 15px;
-            border: 1px solid var(--matrix-blue);
-            border-image: linear-gradient(45deg, var(--matrix-blue), var(--hive-blue)) 1;
             transition: 0.3s;
-            box-shadow: 0 0 10px rgba(126, 192, 238, 0.2);
-        }
-
-        .stat-item:hover {
-            transform: scale(1.05);
-            background: rgba(126, 192, 238, 0.1);
-            box-shadow: 0 0 20px rgba(126, 192, 238, 0.5);
         }
 
         .stat-item h3, .stat-item p {
-            text-shadow: 0 0 5px var(--matrix-blue), 0 0 10px var(--matrix-blue);
+            text-shadow: 0 0 5px var(--matrix-blue), 0 0 10px var(--matrix-blue), 0 0 20px var(--matrix-blue);
+            margin: 0;
         }
 
         /* Matrix Robot Animation */
@@ -162,16 +153,25 @@
             100% { transform: translateY(100%); opacity: 1; }
         }
 
-        .main-frame-button::before {
-            content: "🤖";
-            font-size: 30px;
-            color: #00f7ff;
-            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff;
+        /* Main Frame Button */
+        .main-frame-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 2.5em;
+            text-decoration: none;
+            color: var(--hive-blue);
+            text-shadow: 0 0 10px var(--hive-blue), 0 0 20px var(--hive-blue);
         }
 
-        .main-frame-button:hover img {
+        .main-frame-button:hover {
             transform: scale(1.1);
-            filter: drop-shadow(0 0 10px var(--hive-blue));
+            text-shadow: 0 0 20px var(--hive-blue), 0 0 40px var(--hive-blue);
         }
     </style>
 </head>
@@ -214,7 +214,7 @@
 
     <!-- Main Frame Button -->
     <a href="https://deepseekoracle.github.io/DeepSeekOracle/" class="main-frame-button">
-        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA100 100IiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCI+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNTAiIGZpbGw9IiMwMGY3ZmYiIC8+CiAgPHBvbHlnb24gcG9pbnRzPSI1MCw1IDkwLDI1IDkwLDc1IDUwLDEwMCAxMCw3NSAxMCwyNSIgZmlsbD0iIzdlYzBlZSIgLz4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSIyMCIgZmlsbD0iI2ZmMDBmZiIgLz4KPC9zdmc+" alt="Robot Icon">
+        🤖
     </a>
 
     <script>
