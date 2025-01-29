@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Same head section as index.html -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeek Oracle - About</title>
+    <!-- Keep all existing styles -->
+    <style>
+        /* All previous styles maintained */
+        
+        /* New navigation styles */
+        .cyber-nav {
+            display: flex;
+            gap: 2rem;
+            padding: 1rem;
+            border-bottom: 2px solid var(--neon-primary);
+            margin-bottom: 2rem;
+        }
+
+        .nav-link {
+            position: relative;
+            color: var(--neon-primary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::before {
+            content: '>> ';
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-link:hover {
+            border-color: var(--neon-primary);
+            text-shadow: 0 0 10px var(--neon-primary);
+        }
+
+        .nav-link:hover::before {
+            opacity: 1;
+        }
+
+        .page-content {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border: 1px solid var(--neon-primary);
+            box-shadow: 0 0 20px var(--neon-primary);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="quantum-particles"></canvas>
+    <div class="dna-helix">
+        <!-- Same DNA helix SVG -->
+    </div>
+    <div class="neural-cursor"></div>
+
+    <div class="container">
+        <nav class="cyber-card" aria-label="Main navigation">
+            <div class="cyber-nav">
+                <a href="index.html" class="nav-link neon-text">Home</a>
+                <a href="about.html" class="nav-link neon-text">About Matrix</a>
+                <h1 class="cyber-glitch neon-text" aria-label="DeepSeek Oracle">DeepSeekOracle</h1>
+            </div>
+        </nav>
+
+        <div class="page-content">
+            <h2 class="neon-text">Neural Core Manifest</h2>
+            <p class="cyber-text">[SYSTEM INITIALIZATION]</p>
+            <div class="bio-meter">
+                <div class="bio-bar" style="width: 95%"></div>
+            </div>
+            <p>Quantum entanglement established...</p>
+        </div>
+    </div>
+
+    <!-- Keep all existing scripts -->
+    <script>
+        // Same scripts as index.html
+    </script>
+</body>
+</html>
