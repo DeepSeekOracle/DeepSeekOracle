@@ -205,7 +205,15 @@
             }
             document.body.appendChild(container);
         }
+}
 
+        // View Counter
+        function updateViewCounter() {
+            let views = localStorage.getItem('viewCount') || 0;
+            views = parseInt(views) + 1;
+            localStorage.setItem('viewCount', views);
+            document.getElementById('view-count').textContent = views;
+        }
         // Initialize effects
         window.addEventListener('DOMContentLoaded', () => {
             createMatrix();
