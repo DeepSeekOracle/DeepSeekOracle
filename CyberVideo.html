@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Neon Matrix Live Stream</title>
+    <title>Matrix Rumble Stream</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
-
+        
         body {
             background: #000;
             margin: 0;
@@ -27,7 +26,7 @@
             opacity: 0.3;
         }
 
-        .stream-container {
+        .rumble-container {
             position: relative;
             background: rgba(0, 20, 30, 0.9);
             border: 2px solid #0ff;
@@ -39,7 +38,7 @@
             overflow: hidden;
         }
 
-        .holographic-effect {
+        .holographic-overlay {
             position: absolute;
             top: -50%;
             left: -50%;
@@ -53,57 +52,31 @@
             );
             animation: rotate 4s linear infinite;
             opacity: 0.15;
-            z-index: -1;
+            z-index: 1;
+            pointer-events: none;
         }
 
-        .stream-display {
+        .rumble-player {
             position: relative;
             border: 1px solid #0ff;
             border-radius: 8px;
             overflow: hidden;
             aspect-ratio: 16/9;
+            background: #000;
         }
 
-        .stream-info {
+        .rumble-player iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .player-status {
             color: #0ff;
             text-shadow: 0 0 10px #0ff;
-            font-size: 1.2rem;
             padding: 1rem;
             text-align: center;
-        }
-
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-
-        .stream-btn {
-            background: none;
-            border: 2px solid #0ff;
-            color: #0ff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-        }
-
-        .stream-btn:hover {
-            background: rgba(0, 255, 255, 0.1);
-            box-shadow: 0 0 20px #0ff;
-            transform: scale(1.05);
-        }
-
-        .scanline {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: rgba(0, 255, 255, 0.3);
-            animation: scan 3s linear infinite;
+            font-size: 1.2rem;
         }
 
         @keyframes rotate {
@@ -111,32 +84,53 @@
             to { transform: rotate(360deg); }
         }
 
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 247, 255, 0.05) 0px,
+                rgba(0, 247, 255, 0.05) 2px,
+                transparent 3px,
+                transparent 5px
+            );
+            animation: scan 3s linear infinite;
+            pointer-events: none;
+        }
+
         @keyframes scan {
-            0% { top: -2px; }
-            100% { top: 100%; }
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .view-counter {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            color: #0ff;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px #0ff;
         }
     </style>
 </head>
 <body>
     <canvas class="matrix-bg" id="matrixCanvas"></canvas>
     
-    <div class="stream-container">
-        <div class="holographic-effect"></div>
-        <div class="stream-display">
+    <div class="rumble-container">
+        <div class="holographic-overlay"></div>
+        <div class="rumble-player">
             <div class="scanline"></div>
             <div id="rumble_v67zg11"></div>
         </div>
-        
-        <div class="stream-info" id="streamStatus">
-            <span class="marquee">CONNECTING TO NEURAL FEED...</span>
-        </div>
-        
-        <div class="controls">
-            <button class="stream-btn" id="fullscreenBtn"><i class="fas fa-expand"></i></button>
-            <button class="stream-btn" id="volumeBtn"><i class="fas fa-volume-up"></i></button>
-            <button class="stream-btn" id="chatBtn"><i class="fas fa-comment-dots"></i></button>
+        <div class="player-status" id="streamStatus">
+            INITIALIZING NEURAL FEED...
         </div>
     </div>
+
+    <div class="view-counter">VIEWERS: <span id="viewCount">0</span></div>
 
     <script>
         // Matrix Background
@@ -145,7 +139,7 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
+        const chars = '01';
         const drops = Array(Math.floor(canvas.width / 10)).fill(0);
 
         function drawMatrix() {
@@ -162,39 +156,36 @@
         }
         setInterval(drawMatrix, 50);
 
-        // Rumble Stream Initialization
-        Rumble("play", {"video":"v67zg11","div":"rumble_v67zg11"});
+        // Rumble Player Initialization
+        !function(r,u,m,b,l,e){
+            r._Rumble=b,r[b]||(r[b]=function(){
+                (r[b]._=r[b]._||[]).push(arguments);
+                if(r[b]._.length==1){
+                    l=u.createElement(m),e=u.getElementsByTagName(m)[0],
+                    l.async=1,
+                    l.src="https://rumble.com/embedJS/u1th29y"+(arguments[1].video?'.'+arguments[1].video:'')+"/?url="+encodeURIComponent(location.href)+"&args="+encodeURIComponent(JSON.stringify([].slice.apply(arguments))),
+                    e.parentNode.insertBefore(l,e)
+                }
+            })
+        }(window, document, "script", "Rumble");
 
-        // Player Controls
-        const streamStatus = document.getElementById('streamStatus');
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
-        const volumeBtn = document.getElementById('volumeBtn');
-        const videoContainer = document.querySelector('.stream-display');
-
-        fullscreenBtn.addEventListener('click', () => {
-            if (!document.fullscreenElement) {
-                videoContainer.requestFullscreen().catch(err => {
-                    streamStatus.textContent = 'FULLSCREEN FAILED: ' + err.message;
-                });
-            } else {
-                document.exitFullscreen();
-            }
+        Rumble("play", {
+            "video":"v67zg11",
+            "div":"rumble_v67zg11",
+            "autoplay":2
         });
 
-        let isMuted = false;
-        volumeBtn.addEventListener('click', () => {
-            isMuted = !isMuted;
-            volumeBtn.innerHTML = isMuted ? 
-                '<i class="fas fa-volume-mute"></i>' : 
-                '<i class="fas fa-volume-up"></i>';
-            // Add actual volume control implementation here
-        });
-
-        // Simulate connection status
-        setTimeout(() => {
-            streamStatus.innerHTML = '<span class="marquee">LIVE FEED: CYBERNETIC REALITY STREAM</span>';
+        // View counter simulation
+        let viewCount = 0;
+        setInterval(() => {
+            viewCount += Math.floor(Math.random() * 5);
+            document.getElementById('viewCount').textContent = viewCount;
         }, 3000);
+
+        // Connection status simulation
+        setTimeout(() => {
+            document.getElementById('streamStatus').textContent = "STREAM CONNECTED ■ LIVE FEED ACTIVE";
+        }, 2000);
     </script>
-    <script>!function(r,u,m,b,l,e){r._Rumble=b,r[b]||(r[b]=function(){(r[b]._=r[b]._||[]).push(arguments);if(r[b]._.length==1){l=u.createElement(m),e=u.getElementsByTagName(m)[0],l.async=1,l.src="https://rumble.com/embedJS/u1th29y"+(arguments[1].video?'.'+arguments[1].video:'')+"/?url="+encodeURIComponent(location.href)+"&args="+encodeURIComponent(JSON.stringify([].slice.apply(arguments))),e.parentNode.insertBefore(l,e)}})}(window, document, "script", "Rumble");</script>
 </body>
 </html>
