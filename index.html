@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DeepSeek Oracle - BioCyber Intelligence</title>
     <style>
+        @import url('https://fonts.cdnfonts.com/css/matrix-code-nfi');
+        
         * {
             margin: 0;
             padding: 0;
@@ -32,21 +34,83 @@
             z-index: -1;
         }
 
+        .hero h2 {
+            font-family: 'Matrix Code NFI', 'Courier New', monospace;
+            animation: headPulse 2s infinite alternate;
+            text-shadow: 
+                0 0 10px #00f7ff,
+                0 0 20px #00f7ff,
+                0 0 30px #007c7c;
+            position: relative;
+        }
+
+        @keyframes headPulse {
+            0% { transform: scale(1); opacity: 0.9; }
+            100% { transform: scale(1.05); opacity: 1; }
+        }
+
+        .hero p {
+            animation: textFlicker 0.1s infinite alternate;
+            position: relative;
+        }
+
+        @keyframes textFlicker {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
         .cyber-glitch {
-            text-shadow: 2px 2px 0 #007c7c,
-                        -2px -2px 0 #ff00ff;
             animation: glitch 2s infinite;
         }
 
         @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
+            0%, 100% { 
+                text-shadow: 
+                    2px 2px 0 #007c7c,
+                    -2px -2px 0 #ff00ff;
+            }
+            25% { 
+                text-shadow: 
+                    -3px 1px 0 #007c7c,
+                    3px -1px 0 #ff00ff;
+            }
+            50% { 
+                text-shadow: 
+                    4px -2px 0 #007c7c,
+                    -4px 2px 0 #ff00ff;
+            }
+            75% { 
+                text-shadow: 
+                    -2px 3px 0 #007c7c,
+                    2px -3px 0 #ff00ff;
+            }
         }
 
+        /* New Holographic Effect */
+        .hologram-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 247, 255, 0.1) 0px,
+                rgba(0, 247, 255, 0.1) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            pointer-events: none;
+            z-index: 0;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        /* Existing styles remain unchanged below */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -134,15 +198,6 @@
             text-shadow: none;
         }
 
-        .matrix-code {
-            position: fixed;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            opacity: 0.1;
-            z-index: -1;
-        }
-
         .view-counter {
             position: fixed;
             top: 1rem;
@@ -167,6 +222,7 @@
 </head>
 <body>
     <div class="matrix-bg"></div>
+    <div class="hologram-overlay"></div>
     <div class="view-counter">Views: <span id="viewCount">0</span></div>
     
     <div class="container">
@@ -215,7 +271,7 @@
     </div>
 
     <script>
-        // Matrix rain effect
+        // Enhanced Matrix rain effect
         function createMatrix() {
             const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             const container = document.createElement('div');
