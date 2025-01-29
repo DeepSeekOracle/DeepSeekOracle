@@ -137,26 +137,11 @@
             100% { transform: translateY(100%); opacity: 1; }
         }
 
-        /* Main Frame Button */
-        .main-frame-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--matrix-blue);
-            color: #000;
-            border: none;
-            padding: 10px 20px;
-            font-family: 'Courier New', monospace;
-            font-size: 1em;
-            cursor: pointer;
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            animation: pulse 2s infinite;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            transition: 0.3s;
+        .main-frame-button::before {
+            content: "🤖";
+            font-size: 30px;
+            color: var(--neon-primary);
+            text-shadow: 0 0 5px var(--neon-primary), 0 0 10px var(--neon-primary);
         }
 
         .main-frame-button:hover {
