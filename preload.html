@@ -235,21 +235,6 @@
         </footer>
     </div>
 
-    <script>
-        // Enhanced Matrix rain effect
-        function createMatrix() {
-            const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            const container = document.createElement('div');
-            container.className = 'matrix-code';
-            
-            for (let i = 0; i < 50; i++) {
-                const element = document.createElement('div');
-                element.style.position = 'absolute';
-                element.style.left = Math.random() * 100 + 'vw';
-                element.style.animation = `matrix-fall ${Math.random() * 5 + 3}s linear infinite`;
-                element.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                element.textContent = chars[Math.floor(Math.random() * chars.length)];
-                container.appendChild(element);
             }
             document.body.appendChild(container);
         }
