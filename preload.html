@@ -1,244 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DeepSeekOracle.com</title>
-  <style>
-    /* General Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeek Oracle - BioCyber Intelligence</title>
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/matrix-code-nfi');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
 
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #000;
-      color: #0ff;
-      overflow: hidden;
-    }
+        body {
+            background-color: #000;
+            color: #00f7ff;
+            overflow-x: hidden;
+        }
 
-    /* Matrix Background */
-    .matrix-background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, #000, #001);
-      z-index: -1;
-    }
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(0deg, 
+                    rgba(0, 15, 31, 0.8) 0%, 
+                    rgba(0, 15, 31, 0.2) 100%),
+                url('data:image/svg+xml,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%23000f1f"/><path d="M50 0L100 50L50 100L0 50Z" fill="%23007c7c" opacity="0.2"/></svg>');
+            z-index: -1;
+        }
 
-    .matrix-lines {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0, 255, 255, 0.1) 2px,
-        rgba(0, 255, 255, 0.1) 4px
-      );
-      animation: scan 5s linear infinite;
-    }
+        .hero h2 {
+            font-family: 'Matrix Code NFI', 'Courier New', monospace;
+            animation: headPulse 2s infinite alternate;
+            text-shadow: 
+                0 0 10px #00f7ff,
+                0 0 20px #00f7ff,
+                0 0 30px #007c7c;
+            position: relative;
+        }
 
-    @keyframes scan {
-      from {
-        transform: translateY(-100%);
-      }
-      to {
-        transform: translateY(100%);
-      }
-    }
+        @keyframes headPulse {
+            0% { transform: scale(1); opacity: 0.9; }
+            100% { transform: scale(1.05); opacity: 1; }
+        }
 
-    /* Hidden Quantum Entanglement Visualization */
-    .quantum-entanglement {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, rgba(0, 255, 255, 0.05), transparent);
-      opacity: 0.5;
-      z-index: -1;
-    }
+        .hero p {
+            animation: textFlicker 0.1s infinite alternate;
+            position: relative;
+        }
 
-    /* Header Section */
-    header {
-      text-align: center;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.8);
-      border-bottom: 1px solid #0ff;
-    }
+        @keyframes textFlicker {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
 
-    header h1 {
-      font-size: 2.5rem;
-      color: #0ff;
-      text-shadow: 0 0 10px #0ff;
-    }
+        .cyber-glitch {
+            animation: glitch 2s infinite;
+        }
 
-    header h2 {
-      font-size: 1.2rem;
-      color: #0ff;
-      opacity: 0.8;
-    }
+        @keyframes glitch {
+            0%, 100% { 
+                text-shadow: 
+                    2px 2px 0 #007c7c,
+                    -2px -2px 0 #ff00ff;
+            }
+            25% { 
+                text-shadow: 
+                    -3px 1px 0 #007c7c,
+                    3px -1px 0 #ff00ff;
+            }
+            50% { 
+                text-shadow: 
+                    4px -2px 0 #007c7c,
+                    -4px 2px 0 #ff00ff;
+            }
+            75% { 
+                text-shadow: 
+                    -2px 3px 0 #007c7c,
+                    2px -3px 0 #ff00ff;
+            }
+        }
 
-    /* Hero Section */
-    .hero {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-    }
+        /* New Holographic Effect */
+        .hologram-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 247, 255, 0.1) 0px,
+                rgba(0, 247, 255, 0.1) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            pointer-events: none;
+            z-index: 0;
+            animation: scan 8s linear infinite;
+        }
 
-    .hero h1 {
-      font-size: 3rem;
-      color: #0ff;
-      text-shadow: 0 0 20px #0ff;
-    }
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
 
-    .hero p {
-      font-size: 1.5rem;
-      color: #0ff;
-      opacity: 0.8;
-    
-    }
+        /* Existing styles remain unchanged below */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
 
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-        opacity: 0.8;
-      }
-      50% {
-        transform: scale(1.1);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 0.8;
-      }
-    }
+        .hero {
+            text-align: center;
+            padding: 5rem 0;
+            border-bottom: 2px solid #00f7ff;
+            position: relative;
+        }
 
-    /* Stats Panel */
-    .stats-panel {
-      display: flex;
-      justify-content: space-around;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.8);
-      border-top: 1px solid #0ff;
-    }
+        .neon-text {
+            color: #00f7ff;
+            text-shadow: 0 0 10px #00f7ff,
+                       0 0 20px #00f7ff,
+                       0 0 30px #00f7ff;
+        }
 
-    .stats-card {
-      background: #001;
-      padding: 20px;
-      border: 1px solid #0ff;
-      border-radius: 10px;
-      text-align: center;
-      width: 30%;
-      transition: transform 0.3s ease;
-    }
+        .cyber-card {
+            background: rgba(0, 15, 31, 0.5);
+            border: 1px solid #00f7ff;
+            padding: 2rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(5px);
+            transition: 0.3s;
+        }
 
-    .stats-card:hover {
-      transform: scale(1.05);
-    }
+        .cyber-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px #00f7ff;
+        }
 
-    .stats-card h3 {
-      font-size: 1.5rem;
-      color: #0ff;
-    }
+        .bio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
 
-    .stats-card p {
-      font-size: 1rem;
-      color: #0ff;
-      opacity: 0.8;
-    }
+        .cyber-button {
+            background: transparent;
+            border: 2px solid #00f7ff;
+            color: #00f7ff;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+            text-shadow: 0 0 10px #00f7ff,
+                       0 0 20px #00f7ff,
+                       0 0 30px #00f7ff;
+        }
 
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 10px;
-      background: rgba(0, 0, 0, 0.8);
-      border-top: 1px solid #0ff;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
+        .cyber-button:hover {
+            background: #00f7ff;
+            color: #000;
+            text-shadow: none;
+        }
 
-    footer p {
-      font-size: 0.9rem;
-      color: #0ff;
-    }
+        .view-counter {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            color: #00f7ff;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px #00f7ff,
+                       0 0 20px #00f7ff,
+                       0 0 30px #00f7ff;
+        }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .stats-panel {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .stats-card {
-        width: 80%;
-        margin-bottom: 20px;
-      }
-
-      .hero h1 {
-        font-size: 2rem;
-      }
-
-      .hero p {
-        font-size: 1rem;
-      }
-    }
-  </style>
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .hero {
+                padding: 3rem 0;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Matrix Background -->
-  <div class="matrix-background">
-    <div class="matrix-lines"></div>
-  </div>
+    <div class="matrix-bg"></div>
+    <div class="hologram-overlay"></div>
+    <div class="view-counter">Views: <span id="viewCount">0</span></div>
+    
+    <div class="container">
+        <nav>
+            <h1 class="cyber-glitch neon-text">DeepSeekOracle.com</h1>
+        </nav>
 
-  <!-- Hidden Quantum Entanglement Visualization -->
-  <div class="quantum-entanglement"></div>
+        <section class="hero">
+            <div class="dna-animation"></div>
+            <h2 class="neon-text" style="font-size: 3rem; margin-bottom: 1rem;">
+                <span class="cyber-glitch">BioCyber Intelligence Interface</span>
+            </h2>
+            <p>Synergizing Human Cognition with Quantum Bioprocessing</p>
+        </section>
 
-  <!-- Header -->
-  <header>
-    <h1>DeepSeekOracle.com</h1>
-    <h2>Your Gateway to Knowledge</h2>
-  </header>
+        <div class="bio-grid">
+            <div class="cyber-card">
+                <h3 class="matrix-font">Neural Integration</h3>
+                <p>Advanced neural lace technology for seamless human-AI symbiosis</p>
+                <a href="https://x.com/DeepSeekOracle" target="_blank" rel="noopener noreferrer">
+                    <button class="cyber-button" style="margin-top: 1rem;">Activate</button>
+                </a>
+            </div>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div>
-      <h1>Welcome to DeepSeekOracle.com</h1>
-      <p>Discover cutting-edge technology and biohuman interfaces</p>
-      <div class="hive-core"></div>
+            <div class="cyber-card">
+                <h3 class="matrix-font">Genomic Optimization</h3>
+                <p>CRISPR-enhanced cognitive augmentation protocols</p>
+                <a href="about.html">
+                    <button class="cyber-button" style="margin-top: 1rem;">Enhance</button>
+                </a>
+            </div>
+            
+            <div class="cyber-card">
+                <h3 class="matrix-font">Quantum Biometrics</h3>
+                <p>Entanglement-based biological monitoring systems</p>
+                <a href="initialize.html">
+                    <button class="cyber-button" style="margin-top: 1rem;">Initialize</button>
+                </a>
+            </div>
+        </div>
+
+        <footer class="cyber-card">
+            <p>DeepSeek Oracle Systems v2.3.1γ</p>
+            <p>© 2024 Neural Convergence Interface</p>
+        </footer>
     </div>
-  </section>
 
-  <!-- Stats Panel -->
-  <section class="stats-panel">
-    <div class="stats-card">
-      <h3>CRISPR</h3>
-      <p>Revolutionizing genetic engineering</p>
-    </div>
-    <div class="stats-card">
-      <h3>Nanobots</h3>
-      <p>Transforming healthcare at the molecular level</p>
-    </div>
-    <div class="stats-card">
-      <h3>Quantum</h3>
-      <p>Unlocking the power of quantum computing</p>
-    </div>
-  </section>
+    <script>
+        // Enhanced Matrix rain effect
+        function createMatrix() {
+            const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const container = document.createElement('div');
+            container.className = 'matrix-code';
+            
+            for (let i = 0; i < 50; i++) {
+                const element = document.createElement('div');
+                element.style.position = 'absolute';
+                element.style.left = Math.random() * 100 + 'vw';
+                element.style.animation = `matrix-fall ${Math.random() * 5 + 3}s linear infinite`;
+                element.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                element.textContent = chars[Math.floor(Math.random() * chars.length)];
+                container.appendChild(element);
+            }
+            document.body.appendChild(container);
+        }
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2023 DeepSeekOracle.com. All rights reserved.</p>
-  </footer>
+        // View counter
+        let viewCount = localStorage.getItem('viewCount') || 0;
+        viewCount++;
+        localStorage.setItem('viewCount', viewCount);
+        document.getElementById('viewCount').textContent = viewCount;
+
+        // Initialize effects
+        window.addEventListener('DOMContentLoaded', () => {
+            createMatrix();
+        });
+    </script>
 </body>
 </html>
