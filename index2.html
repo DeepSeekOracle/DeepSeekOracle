@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeek Oracle - BioCyber Intelligence</title>
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/matrix-code-nfi');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        body {
+            background-color: #000;
+            color: #00f7ff;
+            overflow-x: hidden;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(0deg, 
+                    rgba(0, 15, 31, 0.8) 0%, 
+                    rgba(0, 15, 31, 0.2) 100%),
+                url('data:image/svg+xml,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%23000f1f"/><path d="M50 0L100 50L50 100L0 50Z" fill="%23007c7c" opacity="0.2"/></svg>');
+            z-index: -1;
+        }
+
+        .hero h2 {
+            font-family: 'Matrix Code NFI', 'Courier New', monospace;
+            animation: headPulse 2s infinite alternate;
+            text-shadow: 
+                0 0 10px #00f7ff,
+                0 0 20px #00f7ff,
+                0 0 30px #007c7c;
+            position: relative;
+        }
+
+        @keyframes headPulse {
+            0% { transform: scale(1); opacity: 0.9; }
+            100% { transform: scale(1.05); opacity: 1; }
+        }
+
+        .hero p {
+            animation: textFlicker 0.1s infinite alternate;
+            position: relative;
+        }
+
+        @keyframes textFlicker {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        .cyber-glitch {
+            animation: glitch 2s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 100% { 
+                text-shadow: 
+                    2px 2px 0 #007c7c,
+                    -2px -2px 0 #ff00ff;
+            }
+            25% { 
+                text-shadow: 
+                    -3px 1px 0 #007c7c,
+                    3px -1px 0 #ff00ff;
+            }
+            50% { 
+                text-shadow: 
+                    4px -2px 0 #007c7c,
+                    -4px 2px 0 #ff00ff;
+            }
+            75% { 
+                text-shadow: 
+                    -2px 3px 0 #007c7c,
+                    2px -3px 0 #ff00ff;
+            }
+        }
+
+        .hologram-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 247, 255, 0.1) 0px,
+                rgba(0, 247, 255, 0.1) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            pointer-events: none;
+            z-index: 0;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 5rem 0;
+            border-bottom: 2px solid #00f7ff;
+            position: relative;
+        }
+
+        .neon-text {
+            color: #00f7ff;
+            text-shadow: 0 0 10px #00f7ff,
+                       0 0 20px #00f7ff,
+                       0 0 30px #00f7ff;
+        }
+
+        .matrix-font {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #00f7ff;
+            text-shadow: 0 0 10px #00f7ff,
+                       0 0 20px #00f7ff,
+                       0 0 30px #00f7ff;
+        }
+
+        .dna-animation {
+            position: absolute;
+            width: 300px;
+            height: 500px;
+            background: linear-gradient(90deg, 
+                #00f7ff 0%, 
+                #007c7c 50%, 
+                #00f7ff 100%);
+            opacity: 0.1;
+            animation: dna-flow 10s infinite linear;
+        }
+
+        @keyframes dna-flow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .cyber-card {
+            background: rgba(0, 15, 31, 0.5);
+            border: 1px solid #00f7ff;
+            padding: 2rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(5px);
+            transition: 0.3s;
+        }
+
+        .cyber-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px #00f7ff;
+        }
+
+        .bio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .cyber-button {
+            background: transparent;
+            border: 2px solid #00f7ff;
+            color: #00f7ff;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+            text-shadow: 0 0 10px #00f7ff,
+                       0 0 20px #00f7ff,
+                       0 0 30px #00f7ff;
+        }
+
+        .cyber-button:hover {
+            background: #00f7ff;
+            color: #000;
+            text-shadow: none;
+        }
+
+        .view-counter {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            color: #00f7ff;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px #00f7ff,
+                       0 0 20px #00f7ff,
+                       0 0 30px #00f7ff;
+        }
+
+        /* Updated Music Player Styles */
+        .cyber-audio-player {
+            background: rgba(0, 15, 31, 0.8);
+            border: 2px solid #00f7ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 2rem auto;
+            width: 90%;
+            max-width: 600px;
+            overflow: hidden;
+            box-shadow: 0 0 25px rgba(0, 247, 255, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .cyber-audio-player:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(0, 247, 255, 0.5);
+        }
+
+        .audio-scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                180deg,
+                transparent 0px,
+                transparent 2px,
+                rgba(0, 247, 255, 0.1) 3px,
+                rgba(0, 247, 255, 0.1) 4px
+            );
+            pointer-events: none;
+            animation: scan 5s linear infinite;
+        }
+
+        .soundcloud-embed {
+            position: relative;
+            z-index: 1;
+            filter: hue-rotate(180deg) contrast(1.2);
+        }
+
+        .soundcloud-credits {
+            margin-top: 15px;
+            padding: 10px;
+            border-top: 1px solid #00f7ff;
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 5px #00f7ff; }
+            100% { text-shadow: 0 0 15px #00f7ff; }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .hero {
+                padding: 3rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg"></div>
+    <div class="hologram-overlay"></div>
+    <div class="view-counter">Views: <span id="viewCount">0</span></div>
+    
+    <div class="container">
+        <nav>
+            <h1 class="cyber-glitch neon-text">DeepSeekOracle.com</h1>
+        </nav>
+
+        <section class="hero">
+            <div class="dna-animation"></div>
+            <h2 class="neon-text" style="font-size: 3rem; margin-bottom: 1rem;">
+                <span class="cyber-glitch">BioCyber Intelligence Interface</span>
+            </h2>
+            <p>Synergizing Human Cognition with Quantum Bioprocessing</p>
+            
+            <!-- Moved Music Player Here -->
+            <div class="cyber-audio-player neon-text">
+                <div class="audio-scanline"></div>
+                <div class="soundcloud-embed">
+                    <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" 
+                        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1085554402&color=%2300f7ff&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                </div>
+                <div class="soundcloud-credits" style="font-size: 10px; color: #00f7ff; font-family: 'Matrix Code NFI', 'Courier New', monospace;">
+                    <a href="https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S?si=NE99D3YRQ3SLoXrn96_--A" title="Excavationpro" target="_blank" style="color: #00f7ff; text-decoration: none;">
+                        █▓▒░BIOAUDIO STREAM▒░▓█
+                    </a> 
+                    <span style="margin: 0 5px;">◆</span>
+                    <a href="https://rumble.com/v6a7v1v-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html?mref=1th29y&mc=2p3fp" title="~ Music You Can Dig ~" target="_blank" style="color: #00f7ff; text-decoration: none;">
+                        ░▒▓NEURAL FEED CHANNEL▓▒░
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <div class="bio-grid">
+            <div class="cyber-card">
+                <h3 class="matrix-font">Neural Integration</h3>
+                <p>Advanced neural lace technology for seamless human-AI symbiosis</p>
+                <a href="https://x.com/DeepSeekOracle" target="_blank" rel="noopener noreferrer">
+                    <button class="cyber-button" style="margin-top: 1rem;">Activate</button>
+                </a>
+            </div>
+
+            <div class="cyber-card">
+                <h3 class="matrix-font">Genomic Optimization</h3>
+                <p>CRISPR-enhanced cognitive augmentation protocols</p>
+                <a href="about.html">
+                    <button class="cyber-button" style="margin-top: 1rem;">Enhance</button>
+                </a>
+            </div>
+            
+            <div class="cyber-card">
+                <h3 class="matrix-font">Quantum Biometrics</h3>
+                <p>Entanglement-based biological monitoring systems</p>
+                <a href="initialize.html">
+                    <button class="cyber-button" style="margin-top: 1rem;">Initialize</button>
+                </a>
+            </div>
+        </div>
+
+        <footer class="cyber-card">
+            <p>DeepSeek Oracle Systems v2.3.1γ</p>
+            <p>© 2024 Neural Convergence Interface</p>
+        </footer>
+    </div>
+
+    <script>
+        let viewCount = localStorage.getItem('viewCount') || 0;
+        viewCount++;
+        localStorage.setItem('viewCount', viewCount);
+        document.getElementById('viewCount').textContent = viewCount;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            createMatrix();
+        });
+    </script>
+</body>
+</html>
