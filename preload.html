@@ -119,24 +119,34 @@
         localStorage.setItem('viewCount', viewCount);
         document.getElementById('viewCount').textContent = viewCount;
 
-        // ▼▼▼ Added Loader Script ▼▼▼
-        window.addEventListener('load', () => {
-            const loader = document.querySelector('.loader');
-            const percent = document.getElementById('loadPercent');
-            let progress = 0;
-            
-            const counter = setInterval(() => {
-                progress += Math.floor(Math.random() * 15);
-                if(progress >= 100) {
-                    clearInterval(counter);
-                    percent.textContent = 100;
-                    loader.style.opacity = '0';
-                    setTimeout(() => loader.remove(), 1000);
-                } else {
-                    percent.textContent = progress;
-                }
-            }, 150);
-        });
+        // ▼▼▼ Updated Loader Script ▼▼▼
+window.addEventListener('load', () => {
+    const loader = document.querySelector('.loader');
+    const percent = document.getElementById('loadPercent');
+    const startTime = Date.now();
+    const duration = 2000; // 2 seconds
+
+    const updateProgress = () => {
+        const elapsed = Date.now() - startTime;
+        progress = Math.min((elapsed / duration) * 100, 100);
+        percent.textContent = Math.floor(progress);
+
+        if (progress < 100) {
+            requestAnimationFrame(updateProgress);
+        } else {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.remove(), 1000);
+        }
+    };
+
+    // Force minimum 2 second display even if page loads faster
+    Promise.all([
+        new Promise(resolve => setTimeout(resolve, duration)),
+        new Promise(resolve => window.addEventListener('load', resolve))
+    ]).then(() => {
+        requestAnimationFrame(updateProgress);
+    });
+});
 
         // Existing Rumble Player Initialization
         !function(r,u,m,b,l,e){
