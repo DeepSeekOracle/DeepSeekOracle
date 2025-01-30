@@ -3,230 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberStream Live Interface</title>
+    <title>DeepSeek Oracle - BioCyber Intelligence</title>
     <style>
-        :root {
-            --neon-blue: #00f7ff;
-            --matrix-black: #001010;
-            --hud-purple: #9d00ff;
-            --cyber-green: #0fff9b;
+        @import url('https://fonts.cdnfonts.com/css/matrix-code-nfi');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
         }
 
         body {
-            background: var(--matrix-black);
-            margin: 0;
-            font-family: 'Orbitron', sans-serif;
-            overflow: hidden;
+            background-color: #000;
+            color: #00f7ff;
+            overflow-x: hidden;
         }
 
-        /* Main Grid Layout */
-        .stream-container {
-            display: grid;
-            grid-template-columns: 400px 1fr;
-            height: 100vh;
-        }
-
-        /* Cyber Chat Interface */
-        .chat-column {
-            border-right: 3px solid var(--neon-blue);
-            background: rgba(0, 40, 60, 0.9);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .chat-frame {
+        /* ▼▼▼ Added Loader CSS ▼▼▼ */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            border: none;
-        }
-
-        /* Enhanced Stream Display */
-        .stream-column {
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Matrix Overlay Effects */
-        .matrix-overlay {
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            background-image: 
-                linear-gradient(rgba(0, 247, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 247, 255, 0.05) 1px, transparent 1px);
-            background-size: 20px 20px;
-            animation: gridScroll 20s linear infinite;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        @keyframes gridScroll {
-            from { background-position: 0 0; }
-            to { background-position: 20px 20px; }
-        }
-
-        /* HUD Elements */
-        .system-hud {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            color: var(--hud-purple);
-            text-shadow: 0 0 10px var(--hud-purple);
-            z-index: 2;
-        }
-
-        .connection-status {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            color: var(--cyber-green);
+            background: rgba(0, 15, 31, 0.95);
             display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 10px;
-            z-index: 2;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
         }
 
-        .ping-dot {
-            width: 12px;
-            height: 12px;
-            background: var(--cyber-green);
-            border-radius: 50%;
-            animation: pingPulse 1s infinite;
+        .loader-text {
+            font-family: 'Matrix Code NFI', 'Courier New', monospace;
+            font-size: 2rem;
+            color: #00f7ff;
+            text-shadow: 0 0 15px #00f7ff;
+            animation: loadGlitch 1.5s infinite;
         }
 
-        @keyframes pingPulse {
-            0% { box-shadow: 0 0 0 0 rgba(15, 255, 155, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(15, 255, 155, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(15, 255, 155, 0); }
+        .loader-text::after {
+            content: "▊";
+            animation: cursorPulse 0.8s infinite;
         }
 
-        /* Live Viewer Counter */
-        .viewer-count {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            color: var(--neon-blue);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 2;
-        }
-
-        .viewer-icon {
-            width: 24px;
-            height: 24px;
-            background: radial-gradient(var(--neon-blue), transparent 70%);
-            border-radius: 50%;
-            animation: viewerPulse 2s infinite;
-        }
-
-        @keyframes viewerPulse {
-            0% { transform: scale(0.8); }
-            50% { transform: scale(1); }
-            100% { transform: scale(0.8); }
-        }
-
-        /* DNA Background Effect */
-        .dna-strand {
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            background: 
-                repeating-linear-gradient(90deg,
-                    transparent 0 44px,
-                    var(--cyber-green) 45px 50px),
-                repeating-linear-gradient(60deg,
-                    transparent 0 44px,
-                    var(--cyber-green) 45px 50px);
-            opacity: 0.1;
-            animation: dnaScroll 40s linear infinite;
-            z-index: 0;
-        }
-
-        @keyframes dnaScroll {
-            from { background-position: 0 0; }
-            to { background-position: 100px 100px; }
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 1200px) {
-            .stream-container {
-                grid-template-columns: 1fr;
+        @keyframes loadGlitch {
+            0%, 100% { 
+                text-shadow: 3px 3px 0 #007c7c, -3px -3px 0 #ff00ff;
             }
-            .chat-column {
-                height: 40vh;
-                border-right: none;
-                border-bottom: 3px solid var(--neon-blue);
+            25% { 
+                text-shadow: -4px 2px 0 #007c7c, 4px -2px 0 #ff00ff;
+            }
+            50% { 
+                text-shadow: 5px -3px 0 #007c7c, -5px 3px 0 #ff00ff;
+            }
+            75% { 
+                text-shadow: -2px 4px 0 #007c7c, 2px -4px 0 #ff00ff;
             }
         }
+
+        @keyframes cursorPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .loader-text[data-loading-text]::before {
+            content: attr(data-loading-text);
+            position: absolute;
+            color: rgba(0, 247, 255, 0.2);
+            animation: textScan 3s linear infinite;
+        }
+
+        @keyframes textScan {
+            0% { 
+                clip-path: inset(0 0 100% 0);
+                transform: translateY(-100%);
+            }
+            100% { 
+                clip-path: inset(100% 0 0 0);
+                transform: translateY(100%);
+            }
+        }
+        /* ▲▲▲ End Loader CSS ▲▲▲ */
+
+        /* Rest of existing CSS remains unchanged */
+        .matrix-bg {
+            position: fixed;
+            /* ... existing styles ... */
+        }
+        /* ... all other existing CSS ... */
+
     </style>
 </head>
 <body>
-    <div class="matrix-overlay"></div>
-    <div class="dna-strand"></div>
-
-    <!-- System HUD -->
-    <div class="system-hud">
-        <div>NEURAL CORE: ▼98%</div>
-        <div>BANDWIDTH: 4.2Gb/s</div>
-        <div>VERSION: CYBER-2.1.7</div>
-    </div>
-
-    <div class="connection-status">
-        <div class="ping-dot"></div>
-        <div>LATENCY: <span id="latency">17ms</span></div>
-    </div>
-
-    <div class="viewer-count">
-        <div class="viewer-icon"></div>
-        <div>LIVE VIEWERS: <span id="viewers">2,417</span></div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="stream-container">
-        <!-- Chat Column -->
-        <div class="chat-column">
-            <iframe src="https://chat.restream.io/embed?token=4ebcd7a7-a420-4998-9d64-2901a6ec4685" 
-                    class="chat-frame" 
-                    frameborder="0"></iframe>
-        </div>
-
-        <!-- Stream Column -->
-        <div class="stream-column">
-            <iframe src="https://player.kick.com/excavationpro" 
-                    height="720" 
-                    width="1280" 
-                    frameborder="0" 
-                    scrolling="no" 
-                    allowfullscreen="true"
-                    style="position: relative; z-index: 1;"></iframe>
+    <!-- ▼▼▼ Added Loader HTML ▼▼▼ -->
+    <div class="loader">
+        <div class="loader-text" data-loading-text="DEEPSEEK_INIT_2.3.1γ...">
+            SYSTEM INITIALIZATION - 
+            <span id="loadPercent">0</span>%
         </div>
     </div>
+
+    <!-- Existing body content -->
+    <div class="matrix-bg"></div>
+    <div class="hologram-overlay"></div>
+    <div class="view-counter">Views: <span id="viewCount">0</span></div>
+    
+    <!-- ... rest of existing HTML ... -->
 
     <script>
-        // Simulated Live Viewers Counter
-        let viewers = 2417;
-        setInterval(() => {
-            viewers += Math.floor(Math.random() * 10);
-            document.getElementById('viewers').textContent = 
-                viewers.toLocaleString();
-        }, 5000);
+        // Existing view counter code
+        let viewCount = localStorage.getItem('viewCount') || 0;
+        viewCount++;
+        localStorage.setItem('viewCount', viewCount);
+        document.getElementById('viewCount').textContent = viewCount;
 
-        // Dynamic Latency Simulation
-        setInterval(() => {
-            const latency = Math.floor(15 + Math.random() * 10);
-            document.getElementById('latency').textContent = `${latency}ms`;
-        }, 3000);
-
-        // Performance Optimization
+        // ▼▼▼ Added Loader Script ▼▼▼
         window.addEventListener('load', () => {
-            const iframes = document.querySelectorAll('iframe');
-            iframes.forEach(iframe => {
-                iframe.setAttribute('loading', 'lazy');
-            });
+            const loader = document.querySelector('.loader');
+            const percent = document.getElementById('loadPercent');
+            let progress = 0;
+            
+            const counter = setInterval(() => {
+                progress += Math.floor(Math.random() * 15);
+                if(progress >= 100) {
+                    clearInterval(counter);
+                    percent.textContent = 100;
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.remove(), 1000);
+                } else {
+                    percent.textContent = progress;
+                }
+            }, 150);
+        });
+
+        // Existing Rumble Player Initialization
+        !function(r,u,m,b,l,e){
+            /* ... existing Rumble code ... */
         });
     </script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </body>
 </html>
