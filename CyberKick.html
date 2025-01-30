@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Matrix Player</title>
+    <style>
+        body {
+            background: #000;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Orbitron', sans-serif;
+            overflow: hidden;
+        }
+
+        .holo-container {
+            position: relative;
+            border: 2px solid #00f7ff;
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(0, 247, 255, 0.3);
+            overflow: hidden;
+            background: 
+                radial-gradient(circle at 50% 50%, 
+                    rgba(0, 40, 60, 0.9) 0%, 
+                    rgba(0, 20, 40, 0.95) 100%);
+        }
+
+        .matrix-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 247, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 247, 255, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+            animation: gridScroll 20s linear infinite;
+        }
+
+        .scanline {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 247, 255, 0.3);
+            animation: scan 4s linear infinite;
+            pointer-events: none;
+        }
+
+        .glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 0 50px rgba(0, 247, 255, 0.2);
+            pointer-events: none;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes gridScroll {
+            from { background-position: 0 0; }
+            to { background-position: 20px 20px; }
+        }
+
+        @keyframes scan {
+            0% { top: -2px; }
+            100% { top: 100%; }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        .status-bar {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0, 40, 60, 0.8);
+            padding: 10px;
+            color: #00f7ff;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+            z-index: 1;
+        }
+
+        .header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 15px;
+            color: #00f7ff;
+            text-align: center;
+            font-size: 24px;
+            letter-spacing: 3px;
+            text-shadow: 0 0 15px rgba(0, 247, 255, 0.7);
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="holo-container">
+        <div class="glow"></div>
+        <div class="matrix-overlay"></div>
+        <div class="scanline"></div>
+        <div class="header">CYBERSTREAM v4.2.0</div>
+        
+        <iframe 
+            src="https://player.kick.com/excavationpro" 
+            height="720" 
+            width="1280" 
+            frameborder="0" 
+            scrolling="no" 
+            allowfullscreen="true"
+            style="position: relative; z-index: 2;">
+        </iframe>
+
+        <div class="status-bar">
+            <span>CONNECTION: STABLE</span>
+            <span>BANDWIDTH: 4.2Gb/s</span>
+            <span>PROTOCOL: HTTPS/3</span>
+        </div>
+    </div>
+
+    <!-- Include Orbitron font -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</body>
+</html>
