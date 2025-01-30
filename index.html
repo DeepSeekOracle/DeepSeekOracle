@@ -538,42 +538,54 @@
 const neuralLinks = [
     {
         text: "░▒▓ RUMBLE VIDEO TRAINING ▓▒░",
-        url: "https://deepseekoracle.github.io/DeepSeekOracle/CyberRumble.html"
+        url: "https://deepseekoracle.github.io/DeepSeekOracle/CyberRumble.html",
+        type: "external", // Add type classification
+        security: "encrypted" // Add security layer
     },
     {
         text: "░▒▓ KICK MUSIC INSTALL ▓▒░",
-        url: "https://deepseekoracle.github.io/DeepSeekOracle/CyberKick.html"
+        url: "https://deepseekoracle.github.io/DeepSeekOracle/CyberKick.html",
+        type: "external",
+        security: "encrypted"
     },
     {
         text: "░▒▓ RUMBLE NEURAL STREAM ▓▒░",
-        url: "https://deepseekoracle.github.io/DeepSeekOracle/CyberVideo.html"
+        url: "https://deepseekoracle.github.io/DeepSeekOracle/CyberVideo.html",
+        type: "external",
+        security: "encrypted"
     }
 ];
 
 function initNeuralPaths() {
-    const core = document.getElementById('cyberLinkCore');
-    
-    neuralLinks.forEach(link => {
-        const node = document.createElement('a');
-        node.className = 'cyber-node';
-        node.href = link.url;
-        node.target = '_blank';
+    try {
+        const core = document.getElementById('cyberLinkCore');
         
-        node.innerHTML = `
-            <span class="link-sigil"></span>
-            <span class="neural-path" data-text="${link.text}">${link.text}</span>
-        `;
-        
-        node.addEventListener('mouseover', () => {
-            node.style.background = 'rgba(0, 247, 255, 0.1)';
+        neuralLinks.forEach(link => {
+            const node = document.createElement('a');
+            node.className = 'cyber-node';
+            node.href = link.url;
+            node.target = '_blank';
+            
+            node.innerHTML = `
+                <span class="link-sigil"></span>
+                <span class="neural-path" data-text="${link.text}">${link.text}</span>
+            `;
+            
+            node.addEventListener('mouseover', () => {
+                node.style.background = 'rgba(0, 247, 255, 0.1)';
+            });
+            
+            node.addEventListener('mouseout', () => {
+                node.style.background = 'rgba(0, 39, 61, 0.3)';
+            });
+            
+            core.appendChild(node);
         });
-        
-        node.addEventListener('mouseout', () => {
-            node.style.background = 'rgba(0, 39, 61, 0.3)';
-        });
-        
-        core.appendChild(node);
-    });
+    } catch (neuroSyncError) {
+        console.error(`Neural path initialization failed: ${neuroSyncError}`);
+        document.getElementById('cyberLinkCore').innerHTML = 
+            '<div class="error-pulse">SYSTEM FAILURE - CONTACT BIOADMIN</div>';
+    }
 }
 
 // Initialize when neural pathways are stable
