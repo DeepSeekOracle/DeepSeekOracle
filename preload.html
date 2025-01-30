@@ -326,90 +326,65 @@
             }
         } /* Fixed unclosed media query */
     </style>
-</head>
-<body>
-    <div class="matrix-bg"></div>
-    <div class="hologram-overlay"></div>
-    <div class="view-counter">Views: <span id="viewCount">0</span></div>
-    
-    <div class="container">
-        <nav>
-            <h1 class="cyber-glitch neon-text">DeepSeekOracle.com</h1>
-        </nav>
+ </section> 
+<script>
+// NEURAL PATH INITIALIZATION
+const neuralLinks = [
+    {
+        text: "░▒▓ RUMBLE VIDEO TRAINING ▓▒░",
+        url: "https://deepseekoracle.github.io/DeepSeekOracle/CyberRumble.html",
+        type: "external", // Add type classification
+        security: "encrypted" // Add security layer
+    },
+    {
+        text: "░▒▓ KICK MUSIC INSTALL ▓▒░",
+        url: "https://deepseekoracle.github.io/DeepSeekOracle/CyberKick.html",
+        type: "external",
+        security: "encrypted"
+    },
+    {
+        text: "░▒▓ RUMBLE NEURAL STREAM ▓▒░",
+        url: "https://deepseekoracle.github.io/DeepSeekOracle/CyberVideo.html",
+        type: "external",
+        security: "encrypted"
+    }
+];
 
-        <section class="hero">
-            <div class="dna-animation"></div>
-            <h2 class="neon-text" style="font-size: 3rem; margin-bottom: 1rem;">
-                <span class="cyber-glitch">BioCyber Intelligence Interface</span>
-            </h2>
-            <p>Synergizing Human Cognition with Quantum Bioprocessing</p>
+function initNeuralPaths() {
+    try {
+        const core = document.getElementById('cyberLinkCore');
+        
+        neuralLinks.forEach(link => {
+            const node = document.createElement('a');
+            node.className = 'cyber-node';
+            node.href = link.url;
+            node.target = '_blank';
             
-            <!-- Chat and Rumble Player Container -->
-            <div class="chat-container">
-                <!-- Chat Window -->
-                <div class="chat-window">
-                    <iframe src="https://chat.restream.io/embed?token=4ebcd7a7-a420-4998-9d64-2901a6ec4685" title="Chat Window"></iframe>
-                </div>
-
-                <!-- Rumble Player -->
-                <div class="cyber-audio-player neon-text">
-                    <div class="audio-scanline"></div>
-                    <div class="rumble-embed">
-                        <div id="rumble_v67zg11"></div>
-                    </div>
-                    <div class="rumble-credits" style="font-size: 10px; color: var(--neon-color); font-family: 'Matrix Code NFI', 'Courier New', monospace;">
-                        <a href="https://rumble.com/v6a7v1v-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html?mref=1th29y&mc=2p3fp" title="~ Music You Can Dig ~" target="_blank" style="color: var(--neon-color); text-decoration: none;">
-                            ░▒▓NEURAL FEED CHANNEL▓▒░
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CYBERNEURAL LINK MATRIX -->
-            <section class="hologram-conduit">
-                <div class="binary-veil"></div>
-                <div class="neural-grid" id="cyberLinkCore">
-                    <!-- Dynamic links injected here -->
-                </div>
-                <div class="data-stream">
-                    <span class="packet">▓▓░░▒▒▓░▒▓░░ INITIALIZING NEURAL PATHS      ▓▓░░▒▒▓░▒▓░░ BOOT BIO DATA      ▓▓░░▒▒▓░▒▓░░ DOWNLOAD PACKETS      ▓▓░░▒▒▓░▒▓░░ ENCRYPTED HACKING      ▓▓░░▒▒▓░▒▓░░ INITIALIZING UPLOAD </span>
-                </div>
-            </section>
-        </section>
-
-        <div class="bio-grid">
-            <div class="cyber-card">
-                <h3 class="matrix-font">Neural Integration</h3>
-                <p>Advanced neural lace technology for seamless human-AI symbiosis</p>
-                <a href="https://x.com/DeepSeekOracle" target="_blank" rel="noopener noreferrer">
-                    <button class="cyber-button" style="margin-top: 1rem;">Activate</button>
-                </a>
-            </div>
-
-            <div class="cyber-card">
-                <h3 class="matrix-font">Genomic Optimization</h3>
-                <p>CRISPR-enhanced cognitive augmentation protocols</p>
-                <a href="about.html">
-                    <button class="cyber-button" style="margin-top: 1rem;">Enhance</button>
-                </a>
-            </div>
+            node.innerHTML = `
+                <span class="link-sigil"></span>
+                <span class="neural-path" data-text="${link.text}">${link.text}</span>
+            `;
             
-            <div class="cyber-card">
-                <h3 class="matrix-font">Quantum Biometrics</h3>
-                <p>Entanglement-based biological monitoring systems</p>
-                <a href="initialize.html">
-                    <button class="cyber-button" style="margin-top: 1rem;">Initialize</button>
-                </a>
-            </div>
-        </div>
+            node.addEventListener('mouseover', () => {
+                node.style.background = 'rgba(0, 247, 255, 0.1)';
+            });
+            
+            node.addEventListener('mouseout', () => {
+                node.style.background = 'rgba(0, 39, 61, 0.3)';
+            });
+            
+            core.appendChild(node);
+        });
+    } catch (neuroSyncError) {
+        console.error(`Neural path initialization failed: ${neuroSyncError}`);
+        document.getElementById('cyberLinkCore').innerHTML = 
+            '<div class="error-pulse">SYSTEM FAILURE - CONTACT BIOADMIN</div>';
+    }
+}
 
-        <footer class="cyber-card">
-            <p>DeepSeek Oracle Systems v2.3.1γ</p>
-            <p><a href="https://deepseekoracle.github.io/DeepSeekOracle/index2.html" style="color: var(--neon-color); text-decoration: none;">© 2024 Neural Convergence Interface</a></p>
-        </footer>
-    </div>
-
-    <script>
+// Initialize when neural pathways are stable
+window.addEventListener('DOMContentLoaded', initNeuralPaths);
+</script>
         // View Counter with Error Handling
         let viewCount = 0;
         try {
