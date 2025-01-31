@@ -6,9 +6,9 @@
     <title>DeepSeek Oracle Matrix</title>
     <style>
         :root {
-            --matrix-green: #0ff02f;
+            --matrix-green: #00f7ff; /* Changed to blue */
             --cyber-blue: #00f7ff;
-            --hive-glow: rgba(0, 255, 127, 0.3);
+            --hive-glow: rgba(0, 247, 255, 0.3); /* Adjusted to blue */
         }
 
         body {
@@ -28,11 +28,11 @@
             background: 
                 linear-gradient(to bottom, 
                     rgba(0, 0, 0, 0.9) 50%, 
-                    rgba(0, 255, 0, 0.1)),
+                    rgba(0, 247, 255, 0.1)), /* Adjusted to blue */
                 repeating-linear-gradient(
                     0deg,
                     transparent 0px,
-                    rgba(0, 255, 0, 0.1) 1px,
+                    rgba(0, 247, 255, 0.1) 1px, /* Adjusted to blue */
                     transparent 2px
                 );
             animation: scan 8s linear infinite;
@@ -109,7 +109,7 @@
                 repeating-linear-gradient(45deg,
                     transparent 0px,
                     transparent 19px,
-                    rgba(0, 255, 127, 0.1) 20px),
+                    rgba(0, 247, 255, 0.1) 20px), /* Adjusted to blue */
                 repeating-linear-gradient(-45deg,
                     transparent 0px,
                     transparent 19px,
@@ -129,8 +129,8 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            width: 300px;
-            height: 150px;
+            width: 600px; /* Doubled size */
+            height: 300px; /* Doubled size */
             border: 1px solid var(--matrix-green);
             border-radius: 8px;
             overflow: hidden;
@@ -198,7 +198,7 @@
                 repeating-linear-gradient(90deg,
                     transparent 0px,
                     transparent 19px,
-                    rgba(0, 255, 127, 0.05) 20px),
+                    rgba(0, 247, 255, 0.05) 20px), /* Adjusted to blue */
                 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><text x="0" y="50" font-family="monospace" font-size="14">0101 1010 0110</text></svg>');
             pointer-events: none;
             z-index: -1;
@@ -227,7 +227,7 @@
     </div>
 
     <div class="crypto-viewer">
-        <iframe src="https://crypto.com/exchange/trade/XRP_USD" style="width:200%;height:200%;border:none;"></iframe>
+        <iframe src="https://crypto.com/exchange/trade/XRP_USD" style="width:100%;height:100%;border:none;"></iframe>
     </div>
 
     <div class="chat-frame">
@@ -246,7 +246,7 @@
         // Future interactive functionality placeholder
         document.querySelectorAll('.stat-card').forEach(card => {
             card.addEventListener('click', () => {
-                card.style.backgroundColor = 'rgba(0, 255, 127, 0.1)';
+                card.style.backgroundColor = 'rgba(0, 247, 255, 0.1)'; /* Adjusted to blue */
                 setTimeout(() => {
                     card.style.backgroundColor = '';
                 }, 500);
