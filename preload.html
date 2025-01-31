@@ -207,22 +207,30 @@
     </style>
 </head>
 <body>
-    <div class="stats-panel">
-    <div class="stats-container" style="padding: 20px; margin-bottom: 20px; background: #f5f5f5; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-        <div class="stat-card" style="margin-bottom: 20px;">
-            <h3>CRISPR</h3>
-            <p>98.7% Accuracy</p>
-        </div>
-        <div class="stat-card" style="margin-bottom: 20px;">
-            <h3>NanoBots</h3>
-            <p>1.4M Active</p>
-        </div>
-        <div class="stat-card" style="margin-bottom: 20px;">
-            <h3>Quantum</h3>
-            <p>72 Qubits</p>
-        </div>
-    </div>
-</div>
+.stats-panel {
+    position: fixed;
+    top: 70px;
+    left: 70px;
+    z-index: 999;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.stat-card h3 {
+    color: #333;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.stat-card p {
+    color: #666;
+}
     <div class="matrix-bg"></div>
     <div class="quantum-viz"></div>
 
