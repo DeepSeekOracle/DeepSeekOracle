@@ -3,421 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepSeek Oracle - BioCyber Intelligence</title>
-    <!-- Open Graph Meta Tags for SEO and Social Media -->
-    <meta property="og:title" content="DeepSeek Oracle - BioCyber Intelligence">
-    <meta property="og:description" content="Synergizing Human Cognition with Quantum Bioprocessing">
-    <meta property="og:image" content="https://example.com/path/to/image.jpg">
-    <!-- Replace @import with <link> for better performance -->
-    <link href="https://fonts.cdnfonts.com/css/matrix-code-nfi" rel="stylesheet">
+    <title>DeepSeek Oracle Matrix</title>
     <style>
-        /* CSS Variables for Repeated Values */
         :root {
-            --neon-color: #00f7ff;
-            --background-color: rgba(0, 15, 31, 0.8);
-            --glitch-color-1: #007c7c;
-            --glitch-color-2: #ff00ff;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Courier New', monospace;
+            --matrix-green: #0ff02f;
+            --cyber-blue: #00f7ff;
+            --hive-glow: rgba(0, 255, 127, 0.3);
         }
 
         body {
-            background-color: #000;
-            color: var(--neon-color);
+            margin: 0;
+            background: #000;
+            font-family: 'Courier New', monospace;
+            color: var(--matrix-green);
             overflow-x: hidden;
+            position: relative;
         }
 
+        /* Matrix background effects */
         .matrix-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             background: 
-                linear-gradient(0deg, 
-                    rgba(0, 15, 31, 0.8) 0%, 
-                    rgba(0, 15, 31, 0.2) 100%),
-                url('data:image/svg+xml,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%23000f1f"/><path d="M50 0L100 50L50 100L0 50Z" fill="%23007c7c" opacity="0.2"/></svg>');
-            z-index: -1;
-        }
-
-        .hero h2 {
-            font-family: 'Matrix Code NFI', 'Courier New', monospace;
-            animation: headPulse 2s infinite alternate;
-            text-shadow: 
-                0 0 10px var(--neon-color),
-                0 0 20px var(--neon-color),
-                0 0 30px var(--glitch-color-1);
-            position: relative;
-        }
-
-        @keyframes headPulse {
-            0% { transform: scale(1); opacity: 0.9; }
-            100% { transform: scale(1.05); opacity: 1; }
-        }
-
-        .hero p {
-            animation: textFlicker 0.1s infinite alternate;
-            position: relative;
-        }
-
-        @keyframes textFlicker {
-            0% { opacity: 0.8; }
-            100% { opacity: 1; }
-        }
-
-        .cyber-glitch {
-            animation: glitch 2s infinite;
-        }
-
-        @keyframes glitch {
-            0%, 100% { 
-                text-shadow: 
-                    2px 2px 0 var(--glitch-color-1),
-                    -2px -2px 0 var(--glitch-color-2);
-            }
-            25% { 
-                text-shadow: 
-                    -3px 1px 0 var(--glitch-color-1),
-                    3px -1px 0 var(--glitch-color-2);
-            }
-            50% { 
-                text-shadow: 
-                    4px -2px 0 var(--glitch-color-1),
-                    -4px 2px 0 var(--glitch-color-2);
-            }
-            75% { 
-                text-shadow: 
-                    -2px 3px 0 var(--glitch-color-1),
-                    2px -3px 0 var(--glitch-color-2);
-            }
-        }
-
-        .hologram-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 247, 255, 0.1) 0px,
-                rgba(0, 247, 255, 0.1) 1px,
-                transparent 1px,
-                transparent 3px
-            );
-            pointer-events: none;
-            z-index: 0;
+                linear-gradient(to bottom, 
+                    rgba(0, 0, 0, 0.9) 50%, 
+                    rgba(0, 255, 0, 0.1)),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent 0px,
+                    rgba(0, 255, 0, 0.1) 1px,
+                    transparent 2px
+                );
             animation: scan 8s linear infinite;
+            z-index: -2;
         }
 
         @keyframes scan {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
+            0% { background-position: 0 100vh; }
+            100% { background-position: 0 0; }
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 5rem 0;
-            border-bottom: 2px solid var(--neon-color);
-            position: relative;
-        }
-
-        .neon-text {
-            color: var(--neon-color);
-            text-shadow: 
-                0 0 10px var(--neon-color),
-                0 0 20px var(--neon-color),
-                0 0 30px var(--neon-color);
-        }
-
-        .matrix-font {
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            color: var(--neon-color);
-            text-shadow: 
-                0 0 10px var(--neon-color),
-                0 0 20px var(--neon-color),
-                0 0 30px var(--neon-color);
-        }
-
-        .dna-animation {
+        /* Hive Core Animation */
+        .hive-core {
             position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             width: 300px;
-            height: 500px;
-            background: linear-gradient(90deg, 
-                var(--neon-color) 0%, 
-                var(--glitch-color-1) 50%, 
-                var(--neon-color) 100%);
-            opacity: 0.1;
-            animation: dna-flow 10s infinite linear;
+            height: 300px;
+            background: 
+                radial-gradient(circle at center, 
+                    var(--hive-glow) 0%, 
+                    transparent 70%),
+                repeating-linear-gradient(
+                    45deg,
+                    transparent 0px,
+                    transparent 10px,
+                    var(--cyber-blue) 10px,
+                    var(--cyber-blue) 11px
+                );
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: hivePulse 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px var(--matrix-green));
         }
 
-        @keyframes dna-flow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes hivePulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
         }
 
-        .cyber-card {
-            background: rgba(0, 15, 31, 0.5);
-            border: 1px solid var(--neon-color);
-            padding: 2rem;
-            margin: 2rem 0;
-            backdrop-filter: blur(5px);
-            transition: 0.3s;
-        }
-
-        .cyber-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px var(--neon-color);
-        }
-
-        .bio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .cyber-button {
-            background: transparent;
-            border: 2px solid var(--neon-color);
-            color: var(--neon-color);
-            padding: 1rem 2rem;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: 0.3s;
-            text-shadow: 
-                0 0 10px var(--neon-color),
-                0 0 20px var(--neon-color),
-                0 0 30px var(--neon-color);
-        }
-
-        .cyber-button:hover {
-            background: var(--neon-color);
-            color: #000;
-            text-shadow: none;
-        }
-
-        .view-counter {
+        /* Stats Panel */
+        .stats-panel {
             position: fixed;
-            top: 1rem;
-            left: 1rem;
-            color: var(--neon-color);
-            font-size: 1.2rem;
-            text-shadow: 
-                0 0 10px var(--neon-color),
-                0 0 20px var(--neon-color),
-                0 0 30px var(--neon-color);
-        }
-
-        /* Rumble Player Styles */
-        .cyber-audio-player {
-            background: var(--background-color);
-            border: 2px solid var(--neon-color);
-            border-radius: 8px;
-            padding: 20px;
-            margin: 2rem auto;
-            width: 90%;
-            max-width: 600px;
-            overflow: hidden;
-            box-shadow: 0 0 25px rgba(0, 247, 255, 0.3);
-            transition: all 0.3s ease;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
             z-index: 1000;
         }
 
-        .cyber-audio-player:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 40px rgba(0, 247, 255, 0.5);
+        .stat-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--matrix-green);
+            padding: 15px;
+            border-radius: 8px;
+            min-width: 120px;
+            transition: transform 0.3s ease;
         }
 
-        .audio-scanline {
-            position: absolute;
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px var(--matrix-green);
+        }
+
+        /* Quantum Visualization */
+        .quantum-viz {
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                180deg,
-                transparent 0px,
-                transparent 2px,
-                rgba(0, 247, 255, 0.1) 3px,
-                rgba(0, 247, 255, 0.1) 4px
-            );
-            pointer-events: none;
-            animation: scan 5s linear infinite;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                repeating-linear-gradient(45deg,
+                    transparent 0px,
+                    transparent 19px,
+                    rgba(0, 255, 127, 0.1) 20px),
+                repeating-linear-gradient(-45deg,
+                    transparent 0px,
+                    transparent 19px,
+                    rgba(0, 127, 255, 0.1) 20px);
+            animation: quantumShift 20s linear infinite;
+            z-index: -1;
+            opacity: 0.3;
         }
 
-        .rumble-embed {
-            position: relative;
-            z-index: 1;
-            filter: hue-rotate(180deg) contrast(1.2);
+        @keyframes quantumShift {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 40px; }
         }
 
-        .rumble-credits {
-            margin-top: 15px;
-            padding: 10px;
-            border-top: 1px solid var(--neon-color);
-            animation: textGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes textGlow {
-            0% { text-shadow: 0 0 5px var(--neon-color); }
-            100% { text-shadow: 0 0 15px var(--neon-color); }
-        }
-
-        /* Chat Container Styles */
-        .chat-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 2rem auto;
-            max-width: 1200px;
-        }
-
-        .chat-window {
-            flex: 1;
-            max-width: 400px;
-            height: 500px;
-            background: var(--background-color);
-            border: 2px solid var(--neon-color);
+        /* Embedded Elements */
+        .crypto-viewer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            height: 150px;
+            border: 1px solid var(--matrix-green);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 0 25px rgba(0, 247, 255, 0.3);
         }
 
-        .chat-window iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: transparent;
-            title: "Chat Window"; /* Accessibility improvement */
+        .chat-frame {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 300px;
+            height: 400px;
+            border: 1px solid var(--matrix-green);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
+        .rumble-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 300px;
+            z-index: 999;
+        }
+
+        .robot-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 2.5em;
+            text-decoration: none;
+            filter: drop-shadow(0 0 5px var(--cyber-blue));
+        }
+
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .hero {
-                padding: 3rem 0;
-            }
-
-            .chat-container {
+            .stats-panel {
                 flex-direction: column;
-                align-items: center;
+                bottom: 80px;
             }
+            
+            .crypto-viewer, .chat-frame {
+                width: 90%;
+                height: 120px;
+                left: 5%;
+                right: 5%;
+            }
+            
+            .rumble-container {
+                width: 90%;
+                height: 200px;
+            }
+        }
 
-            .chat-window {
-                max-width: 100%;
-                height: 300px;
-            }
-        } /* Fixed unclosed media query */
+        /* DNA Strand Effect */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                repeating-linear-gradient(90deg,
+                    transparent 0px,
+                    transparent 19px,
+                    rgba(0, 255, 127, 0.05) 20px),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><text x="0" y="50" font-family="monospace" font-size="14">0101 1010 0110</text></svg>');
+            pointer-events: none;
+            z-index: -1;
+        }
     </style>
- </section> 
-<script>
-// NEURAL PATH INITIALIZATION
-const neuralLinks = [
-    {
-        text: "░▒▓ RUMBLE VIDEO TRAINING ▓▒░",
-        url: "https://deepseekoracle.github.io/DeepSeekOracle/CyberRumble.html",
-        type: "external", // Add type classification
-        security: "encrypted" // Add security layer
-    },
-    {
-        text: "░▒▓ KICK MUSIC INSTALL ▓▒░",
-        url: "https://deepseekoracle.github.io/DeepSeekOracle/CyberKick.html",
-        type: "external",
-        security: "encrypted"
-    },
-    {
-        text: "░▒▓ RUMBLE NEURAL STREAM ▓▒░",
-        url: "https://deepseekoracle.github.io/DeepSeekOracle/CyberVideo.html",
-        type: "external",
-        security: "encrypted"
-    }
-];
+</head>
+<body>
+    <div class="matrix-bg"></div>
+    <div class="quantum-viz"></div>
 
-function initNeuralPaths() {
-    try {
-        const core = document.getElementById('cyberLinkCore');
-        
-        neuralLinks.forEach(link => {
-            const node = document.createElement('a');
-            node.className = 'cyber-node';
-            node.href = link.url;
-            node.target = '_blank';
-            
-            node.innerHTML = `
-                <span class="link-sigil"></span>
-                <span class="neural-path" data-text="${link.text}">${link.text}</span>
-            `;
-            
-            node.addEventListener('mouseover', () => {
-                node.style.background = 'rgba(0, 247, 255, 0.1)';
+    <div class="hive-core"></div>
+
+    <div class="stats-panel">
+        <div class="stat-card">
+            <h3>CRISPR</h3>
+            <p>98.7% Accuracy</p>
+        </div>
+        <div class="stat-card">
+            <h3>NanoBots</h3>
+            <p>1.4M Active</p>
+        </div>
+        <div class="stat-card">
+            <h3>Quantum</h3>
+            <p>72 Qubits</p>
+        </div>
+    </div>
+
+    <div class="crypto-viewer">
+        <iframe src="https://crypto.com/exchange/trade/XRP_USD" style="width:100%;height:100%;border:none;"></iframe>
+    </div>
+
+    <div class="chat-frame">
+        <iframe src="https://chat.restream.io/embed?token=4ebcd7a7-a420-4998-9d64-2901a6ec4685" style="width:100%;height:100%;border:none;"></iframe>
+    </div>
+
+    <div class="rumble-container">
+        <script>!function(r,u,m,b,l,e){r._Rumble=b,r[b]||(r[b]=function(){(r[b]._=r[b]._||[]).push(arguments);if(r[b]._.length==1){l=u.createElement(m),e=u.getElementsByTagName(m)[0],l.async=1,l.src="https://rumble.com/embedJS/u1th29y"+(arguments[1].video?'.'+arguments[1].video:'')+"/?url="+encodeURIComponent(location.href)+"&args="+encodeURIComponent(JSON.stringify([].slice.apply(arguments))),e.parentNode.insertBefore(l,e)}})}(window, document, "script", "Rumble");</script>
+        <div id="rumble_v67zg11"></div>
+        <script>Rumble("play", {"video":"v67zg11","div":"rumble_v67zg11"});</script>
+    </div>
+
+    <a href="http://deepseekoracle.com" class="robot-link" target="_blank">🤖</a>
+
+    <script>
+        // Future interactive functionality placeholder
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.style.backgroundColor = 'rgba(0, 255, 127, 0.1)';
+                setTimeout(() => {
+                    card.style.backgroundColor = '';
+                }, 500);
             });
-            
-            node.addEventListener('mouseout', () => {
-                node.style.background = 'rgba(0, 39, 61, 0.3)';
-            });
-            
-            core.appendChild(node);
         });
-    } catch (neuroSyncError) {
-        console.error(`Neural path initialization failed: ${neuroSyncError}`);
-        document.getElementById('cyberLinkCore').innerHTML = 
-            '<div class="error-pulse">SYSTEM FAILURE - CONTACT BIOADMIN</div>';
-    }
-}
-
-// Initialize when neural pathways are stable
-window.addEventListener('DOMContentLoaded', initNeuralPaths);
-</script>
-        // View Counter with Error Handling
-        let viewCount = 0;
-        try {
-            viewCount = localStorage.getItem('viewCount') || 0;
-            viewCount++;
-            localStorage.setItem('viewCount', viewCount);
-        } catch (e) {
-            console.error("LocalStorage access denied:", e);
-        }
-        document.getElementById('viewCount').textContent = viewCount;
-
-        // Rumble Player Initialization with Error Handling
-        try {
-            !function(r,u,m,b,l,e){
-                r._Rumble=b,r[b]||(r[b]=function(){
-                    (r[b]._=r[b]._||[]).push(arguments);
-                    if(r[b]._.length==1){
-                        l=u.createElement(m),e=u.getElementsByTagName(m)[0],
-                        l.async=1,
-                        l.src="https://rumble.com/embedJS/u1th29y"+(arguments[1].video?'.'+arguments[1].video:'')+"/?url="+encodeURIComponent(location.href)+"&args="+encodeURIComponent(JSON.stringify([].slice.apply(arguments))),
-                        e.parentNode.insertBefore(l,e)
-                    }
-                })
-            }(window, document, "script", "Rumble");
-
-            Rumble("play", {
-                "video":"v67zg11",
-                "div":"rumble_v67zg11",
-                "autoplay":2
-            });
-        } catch (e) {
-            console.error("Rumble player initialization failed:", e);
-        }
     </script>
 </body>
 </html>
