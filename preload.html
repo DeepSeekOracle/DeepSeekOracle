@@ -6,9 +6,9 @@
     <title>DeepSeek Oracle Matrix</title>
     <style>
         :root {
-            --matrix-green: #00f7ff; /* Changed to blue */
+            --matrix-green: #00f7ff;
             --cyber-blue: #00f7ff;
-            --hive-glow: rgba(0, 247, 255, 0.3); /* Adjusted to blue */
+            --hive-glow: rgba(0, 247, 255, 0.3);
         }
 
         body {
@@ -20,7 +20,6 @@
             position: relative;
         }
 
-        /* Matrix background effects */
         .matrix-bg {
             position: fixed;
             width: 100vw;
@@ -28,11 +27,11 @@
             background: 
                 linear-gradient(to bottom, 
                     rgba(0, 0, 0, 0.9) 50%, 
-                    rgba(0, 247, 255, 0.1)), /* Adjusted to blue */
+                    rgba(0, 247, 255, 0.1)),
                 repeating-linear-gradient(
                     0deg,
                     transparent 0px,
-                    rgba(0, 247, 255, 0.1) 1px, /* Adjusted to blue */
+                    rgba(0, 247, 255, 0.1) 1px,
                     transparent 2px
                 );
             animation: scan 8s linear infinite;
@@ -44,7 +43,6 @@
             100% { background-position: 0 0; }
         }
 
-        /* Hive Core Animation */
         .hive-core {
             position: absolute;
             top: 50%;
@@ -73,12 +71,11 @@
             50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
         }
 
-        /* Stats Panel */
+        /* Modified stats panel positioning */
         .stats-panel {
             position: fixed;
             bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 20px;
             display: flex;
             gap: 20px;
             z-index: 1000;
@@ -98,7 +95,6 @@
             box-shadow: 0 0 15px var(--matrix-green);
         }
 
-        /* Quantum Visualization */
         .quantum-viz {
             position: fixed;
             top: 0;
@@ -109,7 +105,7 @@
                 repeating-linear-gradient(45deg,
                     transparent 0px,
                     transparent 19px,
-                    rgba(0, 247, 255, 0.1) 20px), /* Adjusted to blue */
+                    rgba(0, 247, 255, 0.1) 20px),
                 repeating-linear-gradient(-45deg,
                     transparent 0px,
                     transparent 19px,
@@ -124,14 +120,13 @@
             100% { background-position: 40px 40px; }
         }
 
-        /* Embedded Elements */
         .crypto-viewer {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 750px; /* Centered */
-            height: 650px; /* Centered */
+            width: 750px;
+            height: 650px;
             border: 1px solid var(--matrix-green);
             border-radius: 8px;
             overflow: hidden;
@@ -151,8 +146,8 @@
 
         .rumble-container {
             position: fixed;
-            top: 20px; /* Moved to top right */
-            right: 20px; /* Moved to top right */
+            top: 20px;
+            right: 20px;
             width: 400px;
             height: 300px;
             z-index: 999;
@@ -167,11 +162,12 @@
             filter: drop-shadow(0 0 5px var(--cyber-blue));
         }
 
-        /* Mobile Responsive */
         @media (max-width: 768px) {
             .stats-panel {
                 flex-direction: column;
                 bottom: 80px;
+                left: 20px;
+                transform: none;
             }
             
             .crypto-viewer, .chat-frame {
@@ -187,19 +183,18 @@
             }
         }
 
-        /* DNA Strand Effect */
         body::after {
             content: '';
             position: fixed;
-            bottom: 200px; /* Moved to top right */
-            left: 200px; 
+            bottom: 200px;
+            left: 200px;
             width: 100vw;
             height: 100vh;
             background: 
                 repeating-linear-gradient(90deg,
                     transparent 0px,
                     transparent 19px,
-                    rgba(0, 247, 255, 0.05) 20px), /* Adjusted to blue */
+                    rgba(0, 247, 255, 0.05) 20px),
                 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><text x="0" y="50" font-family="monospace" font-size="14">0101 1010 0110</text></svg>');
             pointer-events: none;
             z-index: -1;
@@ -244,10 +239,9 @@
     <a href="http://deepseekoracle.com" class="robot-link" target="_blank">🤖</a>
 
     <script>
-        // Future interactive functionality placeholder
         document.querySelectorAll('.stat-card').forEach(card => {
             card.addEventListener('click', () => {
-                card.style.backgroundColor = 'rgba(0, 247, 255, 0.1)'; /* Adjusted to blue */
+                card.style.backgroundColor = 'rgba(0, 247, 255, 0.1)';
                 setTimeout(() => {
                     card.style.backgroundColor = '';
                 }, 500);
