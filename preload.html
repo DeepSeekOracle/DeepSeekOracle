@@ -127,13 +127,15 @@
         /* Embedded Elements */
         .crypto-viewer {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 600px; /* Doubled size */
-            height: 300px; /* Doubled size */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px; /* Centered */
+            height: 300px; /* Centered */
             border: 1px solid var(--matrix-green);
             border-radius: 8px;
             overflow: hidden;
+            z-index: 999;
         }
 
         .chat-frame {
@@ -149,9 +151,8 @@
 
         .rumble-container {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 20px; /* Moved to top right */
+            right: 20px; /* Moved to top right */
             width: 400px;
             height: 300px;
             z-index: 999;
