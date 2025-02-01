@@ -49,12 +49,12 @@
 
         /* EXISTING STYLES BELOW (NO CHANGES) */
         @import url('https://fonts.cdnfonts.com/css/matrix-code-nfi');
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Courier New', monospace;
-        }
+        *  {
+    margin: 0;
+    padding: 0;
+    box-sizing: content-box; /* Elements will use content-box sizing */
+    font-family: 'Courier New', monospace;
+}
         body {
             margin: 0;
             background: #000;
@@ -118,10 +118,10 @@
         /* Modified stats panel positioning */
         .stats-panel {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
+            top: 5px;
+            left: 100px;
             display: flex;
-            gap: 20px;
+            gap: 5px;
             z-index: 1000;
         }
 
@@ -147,11 +147,13 @@
             z-index: 1000;
         }
 
-        /* X (Twitter) Tweet Button Position */
-        .x-tweet-button {
+        /* X (Twitter) Feed Position */
+        .x-feed {
             position: fixed;
             top: 80px;
             left: 20px;
+            width: 375px;
+            height: 450px;
             z-index: 1000;
         }
 
@@ -195,10 +197,10 @@
 
         .chat-frame {
             position: fixed;
-            top: 80px;
+            top: 500px;
             left: 20px;
             width: 375px;
-            height: 600px;
+            height: 250px;
             border: 1px solid var(--matrix-green);
             border-radius: 8px;
             overflow: hidden;
@@ -211,7 +213,7 @@
             width: 375px;
             height: 350px;
             z-index: 999;
-              border: 1px solid var(--matrix-green);
+            border: 1px solid var(--matrix-green);
             border-radius: 8px;
             overflow: hidden;
         }
@@ -265,7 +267,7 @@
                 bottom: 10px;
             }
         }
-}
+
         body::after {
             content: '';
             position: fixed;
@@ -298,9 +300,9 @@
         </div>
     </div>
 
-    <!-- X (Twitter) Tweet Button -->
-    <div class="x-tweet-button">
-        <a href="https://twitter.com/intent/tweet?screen_name=x&ref_src=twsrc%5Etfw" class="twitter-mention-button" data-show-count="false">Tweet to @x</a>
+    <!-- X (Twitter) Feed -->
+    <div class="x-feed">
+        <a class="twitter-timeline" href="https://twitter.com/DeepSeekOracle?ref_src=twsrc%5Etfw">Tweets by DeepSeekOracle</a>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </div>
 
