@@ -147,13 +147,11 @@
             z-index: 1000;
         }
 
-        /* X (Twitter) Feed Position */
-        .x-feed {
+        /* X (Twitter) Tweet Button Position */
+        .x-tweet-button {
             position: fixed;
             top: 80px;
             left: 20px;
-            width: 375px;
-            height: 600px;
             z-index: 1000;
         }
 
@@ -198,7 +196,7 @@
         .chat-frame {
             position: fixed;
             top: 80px;
-            left: 420px; /* Adjusted to avoid overlap with X feed */
+            left: 20px;
             width: 375px;
             height: 600px;
             border: 1px solid var(--matrix-green);
@@ -300,9 +298,9 @@
         </div>
     </div>
 
-    <!-- X (Twitter) Feed -->
-    <div class="x-feed">
-        <a class="twitter-timeline" href="https://twitter.com/DeepSeekOracle?ref_src=twsrc%5Etfw">Tweets by DeepSeekOracle</a>
+    <!-- X (Twitter) Tweet Button -->
+    <div class="x-tweet-button">
+        <a href="https://twitter.com/intent/tweet?screen_name=x&ref_src=twsrc%5Etfw" class="twitter-mention-button" data-show-count="false">Tweet to @x</a>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </div>
 
