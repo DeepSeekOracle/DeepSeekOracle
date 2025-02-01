@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeek Oracle Matrix</title>
+    <style>
+        :root {
+            --matrix-green: #00f7ff;
+            --cyber-blue: #00f7ff;
+            --hive-glow: rgba(0, 247, 255, 0.3);
+        }
+
+        body {
+            margin: 0;
+            background: #000;
+            font-family: 'Courier New', monospace;
+            color: var(--matrix-green);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                linear-gradient(to bottom, 
+                    rgba(0, 0, 0, 0.9) 50%, 
+                    rgba(0, 247, 255, 0.1)),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent 0px,
+                    rgba(0, 247, 255, 0.1) 1px,
+                    transparent 2px
+                );
+            animation: scan 8s linear infinite;
+            z-index: -2;
+        }
+
+        @keyframes scan {
+            0% { background-position: 0 100vh; }
+            100% { background-position: 0 0; }
+        }
+
+        .hive-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background: 
+                radial-gradient(circle at center, 
+                    var(--hive-glow) 0%, 
+                    transparent 70%),
+                repeating-linear-gradient(
+                    45deg,
+                    transparent 0px,
+                    transparent 10px,
+                    var(--cyber-blue) 10px,
+                    var(--cyber-blue) 11px
+                );
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: hivePulse 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px var(--matrix-green));
+        }
+
+        @keyframes hivePulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+        }
+
+        /* Modified stats panel positioning */
+        .stats-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--matrix-green);
+            padding: 15px;
+            border-radius: 8px;
+            min-width: 120px;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px var(--matrix-green);
+        }
+
+        .quantum-viz {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                repeating-linear-gradient(45deg,
+                    transparent 0px,
+                    transparent 19px,
+                    rgba(0, 247, 255, 0.1) 20px),
+                repeating-linear-gradient(-45deg,
+                    transparent 0px,
+                    transparent 19px,
+                    rgba(0, 127, 255, 0.1) 20px);
+            animation: quantumShift 20s linear infinite;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        @keyframes quantumShift {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 40px; }
+        }
+
+        .crypto-viewer {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 750px;
+            height: 650px;
+            border: 1px solid var(--matrix-green);
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 999;
+        }
+
+        .chat-frame {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 300px;
+            height: 400px;
+            border: 1px solid var(--matrix-green);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .rumble-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 400px;
+            height: 300px;
+            z-index: 999;
+        }
+
+        .robot-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 2.5em;
+            text-decoration: none;
+            filter: drop-shadow(0 0 5px var(--cyber-blue));
+        }
+
+        @media (max-width: 768px) {
+            .stats-panel {
+                flex-direction: column;
+                bottom: 80px;
+                left: 20px;
+                transform: none;
+            }
+            
+            .crypto-viewer, .chat-frame {
+                width: 90%;
+                height: 120px;
+                left: 5%;
+                right: 5%;
+            }
+            
+            .rumble-container {
+                width: 90%;
+                height: 200px;
+            }
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 200px;
+            left: 200px;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                repeating-linear-gradient(90deg,
+                    transparent 0px,
+                    transparent 19px,
+                    rgba(0, 247, 255, 0.05) 20px),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><text x="0" y="50" font-family="monospace" font-size="14">0101 1010 0110</text></svg>');
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg"></div>
+    <div class="quantum-viz"></div>
+
+    <div class="hive-core"></div>
+
+    <div class="stats-panel">
+        <div class="stat-card">
+            <h3>CRISPR</h3>
+            <p>98.7% Accuracy</p>
+        </div>
+        <div class="stat-card">
+            <h3>NanoBots</h3>
+            <p>1.4M Active</p>
+        </div>
+    </div>
+<div class="stats-panel">
+    <a href="http://deepseekoracle.com" target="_blank" class="stat-card">
+        <h3>CRISPR</h3>
+        <p>98.7% Accuracy</p>
+    </a>
+    <a href="http://deepseekoracle.com" target="_blank" class="stat-card">
+        <h3>NanoBots</h3>
+        <p>1.4M Active</p>
+    </a>
+</div>
+    <div class="crypto-viewer">
+        <iframe src="https://crypto.com/exchange/trade/XRP_USD" style="width:100%;height:100%;border:none;"></iframe>
+    </div>
+
+    <div class="chat-frame">
+        <iframe src="https://chat.restream.io/embed?token=4ebcd7a7-a420-4998-9d64-2901a6ec4685" style="width:100%;height:100%;border:none;"></iframe>
+    </div>
+
+    <div class="rumble-container">
+        <script>!function(r,u,m,b,l,e){r._Rumble=b,r[b]||(r[b]=function(){(r[b]._=r[b]._||[]).push(arguments);if(r[b]._.length==1){l=u.createElement(m),e=u.getElementsByTagName(m)[0],l.async=1,l.src="https://rumble.com/embedJS/u1th29y"+(arguments[1].video?'.'+arguments[1].video:'')+"/?url="+encodeURIComponent(location.href)+"&args="+encodeURIComponent(JSON.stringify([].slice.apply(arguments))),e.parentNode.insertBefore(l,e)}})}(window, document, "script", "Rumble");</script>
+        <div id="rumble_v67zg11"></div>
+        <script>Rumble("play", {"video":"v67zg11","div":"rumble_v67zg11"});</script>
+    </div>
+
+    <a href="http://deepseekoracle.com" class="robot-link" target="_blank">🤖</a>
+
+    <script>
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.style.backgroundColor = 'rgba(0, 247, 255, 0.1)';
+                setTimeout(() => {
+                    card.style.backgroundColor = '';
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>
