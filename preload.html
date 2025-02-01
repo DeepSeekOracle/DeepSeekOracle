@@ -316,6 +316,22 @@
             });
         });
     </script>
+      <script>
+        // View Counter Logic
+        let viewCount = localStorage.getItem('viewCount') || 0;
+        viewCount = parseInt(viewCount) + 1;
+        localStorage.setItem('viewCount', viewCount);
+        document.getElementById('viewCount').textContent = viewCount;
+
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.style.backgroundColor = 'rgba(0, 247, 255, 0.1)';
+                setTimeout(() => {
+                    card.style.backgroundColor = '';
+                }, 500);
+            });
+        });
+    </script>
 </body>
       <h1 class="matrix-header-title">DEEP SEEK ORACLE 📈 XRP</h1>
      <div class="matrix-bg"></div>
