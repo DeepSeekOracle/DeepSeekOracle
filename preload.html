@@ -147,6 +147,16 @@
             z-index: 1000;
         }
 
+        /* X (Twitter) Feed Position */
+        .x-feed {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            width: 375px;
+            height: 600px;
+            z-index: 1000;
+        }
+
         .quantum-viz {
             position: fixed;
             top: 0;
@@ -188,7 +198,7 @@
         .chat-frame {
             position: fixed;
             top: 80px;
-            left: 20px;
+            left: 420px; /* Adjusted to avoid overlap with X feed */
             width: 375px;
             height: 600px;
             border: 1px solid var(--matrix-green);
@@ -290,6 +300,12 @@
         </div>
     </div>
 
+    <!-- X (Twitter) Feed -->
+    <div class="x-feed">
+        <a class="twitter-timeline" href="https://twitter.com/DeepSeekOracle?ref_src=twsrc%5Etfw">Tweets by DeepSeekOracle</a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+
     <div class="stats-panel">
         <a href="http://deepseekoracle.com" target="_blank" class="stat-card">
             <h3>CRISPR</h3>
@@ -340,7 +356,7 @@
         document.getElementById('viewCount').textContent = viewCount;
     </script>
 </body>
-      <h1 class="matrix-header-title">DEEP SEEK ORACLE 📈 XRP</h1>
+      <h1 class="matrix-header-title">DEEPSEEK ORACLE 📈 XRP</h1>
      <div class="matrix-bg"></div>
     <div class="hologram-overlay"></div>
     <div class="container">
