@@ -75,11 +75,57 @@
             font-size: 20px;
             margin-bottom: 10px;
         }
+        .menu {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .menu button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .options {
+            display: none;
+            background: #333;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .options label {
+            display: block;
+            margin: 10px 0;
+        }
+        .score {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        @keyframes fight {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .fight-animation {
+            animation: fight 0.3s ease-in-out;
+        }
     </style>
 </head>
 <body>
-    <h1>Auto Battler</h1>
-    <div class="game-container">
+    <div class="menu">
+        <h1>Auto Battler</h1>
+        <button id="start-button">Start Game</button>
+        <button id="options-button">Options</button>
+        <div class="options" id="options-menu">
+            <label>
+                <input type="checkbox" id="sound-toggle" checked> Enable Sound
+            </label>
+        </div>
+        <div class="score">
+            Score: <span id="score">0</span> | High Score: <span id="high-score">0</span>
+        </div>
+    </div>
+    <div class="game-container" id="game-container" style="display: none;">
         <!-- Player's board -->
         <div class="grid" id="player-grid"></div>
         <!-- Shop -->
@@ -90,10 +136,16 @@
         <!-- Battle log -->
         <div class="battle-log" id="battle-log"></div>
     </div>
+    <audio id="attack-sound" src="https://www.soundjay.com/button/button-3.mp3"></audio>
+    <audio id="victory-sound" src="https://www.soundjay.com/button/button-11.mp3"></audio>
+    <audio id="defeat-sound" src="https://www.soundjay.com/button/button-10.mp3"></audio>
     <script>
         // Game Data
         let playerUnits = [];
         let gold = 10;
+        let score = 0;
+        let highScore = 0;
+        let soundEnabled = true;
         const GRID_SIZE = 5;
         const shopItems = [
             { name: "Warrior", cost: 3, health: 120, damage: 20, emoji: "⚔️" },
@@ -102,12 +154,23 @@
             { name: "Tank", cost: 6, health: 200, damage: 10, emoji: "🛡️" }
         ];
 
-        // Initialize the grid
+        // DOM Elements
         const playerGrid = document.getElementById('player-grid');
         const battleLog = document.getElementById('battle-log');
         const goldDisplay = document.getElementById('gold');
         const shopItemsContainer = document.getElementById('shop-items');
+        const startButton = document.getElementById('start-button');
+        const optionsButton = document.getElementById('options-button');
+        const optionsMenu = document.getElementById('options-menu');
+        const soundToggle = document.getElementById('sound-toggle');
+        const scoreDisplay = document.getElementById('score');
+        const highScoreDisplay = document.getElementById('high-score');
+        const gameContainer = document.getElementById('game-container');
+        const attackSound = document.getElementById('attack-sound');
+        const victorySound = document.getElementById('victory-sound');
+        const defeatSound = document.getElementById('defeat-sound');
 
+        // Initialize the grid
         for (let i = 0; i < GRID_SIZE * GRID_SIZE; i++) {
             const cell = document.createElement('div');
             cell.className = 'cell';
@@ -175,6 +238,8 @@
                     const target = enemies[Math.floor(Math.random() * enemies.length)];
                     target.health -= unit.damage;
                     log(`${unit.name} hits ${target.name} for ${unit.damage} damage!`);
+                    if (soundEnabled) attackSound.play();
+                    animateFight(unit.position);
                     if (target.health <= 0) {
                         log(`${target.name} defeated!`);
                         enemies.splice(enemies.indexOf(target), 1);
@@ -186,6 +251,8 @@
                     const target = playerUnits[Math.floor(Math.random() * playerUnits.length)];
                     target.health -= enemy.damage;
                     log(`${enemy.name} hits ${target.name} for ${enemy.damage} damage!`);
+                    if (soundEnabled) attackSound.play();
+                    animateFight(target.position);
                     if (target.health <= 0) {
                         log(`${target.name} defeated!`);
                         playerUnits.splice(playerUnits.indexOf(target), 1);
@@ -197,13 +264,19 @@
                 // Check battle end
                 if (playerUnits.length === 0) {
                     log("Game Over! All units defeated.");
+                    if (soundEnabled) defeatSound.play();
                     clearInterval(battleInterval);
+                    updateHighScore();
+                    showGameOver();
                 }
                 if (enemies.length === 0) {
                     log("Victory! All enemies defeated.");
+                    if (soundEnabled) victorySound.play();
                     clearInterval(battleInterval);
                     gold += 5; // Reward gold
+                    score += 10; // Increase score
                     goldDisplay.textContent = gold;
+                    scoreDisplay.textContent = score;
                     renderShop(); // Refresh shop
                 }
             }, 1000); // Update every 1 second
@@ -215,8 +288,66 @@
             battleLog.scrollTop = battleLog.scrollHeight;
         }
 
-        // Start battle after 10 seconds (for testing)
-        setTimeout(startBattle, 10000);
+        // Animate fight
+        function animateFight(position) {
+            const cell = playerGrid.children[position];
+            if (cell.querySelector('.unit')) {
+                cell.querySelector('.unit').classList.add('fight-animation');
+                setTimeout(() => {
+                    cell.querySelector('.unit').classList.remove('fight-animation');
+                }, 300);
+            }
+        }
+
+        // Update high score
+        function updateHighScore() {
+            if (score > highScore) {
+                highScore = score;
+                highScoreDisplay.textContent = highScore;
+            }
+        }
+
+        // Show game over
+        function showGameOver() {
+            alert(`Game Over! Your score: ${score}`);
+            resetGame();
+        }
+
+        // Reset game
+        function resetGame() {
+            playerUnits = [];
+            gold = 10;
+            score = 0;
+            goldDisplay.textContent = gold;
+            scoreDisplay.textContent = score;
+            playerGrid.innerHTML = '';
+            for (let i = 0; i < GRID_SIZE * GRID_SIZE; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.dataset.position = i;
+                cell.onclick = () => placeUnit(i);
+                playerGrid.appendChild(cell);
+            }
+            renderShop();
+        }
+
+        // Start game
+        startButton.onclick = () => {
+            gameContainer.style.display = 'flex';
+            startButton.style.display = 'none';
+            optionsButton.style.display = 'none';
+            setTimeout(startBattle, 1000);
+        };
+
+        // Toggle options menu
+        optionsButton.onclick = () => {
+            optionsMenu.style.display = optionsMenu.style.display === 'block' ? 'none' : 'block';
+        };
+
+        // Toggle sound
+        soundToggle.onchange = () => {
+            soundEnabled = soundToggle.checked;
+        };
     </script>
 </body>
 </html>
