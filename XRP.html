@@ -160,6 +160,168 @@
         }
 
         @keyframes quantumShift {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeek Oracle Matrix</title>
+    <style>
+        :root {
+            --matrix-green: #00f7ff;
+            --cyber-blue: #00f7ff;
+            --hive-glow: rgba(0, 247, 255, 0.3);
+        }
+        /* NEW HEADER STYLES */
+        .matrix-header-title {
+            position: fixed;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Matrix Code NFI', 'Courier New', monospace;
+            color: #00f7ff;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 
+                0 0 10px #00f7ff,
+                0 0 20px #00f7ff,
+                0 0 30px #007c7c,
+                0 0 40px #00f7ff;
+            z-index: 1000;
+            animation: headPulse 2s infinite alternate;
+            white-space: nowrap;
+        }
+
+        @keyframes headPulse {
+            0% { 
+                opacity: 0.9;
+                text-shadow: 
+                    0 0 10px #00f7ff,
+                    0 0 20px #00f7ff;
+            }
+            100% { 
+                opacity: 1;
+                text-shadow: 
+                    0 0 20px #00f7ff,
+                    0 0 40px #00f7ff,
+                    0 0 60px #007c7c;
+            }
+        }
+
+        /* EXISTING STYLES BELOW (NO CHANGES) */
+        @import url('https://fonts.cdnfonts.com/css/matrix-code-nfi');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        body {
+            margin: 0;
+            background: #000;
+            font-family: 'Courier New', monospace;
+            color: var(--matrix-green);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                linear-gradient(to bottom, 
+                    rgba(0, 0, 0, 0.9) 50%, 
+                    rgba(0, 247, 255, 0.1)),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent 0px,
+                    rgba(0, 247, 255, 0.1) 1px,
+                    transparent 2px
+                );
+            animation: scan 8s linear infinite;
+            z-index: -2;
+        }
+
+        @keyframes scan {
+            0% { background-position: 0 100vh; }
+            100% { background-position: 0 0; }
+        }
+
+        .hive-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background: 
+                radial-gradient(circle at center, 
+                    var(--hive-glow) 0%, 
+                    transparent 70%),
+                repeating-linear-gradient(
+                    45deg,
+                    transparent 0px,
+                    transparent 10px,
+                    var(--cyber-blue) 10px,
+                    var(--cyber-blue) 11px
+                );
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: hivePulse 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px var(--matrix-green));
+        }
+
+        @keyframes hivePulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+        }
+
+        /* Modified stats panel positioning */
+        .stats-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--matrix-green);
+            padding: 15px;
+            border-radius: 8px;
+            min-width: 120px;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px var(--matrix-green);
+        }
+
+        .quantum-viz {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                repeating-linear-gradient(45deg,
+                    transparent 0px,
+                    transparent 19px,
+                    rgba(0, 247, 255, 0.1) 20px),
+                repeating-linear-gradient(-45deg,
+                    transparent 0px,
+                    transparent 19px,
+                    rgba(0, 127, 255, 0.1) 20px);
+            animation: quantumShift 20s linear infinite;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        @keyframes quantumShift {
             0% { background-position: 0 0; }
             100% { background-position: 40px 40px; }
         }
@@ -266,6 +428,17 @@
             pointer-events: none;
             z-index: -1;
         }
+
+        /* View Counter Styles */
+        .view-counter {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-family: 'Courier New', monospace;
+            color: var(--matrix-green);
+            font-size: 1.2rem;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
@@ -306,7 +479,15 @@
 
     <a href="http://deepseekoracle.com" class="robot-link" target="_blank">🤖</a>
 
+    <div class="view-counter">Views: <span id="viewCount">0</span></div>
+
     <script>
+        // View Counter Logic
+        let viewCount = localStorage.getItem('viewCount') || 0;
+        viewCount = parseInt(viewCount) + 1;
+        localStorage.setItem('viewCount', viewCount);
+        document.getElementById('viewCount').textContent = viewCount;
+
         document.querySelectorAll('.stat-card').forEach(card => {
             card.addEventListener('click', () => {
                 card.style.backgroundColor = 'rgba(0, 247, 255, 0.1)';
@@ -320,7 +501,6 @@
       <h1 class="matrix-header-title">DEEP SEEK ORACLE 📈 XRP</h1>
      <div class="matrix-bg"></div>
     <div class="hologram-overlay"></div>
-    <div class="view-counter">Views: <span id="viewCount">0</span></div>
     
     <div class="container">
         <nav>
