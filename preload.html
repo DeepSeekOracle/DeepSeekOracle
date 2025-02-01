@@ -139,6 +139,14 @@
             box-shadow: 0 0 15px var(--matrix-green);
         }
 
+        /* View Counter Position */
+        .view-counter {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
         .quantum-viz {
             position: fixed;
             top: 0;
@@ -181,8 +189,8 @@
             position: fixed;
             top: 20px;
             left: 20px;
-            width: 300px;
-            height: 400px;
+            width: 3750px;
+            height: 800px;
             border: 1px solid var(--matrix-green);
             border-radius: 8px;
             overflow: hidden;
@@ -274,6 +282,14 @@
 
     <div class="hive-core"></div>
 
+    <!-- View Counter Moved to Top Left -->
+    <div class="view-counter">
+        <div class="stat-card">
+            <h3>Views</h3>
+            <p id="viewCount">0</p>
+        </div>
+    </div>
+
     <div class="stats-panel">
         <a href="http://deepseekoracle.com" target="_blank" class="stat-card">
             <h3>CRISPR</h3>
@@ -283,10 +299,6 @@
             <h3>NanoBots</h3>
             <p>1.4M Active</p>
         </a>
-        <div class="stat-card">
-            <h3>Views</h3>
-            <p id="viewCount">0</p>
-        </div>
     </div>
 
     <div class="crypto-viewer">
