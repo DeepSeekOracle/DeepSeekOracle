@@ -148,9 +148,12 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            width: 400px;
-            height: 300px;
+            width: 375px;
+            height: 350px;
             z-index: 999;
+              border: 1px solid var(--matrix-green);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         .robot-link {
@@ -160,6 +163,19 @@
             font-size: 2.5em;
             text-decoration: none;
             filter: drop-shadow(0 0 5px var(--cyber-blue));
+        }
+
+        /* Kick Player Container */
+        .kick-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 380px;
+            height: 300px; /* Adjusted for 16:9 aspect ratio */
+            z-index: 999;
+            border: 1px solid var(--matrix-green);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         @media (max-width: 768px) {
@@ -180,6 +196,13 @@
             .rumble-container {
                 width: 90%;
                 height: 200px;
+            }
+
+            .kick-player {
+                width: 90%;
+                height: 150px;
+                right: 5%;
+                bottom: 10px;
             }
         }
 
@@ -208,25 +231,16 @@
     <div class="hive-core"></div>
 
     <div class="stats-panel">
-        <div class="stat-card">
+        <a href="http://deepseekoracle.com" target="_blank" class="stat-card">
             <h3>CRISPR</h3>
             <p>98.7% Accuracy</p>
-        </div>
-        <div class="stat-card">
+        </a>
+        <a href="http://deepseekoracle.com" target="_blank" class="stat-card">
             <h3>NanoBots</h3>
             <p>1.4M Active</p>
-        </div>
+        </a>
     </div>
-<div class="stats-panel">
-    <a href="http://deepseekoracle.com" target="_blank" class="stat-card">
-        <h3>CRISPR</h3>
-        <p>98.7% Accuracy</p>
-    </a>
-    <a href="http://deepseekoracle.com" target="_blank" class="stat-card">
-        <h3>NanoBots</h3>
-        <p>1.4M Active</p>
-    </a>
-</div>
+
     <div class="crypto-viewer">
         <iframe src="https://crypto.com/exchange/trade/XRP_USD" style="width:100%;height:100%;border:none;"></iframe>
     </div>
@@ -239,6 +253,11 @@
         <script>!function(r,u,m,b,l,e){r._Rumble=b,r[b]||(r[b]=function(){(r[b]._=r[b]._||[]).push(arguments);if(r[b]._.length==1){l=u.createElement(m),e=u.getElementsByTagName(m)[0],l.async=1,l.src="https://rumble.com/embedJS/u1th29y"+(arguments[1].video?'.'+arguments[1].video:'')+"/?url="+encodeURIComponent(location.href)+"&args="+encodeURIComponent(JSON.stringify([].slice.apply(arguments))),e.parentNode.insertBefore(l,e)}})}(window, document, "script", "Rumble");</script>
         <div id="rumble_v67zg11"></div>
         <script>Rumble("play", {"video":"v67zg11","div":"rumble_v67zg11"});</script>
+    </div>
+
+    <!-- Added Kick Player -->
+    <div class="kick-player">
+        <iframe src="https://player.kick.com/excavationpro" height="100%" width="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
     </div>
 
     <a href="http://deepseekoracle.com" class="robot-link" target="_blank">🤖</a>
