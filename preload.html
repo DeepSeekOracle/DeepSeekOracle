@@ -1,138 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚧 Hard Hat Stream Zone 🚧</title>
-    <style>
-        body {
-            background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
-            color: #fff;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-        }
-
-        .holographic-box {
-            background: linear-gradient(145deg, 
-                rgba(255,223,0,0.1) 0%, 
-                rgba(255,94,0,0.1) 50%, 
-                rgba(0,212,255,0.1) 100%);
-            border: 2px solid rgba(255,223,0,0.3);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 1200px;
-            box-shadow: 0 0 30px rgba(0,212,255,0.2);
-            animation: hologlow 2s infinite alternate;
-        }
-
-        @keyframes hologlow {
-            from { box-shadow: 0 0 20px rgba(0,212,255,0.2); }
-            to { box-shadow: 0 0 40px rgba(0,212,255,0.4); }
-        }
-
-        .construction-header {
-            text-align: center;
-            font-size: 2.5em;
-            text-shadow: 0 0 15px #ffdf00;
-            margin: 20px 0;
-        }
-
-        .livestream-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            max-width: 100%;
-            background: #000;
-            border: 3px solid #ffdf00;
-            border-radius: 10px;
-        }
-
-        .livestream-iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .toolbelt-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .holographic-btn {
-            background: linear-gradient(45deg, #ffdf00, #ff5e00);
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-            border: 2px solid rgba(255,223,0,0.5);
-        }
-
-        .holographic-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px #ffdf00;
-        }
-
-        .warning-stripe {
-            background: repeating-linear-gradient(
-                45deg,
-                #ffdf00,
-                #ffdf00 20px,
-                #000 20px,
-                #000 40px
-            );
-            height: 10px;
-            margin: 20px 0;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Battler Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      text-align: center;
+    }
+    .hidden {
+      display: none;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      color: #2e3d49;
+    }
+    #startPage {
+      padding: 50px;
+    }
+    .game-page {
+      display: none;
+    }
+    .button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+    .button:hover {
+      background-color: #45a049;
+    }
+    .stats, .player-menu, .store-menu, .fight-stats {
+      margin: 20px 0;
+    }
+    .bar {
+      width: 100%;
+      background-color: #ddd;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+    .bar-fill {
+      height: 20px;
+      border-radius: 5px;
+      background-color: #4CAF50;
+    }
+    .store-item {
+      margin: 10px;
+    }
+    .enemy {
+      margin: 20px 0;
+    }
+    .emoji {
+      font-size: 30px;
+    }
+  </style>
 </head>
 <body>
-    <div class="holographic-box">
-        <h1 class="construction-header">🛠️ HARD HAT HQ 🚧<br>LIVE CONSTRUCTION ZONE</h1>
-        
-        <div class="warning-stripe"></div>
 
-        <div class="livestream-container">
-            <iframe class="livestream-iframe" 
-                src="https://rumble.com/embed/v6a7v1v/?pub=4" 
-                frameborder="0" 
-                allowfullscreen>
-            </iframe>
-        </div>
+  <div id="startPage">
+    <h1>Welcome to the Auto Battler Game!</h1>
+    <p>Choose your character and prepare to fight endless enemies!</p>
+    <button class="button" onclick="startGame()">Start Game</button>
+  </div>
 
-        <div class="toolbelt-buttons">
-            <button class="holographic-btn">🔧 Tool Chat</button>
-            <button class="holographic-btn">📅 Work Schedule</button>
-            <button class="holographic-btn">🚨 Safety Alert</button>
-        </div>
-
-        <div id="api-data" class="holographic-box"></div>
+  <div class="game-page">
+    <div id="playerMenu" class="player-menu">
+      <h2>Pick Your Character</h2>
+      <button class="button" onclick="createPlayer('Warrior')">Warrior 🗡️</button>
+      <button class="button" onclick="createPlayer('Archer')">Archer 🏹</button>
+      <button class="button" onclick="createPlayer('Mage')">Mage 🔮</button>
     </div>
 
-    <script>
-        // Fetch Rumble API data
-        fetch('https://rumble.com/-livestream-api/get-data?key=_NuLEKmPV33adJqk8qycoOuwit-Hm8JGKm-rOBx-gJ-DG5DylHaGK1xo8uCUiScy9wHdYS6mWskZVu3ucaAShw')
-            .then(response => response.json())
-            .then(data => {
-                const apiContainer = document.getElementById('api-data');
-                apiContainer.innerHTML = `
-                    <h3>🚨 Live Construction Updates:</h3>
-                    <p>📡 Stream Status: ${data.live ? 'ACTIVE 🟢' : 'OFFLINE 🔴'}</p>
-                    <p>👷 Crew Online: ${data.viewers}</p>
-                `;
-            })
-            .catch(error => console.error('🚧 API Error:', error));
-    </script>
+    <div id="game" class="container">
+      <h2>Battle Begins!</h2>
+      <div id="fightStats" class="fight-stats">
+        <p id="playerName"></p>
+        <p>Health: <span id="playerHealth"></span> / 100</p>
+        <div class="bar"><div id="playerHealthBar" class="bar-fill" style="width: 100%;"></div></div>
+        <p>Money: <span id="playerMoney">0</span></p>
+      </div>
+
+      <div id="storeMenu" class="store-menu hidden">
+        <h3>Store - Spend your money to upgrade</h3>
+        <div class="store-item">
+          <button class="button" onclick="upgradeHealth()">Upgrade Health</button> - 10 Gold
+        </div>
+        <div class="store-item">
+          <button class="button" onclick="upgradeAttack()">Upgrade Attack</button> - 15 Gold
+        </div>
+        <div class="store-item">
+          <button class="button" onclick="upgradeDefense()">Upgrade Defense</button> - 20 Gold
+        </div>
+        <button class="button" onclick="startBattle()">Start Battle</button>
+      </div>
+
+      <div id="enemyStats" class="enemy hidden">
+        <h3>Enemy Encountered!</h3>
+        <p id="enemyName"></p>
+        <p>Health: <span id="enemyHealth"></span></p>
+        <div class="bar"><div id="enemyHealthBar" class="bar-fill" style="width: 100%;"></div></div>
+        <button class="button" onclick="attackEnemy()">Attack Enemy</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let player = {};
+    let enemy = {};
+    let playerStats = { health: 100, attack: 20, defense: 5, money: 0 };
+    let enemyStats = { health: 100, attack: 15, defense: 3 };
+
+    function startGame() {
+      document.getElementById('startPage').classList.add('hidden');
+      document.getElementById('playerMenu').classList.remove('hidden');
+    }
+
+    function createPlayer(character) {
+      player.name = character;
+      playerStats.health = 100;
+      playerStats.attack = character === 'Warrior' ? 25 : (character === 'Archer' ? 20 : 15);
+      playerStats.defense = character === 'Warrior' ? 10 : (character === 'Archer' ? 5 : 3);
+      playerStats.money = 0;
+
+      document.getElementById('playerName').innerText = `${character} - Level 1`;
+      document.getElementById('playerHealth').innerText = playerStats.health;
+      document.getElementById('playerHealthBar').style.width = `${(playerStats.health / 100) * 100}%`;
+      document.getElementById('playerMoney').innerText = playerStats.money;
+
+      document.getElementById('playerMenu').classList.add('hidden');
+      document.getElementById('storeMenu').classList.remove('hidden');
+    }
+
+    function startBattle() {
+      enemyStats.health = 100;
+      enemyStats.attack = 15;
+      enemyStats.defense = 5;
+
+      document.getElementById('enemyName').innerText = 'Enemy - Level 1';
+      document.getElementById('enemyHealth').innerText = enemyStats.health;
+      document.getElementById('enemyHealthBar').style.width = '100%';
+
+      document.getElementById('storeMenu').classList.add('hidden');
+      document.getElementById('enemyStats').classList.remove('hidden');
+    }
+
+    function attackEnemy() {
+      const damage = Math.max(0, playerStats.attack - enemyStats.defense);
+      enemyStats.health -= damage;
+
+      document.getElementById('enemyHealth').innerText = enemyStats.health;
+      document.getElementById('enemyHealthBar').style.width = `${(enemyStats.health / 100) * 100}%`;
+
+      if (enemyStats.health <= 0) {
+        playerStats.money += 20;
+        document.getElementById('playerMoney').innerText = playerStats.money;
+
+        alert('Enemy defeated! You gain 20 gold.');
+
+        enemyStats.health = 100; // Reset enemy for the next round
+        startBattle();
+      } else {
+        enemyAttack();
+      }
+    }
+
+    function enemyAttack() {
+      const damage = Math.max(0, enemyStats.attack - playerStats.defense);
+      playerStats.health -= damage;
+
+      document.getElementById('playerHealth').innerText = playerStats.health;
+      document.getElementById('playerHealthBar').style.width = `${(playerStats.health / 100) * 100}%`;
+
+      if (playerStats.health <= 0) {
+        alert('You were defeated! Game Over.');
+        window.location.reload(); // Restart game after defeat
+      }
+    }
+
+    function upgradeHealth() {
+      if (playerStats.money >= 10) {
+        playerStats.health += 10;
+        playerStats.money -= 10;
+        document.getElementById('playerHealth').innerText = playerStats.health;
+        document.getElementById('playerMoney').innerText = playerStats.money;
+      } else {
+        alert('Not enough gold!');
+      }
+    }
+
+    function upgradeAttack() {
+      if (playerStats.money >= 15) {
+        playerStats.attack += 5;
+        playerStats.money -= 15;
+        document.getElementById('playerMoney').innerText = playerStats.money;
+      } else {
+        alert('Not enough gold!');
+      }
+    }
+
+    function upgradeDefense() {
+      if (playerStats.money >= 20) {
+        playerStats.defense += 3;
+        playerStats.money -= 20;
+        document.getElementById('playerMoney').innerText = playerStats.money;
+      } else {
+        alert('Not enough gold!');
+      }
+    }
+  </script>
+
 </body>
 </html>
