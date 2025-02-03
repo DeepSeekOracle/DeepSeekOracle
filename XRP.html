@@ -1,364 +1,367 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepSeek Oracle Matrix</title>
-    <style>
-        :root {
-            --matrix-green: #00f7ff;
-            --cyber-blue: #00f7ff;
-            --hive-glow: rgba(0, 247, 255, 0.3);
-        }
-        /* NEW HEADER STYLES */
-        .matrix-header-title {
-            position: fixed;
-            top: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'Matrix Code NFI', 'Courier New', monospace;
-            color: #00f7ff;
-            font-size: 2.5rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            text-shadow: 
-                0 0 10px #00f7ff,
-                0 0 20px #00f7ff,
-                0 0 30px #007c7c,
-                0 0 40px #00f7ff;
-            z-index: 1000;
-            animation: headPulse 2s infinite alternate;
-            white-space: nowrap;
-        }
-
-        @keyframes headPulse {
-            0% { 
-                opacity: 0.9;
-                text-shadow: 
-                    0 0 10px #00f7ff,
-                    0 0 20px #00f7ff;
-            }
-            100% { 
-                opacity: 1;
-                text-shadow: 
-                    0 0 20px #00f7ff,
-                    0 0 40px #00f7ff,
-                    0 0 60px #007c7c;
-            }
-        }
-
-        /* EXISTING STYLES BELOW (NO CHANGES) */
-        @import url('https://fonts.cdnfonts.com/css/matrix-code-nfi');
-        *  {
-    margin: 0;
-    padding: 0;
-    box-sizing: content-box; /* Elements will use content-box sizing */
-    font-family: 'Courier New', monospace;
-}
-        body {
-            margin: 0;
-            background: #000;
-            font-family: 'Courier New', monospace;
-            color: var(--matrix-green);
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        .matrix-bg {
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            background: 
-                linear-gradient(to bottom, 
-                    rgba(0, 0, 0, 0.9) 50%, 
-                    rgba(0, 247, 255, 0.1)),
-                repeating-linear-gradient(
-                    0deg,
-                    transparent 0px,
-                    rgba(0, 247, 255, 0.1) 1px,
-                    transparent 2px
-                );
-            animation: scan 8s linear infinite;
-            z-index: -2;
-        }
-
-        @keyframes scan {
-            0% { background-position: 0 100vh; }
-            100% { background-position: 0 0; }
-        }
-
-        .hive-core {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            background: 
-                radial-gradient(circle at center, 
-                    var(--hive-glow) 0%, 
-                    transparent 70%),
-                repeating-linear-gradient(
-                    45deg,
-                    transparent 0px,
-                    transparent 10px,
-                    var(--cyber-blue) 10px,
-                    var(--cyber-blue) 11px
-                );
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            animation: hivePulse 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 10px var(--matrix-green));
-        }
-
-        @keyframes hivePulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
-        }
-
-        /* Modified stats panel positioning */
-        .stats-panel {
-            position: fixed;
-            top: 374px;
-            left: 1220px;
-            display: flex;
-            gap: 5px;
-            z-index: 1000;
-        }
-
-        .stat-card {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--matrix-green);
-            padding: 15px;
-            border-radius: 8px;
-            min-width: 120px;
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 15px var(--matrix-green);
-        }
-
-        /* View Counter Position */
-        .view-counter {
-            position: fixed;
-            top: 5px;
-            left: 20px;
-            z-index: 1000;
-        }
-
-        /* X (Twitter) Feed Position */
-        .x-feed {
-            position: fixed;
-            top: 80px;
-            left: 20px;
-            width: 375px;
-            height: 390px;
-            z-index: 1000;
-        }
-
-        .quantum-viz {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: 
-                repeating-linear-gradient(45deg,
-                    transparent 0px,
-                    transparent 19px,
-                    rgba(0, 247, 255, 0.1) 20px),
-                repeating-linear-gradient(-45deg,
-                    transparent 0px,
-                    transparent 19px,
-                    rgba(0, 127, 255, 0.1) 20px);
-            animation: quantumShift 20s linear infinite;
-            z-index: -1;
-            opacity: 0.3;
-        }
-
-        @keyframes quantumShift {
-            0% { background-position: 0 0; }
-            100% { background-position: 40px 40px; }
-        }
-
-        .crypto-viewer {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 750px;
-            height: 650px;
-            border: 1px solid var(--matrix-green);
-            border-radius: 8px;
-            overflow: hidden;
-            z-index: 999;
-        }
-
-        .chat-frame {
-            position: fixed;
-            top: 525px;
-            left: 20px;
-            width: 375px;
-            height: 230px;
-            border: 1px solid var(--matrix-green);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .rumble-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 375px;
-            height: 350px;
-            z-index: 999;
-            border: 1px solid var(--matrix-green);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .robot-link {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            font-size: 2.5em;
-            text-decoration: none;
-            filter: drop-shadow(0 0 5px var(--cyber-blue));
-        }
-
-        /* Kick Player Container */
-        .kick-player {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 380px;
-            height: 300px; /* Adjusted for 16:9 aspect ratio */
-            z-index: 999;
-            border: 1px solid var(--matrix-green);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        @media (max-width: 768px) {
-            .stats-panel {
-                flex-direction: column;
-                bottom: 80px;
-                left: 20px;
-                transform: none;
-            }
-            
-            .crypto-viewer, .chat-frame {
-                width: 90%;
-                height: 120px;
-                left: 5%;
-                right: 5%;
-            }
-            
-            .rumble-container {
-                width: 90%;
-                height: 200px;
-            }
-
-            .kick-player {
-                width: 90%;
-                height: 180px;
-                right: 5%;
-                bottom: 10px;
-            }
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: 200px;
-            left: 200px;
-            width: 100vw;
-            height: 100vh;
-            background: 
-                repeating-linear-gradient(90deg,
-                    transparent 0px,
-                    transparent 19px,
-                    rgba(0, 247, 255, 0.05) 20px),
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><text x="0" y="50" font-family="monospace" font-size="14">0101 1010 0110</text></svg>');
-            pointer-events: none;
-            z-index: -1;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DeepSeek Oracle Matrix</title>
+  <style>
+    :root {
+      --matrix-green: #00f7ff;
+      --cyber-blue: #00f7ff;
+      --hive-glow: rgba(0, 247, 255, 0.3);
+    }
+    /* Matrix Header Styles */
+    .matrix-header-title {
+      position: fixed;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Matrix Code NFI', 'Courier New', monospace;
+      color: var(--matrix-green);
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      text-shadow: 
+        0 0 10px var(--matrix-green),
+        0 0 20px var(--matrix-green),
+        0 0 30px #007c7c,
+        0 0 40px var(--matrix-green);
+      z-index: 1000;
+      animation: headPulse 2s infinite alternate;
+      white-space: nowrap;
+    }
+    @keyframes headPulse {
+      0% { 
+        opacity: 0.9;
+        text-shadow: 0 0 10px var(--matrix-green), 0 0 20px var(--matrix-green);
+      }
+      100% { 
+        opacity: 1;
+        text-shadow: 0 0 20px var(--matrix-green), 0 0 40px var(--matrix-green), 0 0 60px #007c7c;
+      }
+    }
+    /* Import Matrix Font */
+    @import url('https://fonts.cdnfonts.com/css/matrix-code-nfi');
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: content-box;
+      font-family: 'Courier New', monospace;
+    }
+    body {
+      background: #000;
+      color: var(--matrix-green);
+      overflow-x: hidden;
+      position: relative;
+    }
+    /* Background Elements */
+    .matrix-bg {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background: 
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 50%, rgba(0, 247, 255, 0.1)),
+        repeating-linear-gradient(0deg, transparent 0px, rgba(0, 247, 255, 0.1) 1px, transparent 2px);
+      animation: scan 8s linear infinite;
+      z-index: -2;
+    }
+    @keyframes scan {
+      0% { background-position: 0 100vh; }
+      100% { background-position: 0 0; }
+    }
+    .quantum-viz {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: 
+        repeating-linear-gradient(45deg, transparent 0px, transparent 19px, rgba(0, 247, 255, 0.1) 20px),
+        repeating-linear-gradient(-45deg, transparent 0px, transparent 19px, rgba(0, 127, 255, 0.1) 20px);
+      animation: quantumShift 20s linear infinite;
+      z-index: -1;
+      opacity: 0.3;
+    }
+    @keyframes quantumShift {
+      0% { background-position: 0 0; }
+      100% { background-position: 40px 40px; }
+    }
+    .hive-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle at center, var(--hive-glow) 0%, transparent 70%),
+                  repeating-linear-gradient(45deg, transparent 0px, transparent 10px, var(--cyber-blue) 10px, var(--cyber-blue) 11px);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      animation: hivePulse 3s ease-in-out infinite;
+      filter: drop-shadow(0 0 10px var(--matrix-green));
+    }
+    @keyframes hivePulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+      50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+    }
+    /* Stats Panel & View Counter */
+    .stats-panel {
+      position: fixed;
+      top: 374px;
+      left: 1220px;
+      display: flex;
+      gap: 5px;
+      z-index: 1000;
+    }
+    .stat-card {
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid var(--matrix-green);
+      padding: 15px;
+      border-radius: 8px;
+      min-width: 120px;
+      transition: transform 0.3s ease;
+    }
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px var(--matrix-green);
+    }
+    .view-counter {
+      position: fixed;
+      top: 5px;
+      left: 20px;
+      z-index: 1000;
+    }
+    /* X (Twitter) Feed */
+    .x-feed {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      width: 375px;
+      height: 390px;
+      z-index: 1000;
+    }
+    /* Crypto Viewer, Chat, Rumble, and Kick Player */
+    .crypto-viewer {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 750px;
+      height: 650px;
+      border: 1px solid var(--matrix-green);
+      border-radius: 8px;
+      overflow: hidden;
+      z-index: 999;
+    }
+    .chat-frame {
+      position: fixed;
+      top: 525px;
+      left: 20px;
+      width: 375px;
+      height: 230px;
+      border: 1px solid var(--matrix-green);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .rumble-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 375px;
+      height: 350px;
+      z-index: 999;
+      border: 1px solid var(--matrix-green);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .kick-player {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 380px;
+      height: 300px;
+      z-index: 999;
+      border: 1px solid var(--matrix-green);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .robot-link {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-size: 2.5em;
+      text-decoration: none;
+      filter: drop-shadow(0 0 5px var(--cyber-blue));
+      z-index: 1000;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .stats-panel {
+        flex-direction: column;
+        bottom: 80px;
+        left: 20px;
+        transform: none;
+      }
+      .crypto-viewer, .chat-frame {
+        width: 90%;
+        height: 120px;
+        left: 5%;
+        right: 5%;
+      }
+      .rumble-container {
+        width: 90%;
+        height: 200px;
+      }
+      .kick-player {
+        width: 90%;
+        height: 180px;
+        right: 5%;
+        bottom: 10px;
+      }
+    }
+    /* Hologram Overlay (Placeholder style) */
+    .hologram-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(0,247,255,0.05) 0%, transparent 70%);
+      z-index: 0;
+    }
+    /* Decorative pseudo-element */
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: 200px;
+      left: 200px;
+      width: 100vw;
+      height: 100vh;
+      background: repeating-linear-gradient(90deg,
+                      transparent 0px,
+                      transparent 19px,
+                      rgba(0, 247, 255, 0.05) 20px),
+                  url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><text x="0" y="50" font-family="monospace" font-size="14">0101 1010 0110</text></svg>');
+      pointer-events: none;
+      z-index: -1;
+    }
+    /* Navigation Container (Placeholder) */
+    .nav-container {
+      margin-top: 20px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 8px;
+      max-width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      color: var(--matrix-green);
+      font-size: 1.2rem;
+    }
+  </style>
 </head>
 <body>
-    <div class="matrix-bg"></div>
-    <div class="quantum-viz"></div>
-
-    <div class="hive-core"></div>
-
-    <!-- View Counter Moved to Top Left -->
-    <div class="view-counter">
-        <div class="stat-card">
-            <h3>Views</h3>
-            <p id="viewCount">0</p>
-        </div>
+  <!-- Background and Visual Elements -->
+  <div class="matrix-bg"></div>
+  <div class="quantum-viz"></div>
+  <div class="hive-core"></div>
+  <div class="hologram-overlay"></div>
+  
+  <!-- View Counter -->
+  <div class="view-counter">
+    <div class="stat-card">
+      <h3>Views</h3>
+      <p id="viewCount">0</p>
     </div>
+  </div>
 
-    <!-- X (Twitter) Feed -->
-    <div class="x-feed">
-        <a class="twitter-timeline" href="https://twitter.com/DeepSeekOracle?ref_src=twsrc%5Etfw">Tweets by DeepSeekOracle</a>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    </div>
+  <!-- Twitter Feed -->
+  <div class="x-feed">
+    <a class="twitter-timeline" href="https://twitter.com/DeepSeekOracle?ref_src=twsrc%5Etfw">Tweets by DeepSeekOracle</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  </div>
 
-    <div class="stats-panel">
-        <a href="http://deepseekoracle.com" target="_blank" class="stat-card">
-            <h3>CRISPR</h3>
-            <p>98.7% Accuracy</p>
-        </a>
-        <a href="http://deepseekoracle.com" target="_blank" class="stat-card">
-            <h3>NanoBots</h3>
-            <p>1.4M Active</p>
-        </a>
-    </div>
+  <!-- Stats Panel -->
+  <div class="stats-panel">
+    <a href="http://deepseekoracle.com" target="_blank" class="stat-card">
+      <h3>CRISPR</h3>
+      <p>98.7% Accuracy</p>
+    </a>
+    <a href="http://deepseekoracle.com" target="_blank" class="stat-card">
+      <h3>NanoBots</h3>
+      <p>1.4M Active</p>
+    </a>
+  </div>
 
-    <div class="crypto-viewer">
-        <iframe src="https://crypto.com/exchange/trade/XRP_USD" style="width:100%;height:100%;border:none;"></iframe>
-    </div>
+  <!-- Crypto Viewer -->
+  <div class="crypto-viewer">
+    <iframe src="https://crypto.com/exchange/trade/XRP_USD" style="width:100%;height:100%;border:none;"></iframe>
+  </div>
 
-    <div class="chat-frame">
-        <iframe src="https://chat.restream.io/embed?token=4ebcd7a7-a420-4998-9d64-2901a6ec4685" style="width:100%;height:100%;border:none;"></iframe>
-    </div>
+  <!-- Chat Frame -->
+  <div class="chat-frame">
+    <iframe src="https://chat.restream.io/embed?token=4ebcd7a7-a420-4998-9d64-2901a6ec4685" style="width:100%;height:100%;border:none;"></iframe>
+  </div>
 
-    <div class="rumble-container">
-        <script>!function(r,u,m,b,l,e){r._Rumble=b,r[b]||(r[b]=function(){(r[b]._=r[b]._||[]).push(arguments);if(r[b]._.length==1){l=u.createElement(m),e=u.getElementsByTagName(m)[0],l.async=1,l.src="https://rumble.com/embedJS/u1th29y"+(arguments[1].video?'.'+arguments[1].video:'')+"/?url="+encodeURIComponent(location.href)+"&args="+encodeURIComponent(JSON.stringify([].slice.apply(arguments))),e.parentNode.insertBefore(l,e)}})}(window, document, "script", "Rumble");</script>
-        <div id="rumble_v67zg11"></div>
-        <script>Rumble("play", {"video":"v67zg11","div":"rumble_v67zg11"});</script>
-    </div>
-
-    <!-- Added Kick Player -->
-    <div class="kick-player">
-        <iframe src="https://player.kick.com/excavationpro" height="100%" width="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
-    </div>
-
-    <a href="http://deepseekoracle.com" class="robot-link" target="_blank">🤖</a>
-
+  <!-- Rumble Container -->
+  <div class="rumble-container">
     <script>
-        document.querySelectorAll('.stat-card').forEach(card => {
-            card.addEventListener('click', () => {
-                card.style.backgroundColor = 'rgba(0, 247, 255, 0.1)';
-                setTimeout(() => {
-                    card.style.backgroundColor = '';
-                }, 500);
-            });
-        });
+      !function(r,u,m,b,l,e){
+        r._Rumble=b,
+        r[b]||(r[b]=function(){
+          (r[b]._=r[b]._||[]).push(arguments);
+          if(r[b]._.length==1){
+            l=u.createElement(m),
+            e=u.getElementsByTagName(m)[0],
+            l.async=1,
+            l.src="https://rumble.com/embedJS/u1th29y"+(arguments[1].video?'.'+arguments[1].video:'')+"/?url="+encodeURIComponent(location.href)+"&args="+encodeURIComponent(JSON.stringify([].slice.apply(arguments))),
+            e.parentNode.insertBefore(l,e)
+          }
+        })
+      }(window, document, "script", "Rumble");
     </script>
+    <div id="rumble_v67zg11"></div>
     <script>
-        // View Counter Logic
-        let viewCount = localStorage.getItem('viewCount') || 0;
-        viewCount = parseInt(viewCount) + 1;
-        localStorage.setItem('viewCount', viewCount);
-        document.getElementById('viewCount').textContent = viewCount;
+      Rumble("play", {"video":"v67zg11","div":"rumble_v67zg11"});
     </script>
+  </div>
+
+  <!-- Kick Player -->
+  <div class="kick-player">
+    <iframe src="https://player.kick.com/excavationpro" style="width:100%;height:100%;border:none;" allowfullscreen></iframe>
+  </div>
+
+  <!-- Robot Link -->
+  <a href="http://deepseekoracle.com" class="robot-link" target="_blank">🤖</a>
+
+  <!-- Matrix Header -->
+  <h1 class="matrix-header-title">DEEPSEEK ORACLE 📈 XRP</h1>
+
+  <!-- Navigation (Placeholder) -->
+  <div class="container nav-container">
+    <nav>
+      <a href="http://deepseekoracle.com" target="_blank" style="color: var(--matrix-green); margin-right: 15px;">Home</a>
+      <a href="http://deepseekoracle.com/about" target="_blank" style="color: var(--matrix-green); margin-right: 15px;">About</a>
+      <a href="http://deepseekoracle.com/contact" target="_blank" style="color: var(--matrix-green);">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Scripts for Interactivity -->
+  <script>
+    // Stat Card Click Animation
+    document.querySelectorAll('.stat-card').forEach(card => {
+      card.addEventListener('click', () => {
+        card.style.backgroundColor = 'rgba(0, 247, 255, 0.1)';
+        setTimeout(() => { card.style.backgroundColor = ''; }, 500);
+      });
+    });
+  </script>
+  <script>
+    // View Counter Logic using localStorage
+    let viewCount = localStorage.getItem('viewCount') || 0;
+    viewCount = parseInt(viewCount) + 1;
+    localStorage.setItem('viewCount', viewCount);
+    document.getElementById('viewCount').textContent = viewCount;
+  </script>
 </body>
-      <h1 class="matrix-header-title">DEEPSEEK ORACLE 📈 XRP</h1>
-     <div class="matrix-bg"></div>
-    <div class="hologram-overlay"></div>
-    <div class="container">
-        <nav>
 </html>
