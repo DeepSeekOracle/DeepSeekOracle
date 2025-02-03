@@ -3,18 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Auto Battler Game</title>
+  <title>Auto Battler Game - Upgraded Version</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
-      color: #333;
-      text-align: center;
       margin: 0;
       padding: 0;
-    }
-    .hidden {
-      display: none;
+      text-align: center;
     }
     .container {
       max-width: 800px;
@@ -24,14 +20,11 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
+    .hidden {
+      display: none;
+    }
     h1, h2, h3 {
       color: #2e3d49;
-    }
-    #startPage {
-      padding: 100px 20px;
-    }
-    .game-page {
-      display: none;
     }
     .button {
       padding: 10px 20px;
@@ -46,9 +39,6 @@
     .button:hover {
       background-color: #45a049;
     }
-    .stats, .player-menu, .store-menu, .fight-stats {
-      margin: 20px 0;
-    }
     .bar {
       width: 100%;
       background-color: #ddd;
@@ -62,231 +52,270 @@
       background-color: #4CAF50;
       transition: width 0.3s ease;
     }
-    .store-item {
-      margin: 10px 0;
-    }
-    .enemy {
-      margin: 20px 0;
-    }
-    .emoji {
-      font-size: 30px;
+    #gameOverScreen {
+      position: fixed;
+      top:0;
+      left:0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      font-size: 2em;
+      z-index: 10;
     }
   </style>
 </head>
 <body>
-
   <!-- Start Page -->
   <div id="startPage" class="container">
     <h1>Welcome to the Auto Battler Game!</h1>
     <p>Choose your character and prepare to fight endless enemies!</p>
-    <button class="button" onclick="startGame()">Start Game</button>
+    <button class="button" id="startGameBtn">Start Game</button>
   </div>
 
   <!-- Game Page -->
-  <div class="game-page">
+  <div id="gamePage" class="hidden">
     <!-- Character Selection -->
     <div id="playerMenu" class="container">
       <h2>Pick Your Character</h2>
-      <button class="button" onclick="createPlayer('Warrior')">Warrior 🗡️</button>
-      <button class="button" onclick="createPlayer('Archer')">Archer 🏹</button>
-      <button class="button" onclick="createPlayer('Mage')">Mage 🔮</button>
+      <button class="button" data-character="Warrior">Warrior 🗡️</button>
+      <button class="button" data-character="Archer">Archer 🏹</button>
+      <button class="button" data-character="Mage">Mage 🔮</button>
     </div>
 
     <!-- Game Area -->
-    <div id="game" class="container">
+    <div id="gameArea" class="container hidden">
       <!-- Player Battle Stats -->
-      <div id="fightStats" class="fight-stats">
+      <div id="fightStats">
         <p id="playerName"></p>
         <p>Health: <span id="playerHealth"></span></p>
         <div class="bar">
           <div id="playerHealthBar" class="bar-fill" style="width: 100%;"></div>
         </div>
-        <p>Money: <span id="playerMoney">0</span></p>
+        <p>Money: <span id="playerMoney"></span></p>
       </div>
 
       <!-- Store Menu for Upgrades -->
-      <div id="storeMenu" class="store-menu hidden">
-        <h3>Store - Spend your gold to upgrade</h3>
-        <div class="store-item">
-          <button class="button" onclick="upgradeHealth()">Upgrade Health</button> - 10 Gold
+      <div id="storeMenu" class="hidden">
+        <h3>Store - Upgrade Your Stats</h3>
+        <div>
+          <button class="button" id="upgradeHealthBtn">Upgrade Health (10 Gold)</button>
         </div>
-        <div class="store-item">
-          <button class="button" onclick="upgradeAttack()">Upgrade Attack</button> - 15 Gold
+        <div>
+          <button class="button" id="upgradeAttackBtn">Upgrade Attack (15 Gold)</button>
         </div>
-        <div class="store-item">
-          <button class="button" onclick="upgradeDefense()">Upgrade Defense</button> - 20 Gold
+        <div>
+          <button class="button" id="upgradeDefenseBtn">Upgrade Defense (20 Gold)</button>
         </div>
-        <button class="button" onclick="startBattle()">Start Battle</button>
+        <button class="button" id="startBattleBtn">Start Battle</button>
       </div>
 
       <!-- Enemy Encounter -->
-      <div id="enemyStats" class="enemy hidden">
-        <h3>Enemy Encountered!</h3>
-        <p id="enemyName"></p>
+      <div id="enemyStats" class="hidden">
+        <h3 id="enemyName"></h3>
         <p>Health: <span id="enemyHealth"></span></p>
         <div class="bar">
           <div id="enemyHealthBar" class="bar-fill" style="width: 100%;"></div>
         </div>
-        <button class="button" onclick="attackEnemy()">Attack Enemy</button>
+        <button class="button" id="attackEnemyBtn">Attack Enemy</button>
       </div>
     </div>
   </div>
 
+  <!-- Game Over Screen -->
+  <div id="gameOverScreen" class="hidden">
+    <p id="gameOverMessage"></p>
+    <button class="button" id="restartGameBtn">Restart Game</button>
+  </div>
+
   <script>
-    // Global Variables
-    let player = {};
-    let gameLevel = 1; // increases after each enemy defeat
-
-    // Player stats include maxHealth for proper health bar calculations.
-    let playerStats = { 
-      maxHealth: 100, 
-      health: 100, 
-      attack: 20, 
-      defense: 5, 
-      money: 0, 
-      level: 1 
+    // Grab DOM elements
+    const startPage = document.getElementById('startPage');
+    const gamePage = document.getElementById('gamePage');
+    const playerMenu = document.getElementById('playerMenu');
+    const gameArea = document.getElementById('gameArea');
+    const storeMenu = document.getElementById('storeMenu');
+    const enemyStatsDiv = document.getElementById('enemyStats');
+    const gameOverScreen = document.getElementById('gameOverScreen');
+    const gameOverMessage = document.getElementById('gameOverMessage');
+    
+    const playerNameDisplay = document.getElementById('playerName');
+    const playerHealthDisplay = document.getElementById('playerHealth');
+    const playerHealthBar = document.getElementById('playerHealthBar');
+    const playerMoneyDisplay = document.getElementById('playerMoney');
+    
+    const enemyNameDisplay = document.getElementById('enemyName');
+    const enemyHealthDisplay = document.getElementById('enemyHealth');
+    const enemyHealthBar = document.getElementById('enemyHealthBar');
+    
+    const startGameBtn = document.getElementById('startGameBtn');
+    const attackEnemyBtn = document.getElementById('attackEnemyBtn');
+    const upgradeHealthBtn = document.getElementById('upgradeHealthBtn');
+    const upgradeAttackBtn = document.getElementById('upgradeAttackBtn');
+    const upgradeDefenseBtn = document.getElementById('upgradeDefenseBtn');
+    const startBattleBtn = document.getElementById('startBattleBtn');
+    const restartGameBtn = document.getElementById('restartGameBtn');
+    
+    // Game variables
+    let gameLevel = 1;
+    let player = {
+      name: '',
+      stats: { maxHealth: 100, health: 100, attack: 20, defense: 5, money: 0, level: 1 }
     };
-
-    // Enemy stats will scale with the game level.
-    let enemyStats = { 
-      maxHealth: 100, 
-      health: 100, 
-      attack: 15, 
-      defense: 3, 
-      level: 1 
+    let enemy = {
+      stats: { maxHealth: 100, health: 100, attack: 15, defense: 3, level: 1 }
     };
-
-    // Start the game: hide start page and show game page.
-    function startGame() {
-      document.getElementById('startPage').classList.add('hidden');
-      // Display the entire game-page container.
-      document.querySelector('.game-page').style.display = "block";
-    }
-
-    // Character creation sets stats based on the selected character.
+    
+    // Start the game: show game page
+    startGameBtn.addEventListener('click', () => {
+      startPage.classList.add('hidden');
+      gamePage.classList.remove('hidden');
+    });
+    
+    // Character selection: using event delegation
+    playerMenu.addEventListener('click', (e) => {
+      if(e.target.matches('button[data-character]')) {
+        const character = e.target.getAttribute('data-character');
+        createPlayer(character);
+      }
+    });
+    
     function createPlayer(character) {
       player.name = character;
-      if (character === 'Warrior') {
-        playerStats.attack = 25;
-        playerStats.defense = 10;
-        playerStats.maxHealth = 120;
-      } else if (character === 'Archer') {
-        playerStats.attack = 20;
-        playerStats.defense = 5;
-        playerStats.maxHealth = 100;
-      } else if (character === 'Mage') {
-        playerStats.attack = 15;
-        playerStats.defense = 3;
-        playerStats.maxHealth = 90;
+      if(character === 'Warrior') {
+        player.stats.attack = 25;
+        player.stats.defense = 10;
+        player.stats.maxHealth = 120;
+      } else if(character === 'Archer') {
+        player.stats.attack = 20;
+        player.stats.defense = 5;
+        player.stats.maxHealth = 100;
+      } else if(character === 'Mage') {
+        player.stats.attack = 15;
+        player.stats.defense = 3;
+        player.stats.maxHealth = 90;
       }
-      playerStats.health = playerStats.maxHealth;
-      playerStats.money = 0;
-      playerStats.level = 1;
-
+      player.stats.health = player.stats.maxHealth;
+      player.stats.money = 0;
+      player.stats.level = 1;
+      
       updatePlayerDisplay();
-
-      document.getElementById('playerMenu').classList.add('hidden');
-      document.getElementById('storeMenu').classList.remove('hidden');
+      playerMenu.classList.add('hidden');
+      storeMenu.classList.remove('hidden');
+      gameArea.classList.remove('hidden');
     }
-
-    // Update player display information and health bar.
+    
     function updatePlayerDisplay() {
-      document.getElementById('playerName').innerText = `${player.name} - Level ${playerStats.level}`;
-      document.getElementById('playerHealth').innerText = playerStats.health + " / " + playerStats.maxHealth;
-      let healthPercent = (playerStats.health / playerStats.maxHealth) * 100;
-      document.getElementById('playerHealthBar').style.width = healthPercent + "%";
-      document.getElementById('playerMoney').innerText = playerStats.money;
+      playerNameDisplay.innerText = `${player.name} - Level ${player.stats.level}`;
+      playerHealthDisplay.innerText = `${player.stats.health} / ${player.stats.maxHealth}`;
+      playerHealthBar.style.width = `${(player.stats.health / player.stats.maxHealth) * 100}%`;
+      playerMoneyDisplay.innerText = player.stats.money;
     }
-
-    // Start a battle round with a new enemy whose stats scale with the game level.
+    
     function startBattle() {
-      enemyStats.level = gameLevel;
-      enemyStats.maxHealth = 100 + (gameLevel - 1) * 20;
-      enemyStats.health = enemyStats.maxHealth;
-      enemyStats.attack = 15 + (gameLevel - 1) * 2;
-      enemyStats.defense = 5 + (gameLevel - 1);
-
-      document.getElementById('enemyName').innerText = `Enemy - Level ${enemyStats.level}`;
-      document.getElementById('enemyHealth').innerText = enemyStats.health + " / " + enemyStats.maxHealth;
-      let enemyHealthPercent = (enemyStats.health / enemyStats.maxHealth) * 100;
-      document.getElementById('enemyHealthBar').style.width = enemyHealthPercent + "%";
-
-      document.getElementById('storeMenu').classList.add('hidden');
-      document.getElementById('enemyStats').classList.remove('hidden');
+      enemy.stats.level = gameLevel;
+      enemy.stats.maxHealth = 100 + (gameLevel - 1) * 20;
+      enemy.stats.health = enemy.stats.maxHealth;
+      enemy.stats.attack = 15 + (gameLevel - 1) * 2;
+      enemy.stats.defense = 5 + (gameLevel - 1);
+      
+      enemyNameDisplay.innerText = `Enemy - Level ${enemy.stats.level}`;
+      enemyHealthDisplay.innerText = `${enemy.stats.health} / ${enemy.stats.maxHealth}`;
+      enemyHealthBar.style.width = '100%';
+      
+      storeMenu.classList.add('hidden');
+      enemyStatsDiv.classList.remove('hidden');
     }
-
-    // Player attacks enemy; if enemy is defeated, reward gold and level up.
-    function attackEnemy() {
-      let damage = Math.max(0, playerStats.attack - enemyStats.defense);
-      enemyStats.health -= damage;
-      if (enemyStats.health < 0) enemyStats.health = 0;
+    
+    startBattleBtn.addEventListener('click', startBattle);
+    
+    function updateEnemyDisplay() {
+      enemyHealthDisplay.innerText = `${enemy.stats.health} / ${enemy.stats.maxHealth}`;
+      enemyHealthBar.style.width = `${(enemy.stats.health / enemy.stats.maxHealth) * 100}%`;
+    }
+    
+    // Player attacks enemy
+    attackEnemyBtn.addEventListener('click', () => {
+      const damageToEnemy = Math.max(0, player.stats.attack - enemy.stats.defense);
+      enemy.stats.health = Math.max(0, enemy.stats.health - damageToEnemy);
       updateEnemyDisplay();
-
-      if (enemyStats.health <= 0) {
-        let reward = 20 + gameLevel * 5;
-        playerStats.money += reward;
+      
+      if(enemy.stats.health === 0) {
+        const reward = 20 + gameLevel * 5;
+        player.stats.money += reward;
         updatePlayerDisplay();
         alert(`Enemy defeated! You gained ${reward} gold.`);
-        gameLevel++; // Increase game level for the next round
-        // Return to the store for potential upgrades.
-        document.getElementById('enemyStats').classList.add('hidden');
-        document.getElementById('storeMenu').classList.remove('hidden');
+        gameLevel++;
+        enemyStatsDiv.classList.add('hidden');
+        storeMenu.classList.remove('hidden');
       } else {
         enemyAttack();
       }
-    }
-
-    // Enemy attacks player.
+    });
+    
     function enemyAttack() {
-      let damage = Math.max(0, enemyStats.attack - playerStats.defense);
-      playerStats.health -= damage;
-      if (playerStats.health < 0) playerStats.health = 0;
+      const damageToPlayer = Math.max(0, enemy.stats.attack - player.stats.defense);
+      player.stats.health = Math.max(0, player.stats.health - damageToPlayer);
       updatePlayerDisplay();
-
-      if (playerStats.health <= 0) {
-        alert('You were defeated! Game Over.');
-        location.reload();
+      
+      if(player.stats.health === 0) {
+        endGame('You were defeated!');
       }
     }
-
-    // Update enemy display information and health bar.
-    function updateEnemyDisplay() {
-      document.getElementById('enemyHealth').innerText = enemyStats.health + " / " + enemyStats.maxHealth;
-      let percent = (enemyStats.health / enemyStats.maxHealth) * 100;
-      document.getElementById('enemyHealthBar').style.width = percent + "%";
-    }
-
-    // Upgrade functions deduct gold and increase player stats.
-    function upgradeHealth() {
-      if (playerStats.money >= 10) {
-        playerStats.money -= 10;
-        playerStats.maxHealth += 10;
-        playerStats.health += 10;
+    
+    // Upgrade buttons
+    upgradeHealthBtn.addEventListener('click', () => {
+      if(player.stats.money >= 10) {
+        player.stats.money -= 10;
+        player.stats.maxHealth += 10;
+        player.stats.health += 10;
         updatePlayerDisplay();
       } else {
         alert('Not enough gold!');
       }
-    }
-
-    function upgradeAttack() {
-      if (playerStats.money >= 15) {
-        playerStats.money -= 15;
-        playerStats.attack += 5;
+    });
+    
+    upgradeAttackBtn.addEventListener('click', () => {
+      if(player.stats.money >= 15) {
+        player.stats.money -= 15;
+        player.stats.attack += 5;
         updatePlayerDisplay();
       } else {
         alert('Not enough gold!');
       }
-    }
-
-    function upgradeDefense() {
-      if (playerStats.money >= 20) {
-        playerStats.money -= 20;
-        playerStats.defense += 3;
+    });
+    
+    upgradeDefenseBtn.addEventListener('click', () => {
+      if(player.stats.money >= 20) {
+        player.stats.money -= 20;
+        player.stats.defense += 3;
         updatePlayerDisplay();
       } else {
         alert('Not enough gold!');
       }
+    });
+    
+    function endGame(message) {
+      enemyStatsDiv.classList.add('hidden');
+      storeMenu.classList.add('hidden');
+      gameOverMessage.innerText = message;
+      gameOverScreen.classList.remove('hidden');
     }
+    
+    // Restart game resets all stats and returns to store menu
+    restartGameBtn.addEventListener('click', () => {
+      gameLevel = 1;
+      player.stats = { maxHealth: 100, health: 100, attack: 20, defense: 5, money: 0, level: 1 };
+      enemy.stats = { maxHealth: 100, health: 100, attack: 15, defense: 3, level: 1 };
+      gameOverScreen.classList.add('hidden');
+      storeMenu.classList.remove('hidden');
+      updatePlayerDisplay();
+    });
   </script>
 </body>
 </html>
+
