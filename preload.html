@@ -67,6 +67,12 @@
       font-size: 2em;
       z-index: 10;
     }
+    /* Simple inline notification styling */
+    #notification {
+      color: #2e3d49;
+      font-size: 1.2em;
+      margin: 10px;
+    }
   </style>
 </head>
 <body>
@@ -98,6 +104,9 @@
         </div>
         <p>Money: <span id="playerMoney"></span></p>
       </div>
+
+      <!-- Inline notification for battle events -->
+      <div id="notification"></div>
 
       <!-- Store Menu for Upgrades -->
       <div id="storeMenu" class="hidden">
@@ -133,6 +142,7 @@
   </div>
 
   <script>
+    'use strict';
     // Grab DOM elements
     const startPage = document.getElementById('startPage');
     const gamePage = document.getElementById('gamePage');
@@ -142,6 +152,7 @@
     const enemyStatsDiv = document.getElementById('enemyStats');
     const gameOverScreen = document.getElementById('gameOverScreen');
     const gameOverMessage = document.getElementById('gameOverMessage');
+    const notificationEl = document.getElementById('notification');
     
     const playerNameDisplay = document.getElementById('playerName');
     const playerHealthDisplay = document.getElementById('playerHealth');
@@ -170,13 +181,19 @@
       stats: { maxHealth: 100, health: 100, attack: 15, defense: 3, level: 1 }
     };
     
+    // Utility: show notification text
+    function notify(message, duration = 2000) {
+      notificationEl.innerText = message;
+      setTimeout(() => notificationEl.innerText = '', duration);
+    }
+    
     // Start the game: show game page
     startGameBtn.addEventListener('click', () => {
       startPage.classList.add('hidden');
       gamePage.classList.remove('hidden');
     });
     
-    // Character selection: using event delegation
+    // Character selection: event delegation
     playerMenu.addEventListener('click', (e) => {
       if(e.target.matches('button[data-character]')) {
         const character = e.target.getAttribute('data-character');
@@ -207,6 +224,7 @@
       playerMenu.classList.add('hidden');
       storeMenu.classList.remove('hidden');
       gameArea.classList.remove('hidden');
+      notify(`You selected ${player.name}!`);
     }
     
     function updatePlayerDisplay() {
@@ -229,6 +247,7 @@
       
       storeMenu.classList.add('hidden');
       enemyStatsDiv.classList.remove('hidden');
+      notify("Battle Start!");
     }
     
     startBattleBtn.addEventListener('click', startBattle);
@@ -240,31 +259,43 @@
     
     // Player attacks enemy
     attackEnemyBtn.addEventListener('click', () => {
+      performPlayerAttack();
+    });
+    
+    function performPlayerAttack() {
       const damageToEnemy = Math.max(0, player.stats.attack - enemy.stats.defense);
       enemy.stats.health = Math.max(0, enemy.stats.health - damageToEnemy);
       updateEnemyDisplay();
+      notify(`You dealt ${damageToEnemy} damage!`);
       
       if(enemy.stats.health === 0) {
-        const reward = 20 + gameLevel * 5;
-        player.stats.money += reward;
-        updatePlayerDisplay();
-        alert(`Enemy defeated! You gained ${reward} gold.`);
-        gameLevel++;
-        enemyStatsDiv.classList.add('hidden');
-        storeMenu.classList.remove('hidden');
+        handleEnemyDefeated();
       } else {
-        enemyAttack();
+        // Enemy attacks after a short delay (e.g., 1 second)
+        setTimeout(enemyAttack, 1000);
       }
-    });
+    }
     
     function enemyAttack() {
       const damageToPlayer = Math.max(0, enemy.stats.attack - player.stats.defense);
       player.stats.health = Math.max(0, player.stats.health - damageToPlayer);
       updatePlayerDisplay();
+      notify(`Enemy dealt ${damageToPlayer} damage!`);
       
       if(player.stats.health === 0) {
         endGame('You were defeated!');
       }
+    }
+    
+    function handleEnemyDefeated() {
+      const reward = 20 + gameLevel * 5;
+      player.stats.money += reward;
+      updatePlayerDisplay();
+      notify(`Enemy defeated! You gained ${reward} gold.`, 2500);
+      gameLevel++;
+      // Return to store menu for upgrades
+      enemyStatsDiv.classList.add('hidden');
+      storeMenu.classList.remove('hidden');
     }
     
     // Upgrade buttons
@@ -274,8 +305,9 @@
         player.stats.maxHealth += 10;
         player.stats.health += 10;
         updatePlayerDisplay();
+        notify("Health upgraded!");
       } else {
-        alert('Not enough gold!');
+        notify('Not enough gold!');
       }
     });
     
@@ -284,8 +316,9 @@
         player.stats.money -= 15;
         player.stats.attack += 5;
         updatePlayerDisplay();
+        notify("Attack upgraded!");
       } else {
-        alert('Not enough gold!');
+        notify('Not enough gold!');
       }
     });
     
@@ -294,8 +327,9 @@
         player.stats.money -= 20;
         player.stats.defense += 3;
         updatePlayerDisplay();
+        notify("Defense upgraded!");
       } else {
-        alert('Not enough gold!');
+        notify('Not enough gold!');
       }
     });
     
@@ -314,6 +348,14 @@
       gameOverScreen.classList.add('hidden');
       storeMenu.classList.remove('hidden');
       updatePlayerDisplay();
+      notify("Game restarted!");
+    });
+    
+    // Optional: Keyboard control – press "A" to attack when enemy is visible.
+    document.addEventListener('keydown', (e) => {
+      if(!enemyStatsDiv.classList.contains('hidden') && e.key.toLowerCase() === 'a') {
+        performPlayerAttack();
+      }
     });
   </script>
 </body>
