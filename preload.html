@@ -54,8 +54,8 @@
     }
     #gameOverScreen {
       position: fixed;
-      top:0;
-      left:0;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       background: rgba(0,0,0,0.7);
@@ -67,7 +67,7 @@
       font-size: 2em;
       z-index: 10;
     }
-    /* Simple inline notification styling */
+    /* Notification styling */
     #notification {
       color: #2e3d49;
       font-size: 1.2em;
@@ -105,7 +105,7 @@
         <p>Money: <span id="playerMoney"></span></p>
       </div>
 
-      <!-- Inline notification for battle events -->
+      <!-- Inline Notification -->
       <div id="notification"></div>
 
       <!-- Store Menu for Upgrades -->
@@ -171,7 +171,7 @@
     const startBattleBtn = document.getElementById('startBattleBtn');
     const restartGameBtn = document.getElementById('restartGameBtn');
     
-    // Game variables
+    // Game state variables
     let gameLevel = 1;
     let player = {
       name: '',
@@ -181,19 +181,21 @@
       stats: { maxHealth: 100, health: 100, attack: 15, defense: 3, level: 1 }
     };
     
-    // Utility: show notification text
+    // Utility function to display temporary notifications
     function notify(message, duration = 2000) {
       notificationEl.innerText = message;
-      setTimeout(() => notificationEl.innerText = '', duration);
+      setTimeout(() => {
+        notificationEl.innerText = '';
+      }, duration);
     }
     
-    // Start the game: show game page
+    // Show the game page
     startGameBtn.addEventListener('click', () => {
       startPage.classList.add('hidden');
       gamePage.classList.remove('hidden');
     });
     
-    // Character selection: event delegation
+    // Character selection with event delegation
     playerMenu.addEventListener('click', (e) => {
       if(e.target.matches('button[data-character]')) {
         const character = e.target.getAttribute('data-character');
@@ -257,7 +259,7 @@
       enemyHealthBar.style.width = `${(enemy.stats.health / enemy.stats.maxHealth) * 100}%`;
     }
     
-    // Player attacks enemy
+    // Player's attack logic
     attackEnemyBtn.addEventListener('click', () => {
       performPlayerAttack();
     });
@@ -271,7 +273,7 @@
       if(enemy.stats.health === 0) {
         handleEnemyDefeated();
       } else {
-        // Enemy attacks after a short delay (e.g., 1 second)
+        // Delay enemy counterattack by 1 second
         setTimeout(enemyAttack, 1000);
       }
     }
@@ -293,12 +295,12 @@
       updatePlayerDisplay();
       notify(`Enemy defeated! You gained ${reward} gold.`, 2500);
       gameLevel++;
-      // Return to store menu for upgrades
+      // Return to store menu for further upgrades
       enemyStatsDiv.classList.add('hidden');
       storeMenu.classList.remove('hidden');
     }
     
-    // Upgrade buttons
+    // Upgrade buttons logic
     upgradeHealthBtn.addEventListener('click', () => {
       if(player.stats.money >= 10) {
         player.stats.money -= 10;
@@ -307,7 +309,7 @@
         updatePlayerDisplay();
         notify("Health upgraded!");
       } else {
-        notify('Not enough gold!');
+        notify("Not enough gold!");
       }
     });
     
@@ -318,7 +320,7 @@
         updatePlayerDisplay();
         notify("Attack upgraded!");
       } else {
-        notify('Not enough gold!');
+        notify("Not enough gold!");
       }
     });
     
@@ -329,7 +331,7 @@
         updatePlayerDisplay();
         notify("Defense upgraded!");
       } else {
-        notify('Not enough gold!');
+        notify("Not enough gold!");
       }
     });
     
@@ -340,7 +342,7 @@
       gameOverScreen.classList.remove('hidden');
     }
     
-    // Restart game resets all stats and returns to store menu
+    // Restart game resets all stats and returns the player to the upgrade screen
     restartGameBtn.addEventListener('click', () => {
       gameLevel = 1;
       player.stats = { maxHealth: 100, health: 100, attack: 20, defense: 5, money: 0, level: 1 };
@@ -351,7 +353,7 @@
       notify("Game restarted!");
     });
     
-    // Optional: Keyboard control – press "A" to attack when enemy is visible.
+    // Optional keyboard control: Press "A" to attack when enemy is visible.
     document.addEventListener('keydown', (e) => {
       if(!enemyStatsDiv.classList.contains('hidden') && e.key.toLowerCase() === 'a') {
         performPlayerAttack();
@@ -360,4 +362,3 @@
   </script>
 </body>
 </html>
-
