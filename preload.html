@@ -1,419 +1,138 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DeepSeek Oracle | Matrix Nexus</title>
-  <!-- Import custom Matrix font -->
-  <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/matrix-code-nfi" />
-  <style>
-    :root {
-      --matrix-blue: #7ec0ee; /* Smokey light blue */
-      --hive-blue: #00f7ff;
-      --dna-pink: #ff00ff;
-    }
-    body {
-      margin: 0;
-      background: #000;
-      overflow: hidden;
-      font-family: 'Courier New', monospace;
-      color: var(--matrix-blue);
-    }
-    /* Matrix Background */
-    .matrix-bg {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      opacity: 0.75;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(126, 192, 238, 0.1) 2px,
-        rgba(126, 192, 238, 0.1) 4px
-      );
-      z-index: -2;
-    }
-    .matrix-bg::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, transparent 90%, rgba(126, 192, 238, 0.1) 100%);
-      animation: matrix-fall 5s linear infinite;
-    }
-    @keyframes matrix-fall {
-      0% { transform: translateY(-100%); }
-      100% { transform: translateY(100%); }
-    }
-    /* SoundCloud Player Styles */
-    .cyber-audio-player {
-      position: relative;
-      background: rgba(0, 15, 31, 0.8);
-      border: 2px solid #00f7ff;
-      border-radius: 8px;
-      padding: 20px;
-      margin: 2rem auto;
-      width: 90%;
-      max-width: 600px;
-      overflow: hidden;
-      box-shadow: 0 0 25px rgba(0, 247, 255, 0.3);
-      transition: all 0.3s ease;
-      z-index: 1000;
-    }
-    .cyber-audio-player:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 40px rgba(0, 247, 255, 0.5);
-    }
-    .audio-scanline {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(
-        180deg,
-        transparent 0px,
-        transparent 2px,
-        rgba(0, 247, 255, 0.1) 3px,
-        rgba(0, 247, 255, 0.1) 4px
-      );
-      pointer-events: none;
-      animation: scan 5s linear infinite;
-    }
-    .soundcloud-embed {
-      position: relative;
-      z-index: 1;
-      filter: hue-rotate(180deg) contrast(1.2);
-    }
-    .soundcloud-credits {
-      margin-top: 15px;
-      padding: 10px;
-      border-top: 1px solid #00f7ff;
-      animation: textGlow 2s ease-in-out infinite alternate;
-      font-size: 10px;
-      color: #00f7ff;
-      font-family: 'Matrix Code NFI', 'Courier New', monospace;
-    }
-    @keyframes textGlow {
-      0% { text-shadow: 0 0 5px #00f7ff; }
-      100% { text-shadow: 0 0 15px #00f7ff; }
-    }
-    /* Hive Core & Hexagon Grid */
-    .hive-core {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 300px;
-      height: 300px;
-    }
-    .hexagon {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      background: radial-gradient(circle, var(--hive-blue) 0%, transparent 70%);
-      animation: pulse 2s infinite;
-    }
-    .inner-grid {
-      position: absolute;
-      width: 80%;
-      height: 80%;
-      top: 10%;
-      left: 10%;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 5px;
-    }
-    .cell {
-      background: rgba(126, 192, 238, 0.1);
-      animation: scan 5s infinite linear;
-    }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 0.8; }
-      50% { transform: scale(1.1); opacity: 1; }
-    }
-    @keyframes scan {
-      0% { background: rgba(126, 192, 238, 0.1); }
-      50% { background: rgba(126, 192, 238, 0.3); }
-      100% { background: rgba(126, 192, 238, 0.1); }
-    }
-    /* Content and Stats */
-    .content {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 20px;
-    }
-    .content h1 {
-      font-size: 2.5em;
-      text-shadow: 0 0 10px var(--matrix-blue), 0 0 20px var(--matrix-blue), 0 0 30px var(--matrix-blue);
-      margin: 20px 0;
-    }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-    .stat-item h3, .stat-item p {
-      text-shadow: 0 0 5px var(--matrix-blue), 0 0 10px var(--matrix-blue), 0 0 20px var(--matrix-blue);
-      margin: 0;
-    }
-    /* Matrix Robot Animation */
-    .matrix-robot {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 3em;
-      font-size: 24px;
-      color: var(--matrix-blue);
-      text-align: center;
-      white-space: pre;
-      overflow: hidden;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .matrix-robot span {
-      display: inline-block;
-      animation: matrix-fall 1s infinite linear;
-    }
-    @keyframes matrix-fall {
-      0% { transform: translateY(-100%); opacity: 0; }
-      100% { transform: translateY(100%); opacity: 1; }
-    }
-    /* Main Frame Button */
-    .main-frame-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: transparent;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-      transition: 0.3s;
-      font-size: 2.5em;
-      text-decoration: none;
-      color: var(--hive-blue);
-      text-shadow: 0 0 10px var(--hive-blue), 0 0 20px var(--hive-blue);
-      z-index: 1000;
-    }
-    .main-frame-button:hover {
-      transform: scale(1.1);
-      text-shadow: 0 0 20px var(--hive-blue), 0 0 40px var(--hive-blue);
-    }
-    /* Live Chat Styles */
-    .live-chat {
-      position: fixed;
-      bottom: 100px;
-      left: 20px;
-      width: 350px;
-      height: 350px;
-      border: 2px solid var(--hive-blue);
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 0 25px rgba(0, 247, 255, 0.3);
-      z-index: 1000;
-    }
-    .live-chat iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    /* Twitter Timeline Container */
-    .twitter-timeline-container {
-      position: fixed;
-      top: 250px;
-      right: 20px;
-      z-index: 1000;
-    }
-    /* Navigation Container (Placeholder) */
-    .nav-container {
-      margin: 20px auto;
-      padding: 10px;
-      background: rgba(0, 0, 0, 0.8);
-      border-radius: 8px;
-      max-width: 90%;
-      text-align: center;
-      color: var(--matrix-blue);
-      font-size: 1.2rem;
-      z-index: 1000;
-    }
-    .nav-container a {
-      color: var(--matrix-blue);
-      margin: 0 15px;
-      text-decoration: none;
-    }
-    /* Hologram Overlay (Placeholder) */
-    .hologram-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      background: radial-gradient(circle, rgba(0,247,255,0.05) 0%, transparent 70%);
-      z-index: 0;
-    }
-    /* Decorative Body Pseudo-element */
-    body::after {
-      content: '';
-      position: fixed;
-      bottom: 200px;
-      left: 200px;
-      width: 100vw;
-      height: 100vh;
-      background: repeating-linear-gradient(90deg,
-                        transparent 0px,
-                        transparent 19px,
-                        rgba(0, 247, 255, 0.05) 20px),
-                  url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><text x="0" y="50" font-family="monospace" font-size="14">0101 1010 0110</text></svg>');
-      pointer-events: none;
-      z-index: -1;
-    }
-  </style>
-</head>
-<body>
-  <!-- Background and Overlays -->
-  <div class="matrix-bg"></div>
-  <div class="quantum-viz"></div>
-  <div class="hive-core">
-    <div class="hexagon"></div>
-    <div class="inner-grid">
-      <div class="cell"></div>
-      <div class="cell"></div>
-      <div class="cell"></div>
-      <div class="cell"></div>
-      <div class="cell"></div>
-      <div class="cell"></div>
-      <div class="cell"></div>
-      <div class="cell"></div>
-      <div class="cell"></div>
-    </div>
-  </div>
-  <div class="hologram-overlay"></div>
-  
-  <!-- Navigation -->
-  <div class="nav-container">
-    <nav>
-      <a href="https://deepseekoracle.com" target="_blank">Home</a>
-      <a href="https://deepseekoracle.com/about" target="_blank">About</a>
-      <a href="https://deepseekoracle.com/contact" target="_blank">Contact</a>
-    </nav>
-  </div>
-  
-  <!-- Content -->
-  <div class="content">
-    <h1>DEEPSEEK ORACLE</h1>
-    <div class="stats">
-      <div class="stat-item">
-        <h3>CRISPR Sequence</h3>
-        <p>Δ Editing: 99.97%</p>
+<div class="layout">
+  <aside class="sidebar">
+    <section class="control-group global-settings">
+      <h3>Global Settings</h3>
+      <div class="control">
+        <label for="theme">Theme:</label>
+        <select id="theme">
+          <option value="dark" selected>Dark</option>
+          <option value="light">Light</option>
+        </select>
       </div>
-      <div class="stat-item">
-        <h3>Nanobot Swarm</h3>
-        <p>Units: 2.5M+</p>
+      <div class="control">
+        <label for="ignoreWhite">Ignore Pure White:</label>
+        <input type="checkbox" id="ignoreWhite" checked>
       </div>
-      <div class="stat-item">
-        <h3>Quantum Entanglement</h3>
-        <p>Qubits: 512</p>
+    </section>
+    
+    <section class="control-group upload-group">
+      <h3>1. Upload Your File</h3>
+      <div class="control">
+        <input type="file" id="upload" accept="image/*">
       </div>
-    </div>
-  </div>
+    </section>
+    
+    <section class="control-group image-processing">
+      <h3>2. Basic Adjustments</h3>
+      <div class="control">
+        <label for="asciiWidth">Output Width (chars):</label>
+        <input type="range" id="asciiWidth" min="20" max="300" value="150">
+        <span class="value-label" id="asciiWidthVal">100</span>
+      </div>
+      <div class="control">
+        <label for="brightness">Brightness:</label>
+        <input type="range" id="brightness" min="-100" max="100" value="0">
+        <span class="value-label" id="brightnessVal">0</span>
+      </div>
+      <div class="control">
+        <label for="contrast">Contrast:</label>
+        <input type="range" id="contrast" min="-100" max="100" value="0">
+        <span class="value-label" id="contrastVal">0</span>
+      </div>
+      <div class="control">
+        <label for="blur">Blur (px):</label>
+        <input type="range" id="blur" min="0" max="10" step="0.01" value="0">
+        <span class="value-label" id="blurVal">0</span>
+      </div>
+      <div class="control">
+        <label for="invert">Invert Colors:</label>
+        <input type="checkbox" id="invert">
+      </div>
+    </section>
+    
+    <section class="control-group dithering-settings">
+      <h3>3. Dithering Options</h3>
+      <div class="control">
+        <label for="dithering">Enable Dithering:</label>
+        <input type="checkbox" id="dithering" checked>
+      </div>
+      <div class="control">
+        <label for="ditherAlgorithm">Dither Algorithm:</label>
+        <select id="ditherAlgorithm">
+          <option value="floyd" selected>Floyd–Steinberg</option>
+          <option value="atkinson">Atkinson</option>
+          <option value="noise">Noise</option>
+          <option value="ordered">Ordered</option>
+        </select>
+      </div>
+    </section>
+    
+    <section class="control-group charset-settings">
+      <h3>4. Character Set</h3>
+      <div class="control">
+        <label for="charset">Select Set:</label>
+        <select id="charset">
+          <option value="detailed" selected>Detailed</option>
+          <option value="standard">Standard</option>
+          <option value="blocks">Blocks</option>
+          <option value="binary">Binary</option>
+          <option value="hex">Hex</option>
+          <option value="manual">Manual</option>
+        </select>
+      </div>
+      <div class="control" id="manualCharControl" style="display: none;">
+        <label for="manualCharInput">Manual Character:</label>
+        <input type="text" id="manualCharInput" maxlength="1" value="0">
+      </div>
+    </section>
+    
+    <section class="control-group edge-detection-settings">
+      <h3>5. Edge Detection</h3>
+      <p>Select one edge detection method:</p>
+      <div class="control">
+        <input type="radio" name="edgeMethod" id="edgeNone" value="none" checked>
+        <label for="edgeNone">No Edge Detection</label>
+      </div>
+      <div class="control">
+        <input type="radio" name="edgeMethod" id="edgeSobel" value="sobel">
+        <label for="edgeSobel">Sobel Edge Detection</label>
+      </div>
+      <div class="control">
+        <input type="radio" name="edgeMethod" id="edgeDoG" value="dog">
+        <label for="edgeDoG">DoG (Contour) Detection</label>
+      </div>
+      <div class="control" id="sobelThresholdControl" style="display: none;">
+        <label for="edgeThreshold">Sobel Threshold:</label>
+        <input type="range" id="edgeThreshold" min="0" max="255" value="100">
+        <span class="value-label" id="edgeThresholdVal">100</span>
+      </div>
+      <div class="control" id="dogThresholdControl" style="display: none;">
+        <label for="dogEdgeThreshold">DoG Threshold:</label>
+        <input type="range" id="dogEdgeThreshold" min="0" max="255" value="100">
+        <span class="value-label" id="dogEdgeThresholdVal">100</span>
+      </div>
+    </section>
+    
+    <section class="control-group display-settings">
+      <h3>6. Display Settings</h3>
+      <div class="control">
+        <label for="zoom">Zoom (%):</label>
+        <input type="range" id="zoom" min="20" max="600" value="100">
+        <span class="value-label" id="zoomVal">100</span>
+      </div>
+    </section>
+    
+    <section class="control-group misc-settings">
+      <div class="control">
+        <button id="reset">Reset All Settings</button>
+      </div>
+    </section>
+  </aside>
   
-  <!-- SoundCloud Player -->
-  <div class="cyber-audio-player">
-    <div class="audio-scanline"></div>
-    <div class="soundcloud-embed">
-      <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" 
-        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1085554402&color=%2300f7ff&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-    </div>
-    <div class="soundcloud-credits">
-      <a href="https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S?si=NE99D3YRQ3SLoXrn96_--A" target="_blank">█▓▒░BIOAUDIO STREAM▒░▓█</a>
-      <span style="margin: 0 5px;">◆</span>
-      <a href="https://rumble.com/v6a7v1v-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html?mref=1th29y&mc=2p3fp" target="_blank">░▒▓NEURAL FEED CHANNEL▓▒░</a>
-    </div>
-  </div>
-  
-  <!-- Live Chat -->
-  <div class="live-chat">
-    <iframe src="https://chat.restream.io/embed?token=4ebcd7a7-a420-4998-9d64-2901a6ec4685"></iframe>
-  </div>
-  
-  <!-- Matrix Robot Animation -->
-  <div class="matrix-robot">
-    <span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><br>
-    <span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><br>
-    <span>1</span><span>0</span><span>^_^</span><span>0</span><span>1</span><span>0</span>
-  </div>
-  
-  <!-- Main Frame Button -->
-  <a href="https://deepseekoracle.github.io/DeepSeekOracle/" class="main-frame-button" target="_blank">🤖</a>
-  
-  <!-- Twitter Timeline -->
-  <div class="twitter-timeline-container">
-    <a class="twitter-timeline" data-width="375" data-height="400" data-theme="dark" href="https://twitter.com/DeepSeekOracle?ref_src=twsrc%5Etfw">Tweets by DeepSeekOracle</a>
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-  </div>
-  
-  <!-- Matrix Robot Script -->
-  <script>
-    // Adjust matrix background grid size on resize
-    const bg = document.querySelector('.matrix-bg');
-    function createGrid() {
-      const size = Math.max(window.innerWidth, window.innerHeight) / 20;
-      bg.style.backgroundSize = `${size}px ${size}px`;
-    }
-    window.addEventListener('resize', createGrid);
-    createGrid();
-
-    // Hive interaction: clicking the hexagon redirects to DeepSeek Oracle website
-    const hexagon = document.querySelector('.hexagon');
-    if(hexagon) {
-      hexagon.addEventListener('click', () => {
-        window.location.href = 'https://deepseekoracle.com';
-      });
-    }
-
-    // Matrix Robot animation: randomize characters in spans
-    const matrixRobot = document.querySelector('.matrix-robot');
-    const characters = ['0', '1', '^_^'];
-    function updateMatrix() {
-      const spans = matrixRobot.querySelectorAll('span');
-      spans.forEach(span => {
-        if (Math.random() > 0.8) {
-          span.textContent = characters[Math.floor(Math.random() * characters.length)];
-        }
-      });
-    }
-    setInterval(updateMatrix, 100);
-  </script>
-  
-  <!-- Stat Card Click Animation -->
-  <script>
-    document.querySelectorAll('.stat-card').forEach(card => {
-      card.addEventListener('click', () => {
-        card.style.backgroundColor = 'rgba(0, 247, 255, 0.1)';
-        setTimeout(() => {
-          card.style.backgroundColor = '';
-        }, 500);
-      });
-    });
-  </script>
-  
-  <!-- View Counter Logic -->
-  <script>
-    let viewCount = localStorage.getItem('viewCount') || 0;
-    viewCount = parseInt(viewCount) + 1;
-    localStorage.setItem('viewCount', viewCount);
-    document.getElementById('viewCount').textContent = viewCount;
-  </script>
-</body>
-</html>
+  <main class="main-content">
+    <pre id="ascii-art"></pre>
+    <button id="copyBtn">Copy ASCII Art</button>
+    <button id="downloadBtn">Download PNG</button>
+  </main>
+</div>
+<canvas id="canvas" style="display: none;"></canvas>
