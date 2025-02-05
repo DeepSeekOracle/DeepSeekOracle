@@ -13,8 +13,8 @@
     /* Matrix Header Styles (XRP Title) */
     .matrix-header-title {
       position: fixed;
-      /* Position above the crypto viewer (300px high) with a margin */
-      bottom: 330px; 
+      /* Positioned above the Crypto Viewer */
+      bottom: 480px; 
       left: 20px;
       font-family: 'Matrix Code NFI', 'Courier New', monospace;
       color: var(--matrix-green);
@@ -104,28 +104,29 @@
       0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
       50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
     }
-    /* Crypto Viewer (moved to bottom left) */
+    /* Crypto Viewer (updated to 350x450) */
     .crypto-viewer {
       position: fixed;
       bottom: 20px;
       left: 20px;
-      width: 300px;
-      height: 300px;
+      width: 350px;
+      height: 450px;
       border: 1px solid var(--matrix-green);
       border-radius: 8px;
       overflow: hidden;
       z-index: 999;
     }
-    /* Chat Frame remains unchanged */
+    /* Chat Frame (increased size by 25% and moved to bottom right) */
     .chat-frame {
       position: fixed;
-      top: 525px;
+      bottom: 20px;
       right: 20px;
-      width: 375px;
-      height: 230px;
+      width: 470px; /* increased from 375px to ~470px */
+      height: 290px; /* increased from 230px to ~290px */
       border: 1px solid var(--matrix-green);
       border-radius: 8px;
       overflow: hidden;
+      z-index: 1000;
     }
     /* Kick Player now covers the full page and is placed as a background element */
     .kick-player {
@@ -152,13 +153,13 @@
       }
       .crypto-viewer, .chat-frame {
         width: 90%;
-        height: 120px;
+        height: auto;
         left: 5%;
         right: 5%;
       }
       .kick-player {
         width: 90%;
-        height: 180px;
+        height: auto;
         right: 5%;
         bottom: 10px;
       }
@@ -224,7 +225,7 @@
   <!-- XRP Title Positioned Above the Crypto Viewer -->
   <h1 class="matrix-header-title">📈 XRP</h1>
 
-  <!-- Chat Frame -->
+  <!-- Chat Frame in Bottom Right -->
   <div class="chat-frame">
     <iframe src="https://chat.restream.io/embed?token=4ebcd7a7-a420-4998-9d64-2901a6ec4685" style="width:100%;height:100%;border:none;"></iframe>
   </div>
@@ -241,4 +242,3 @@
   </script>
 </body>
 </html>
-
