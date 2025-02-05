@@ -59,7 +59,7 @@
     /* Crypto Viewer (updated to 350x450) */
     .crypto-viewer {
       position: fixed;
-      top: 80px;
+      top: 150px;
       left: 20px;
       width: 500px;
       height: 450px;
@@ -68,18 +68,7 @@
       overflow: hidden;
       z-index: 999;
     }
-    /* Chat Frame (increased size by 25% and moved to bottom right) */
-    .chat-frame {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 470px; /* increased from 375px to ~470px */
-      height: 290px; /* increased from 230px to ~290px */
-      border: 1px solid var(--matrix-green);
-      border-radius: 8px;
-      overflow: hidden;
-      z-index: 1000;
-    }
+ 
     /* Kick Player now covers the full page and is placed as a background element */
     .kick-player {
       position: fixed;
@@ -89,15 +78,7 @@
       height: 100vh;
       z-index: -3;
       overflow: hidden;
-    }
-    .robot-link {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      font-size: 2.5em;
-      text-decoration: none;
-      filter: drop-shadow(0 0 5px var(--cyber-blue));
-      z-index: 1000;
+    
     }
     /* Responsive adjustments */
     @media (max-width: 768px) {
@@ -110,9 +91,10 @@
         right: 5%;
       }
       .kick-player {
-        width: 90%;
-        height: 90%;
+        width: 80%;
+        height: 80%;
         right: 15%;
+        top: 0px;
         bottom: 0px;
       }
     }
