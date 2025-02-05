@@ -14,7 +14,7 @@
     .matrix-header-title {
       position: fixed;
       /* Positioned above the Crypto Viewer */
-      bottom: 480px; 
+      top: 100px; 
       left: 20px;
       font-family: 'Matrix Code NFI', 'Courier New', monospace;
       color: var(--matrix-green);
@@ -55,59 +55,11 @@
       overflow-x: hidden;
       position: relative;
     }
-    /* Background Elements */
-    .matrix-bg {
-      position: fixed;
-      width: 100vw;
-      height: 100vh;
-      background: 
-        linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 50%, rgba(0, 247, 255, 0.1)),
-        repeating-linear-gradient(0deg, transparent 0px, rgba(0, 247, 255, 0.1) 1px, transparent 2px);
-      animation: scan 8s linear infinite;
-      z-index: -2;
-    }
-    @keyframes scan {
-      0% { background-position: 0 100vh; }
-      100% { background-position: 0 0; }
-    }
-    .quantum-viz {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: 
-        repeating-linear-gradient(45deg, transparent 0px, transparent 19px, rgba(0, 247, 255, 0.1) 20px),
-        repeating-linear-gradient(-45deg, transparent 0px, transparent 19px, rgba(0, 127, 255, 0.1) 20px);
-      animation: quantumShift 20s linear infinite;
-      z-index: -1;
-      opacity: 0.3;
-    }
-    @keyframes quantumShift {
-      0% { background-position: 0 0; }
-      100% { background-position: 40px 40px; }
-    }
-    .hive-core {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle at center, var(--hive-glow) 0%, transparent 70%),
-                  repeating-linear-gradient(45deg, transparent 0px, transparent 10px, var(--cyber-blue) 10px, var(--cyber-blue) 11px);
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      animation: hivePulse 3s ease-in-out infinite;
-      filter: drop-shadow(0 0 10px var(--matrix-green));
-    }
-    @keyframes hivePulse {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-      50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
-    }
+   
     /* Crypto Viewer (updated to 350x450) */
     .crypto-viewer {
       position: fixed;
-      bottom: 80px;
+      top: 80px;
       left: 20px;
       width: 500px;
       height: 450px;
