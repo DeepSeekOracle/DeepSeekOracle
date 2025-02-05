@@ -104,15 +104,6 @@
       0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
       50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
     }
-    /* Stats Panel & View Counter */
-    
-    .view-counter {
-      position: fixed;
-      top: 80px;
-      left: 20px;
-      z-index: 1000;
-    }
-
     /* Crypto Viewer, Chat, Rumble, and Kick Player */
     .crypto-viewer {
       position: fixed;
@@ -220,14 +211,6 @@
   <div class="quantum-viz"></div>
   <div class="hive-core"></div>
   <div class="hologram-overlay"></div>
-  
-  <!-- View Counter -->
-  <div class="view-counter">
-    <div class="stat-card">
-      <h3>Views</h3>
-      <p id="viewCount">0</p>
-    </div>
-  </div>
 
   <!-- Crypto Viewer -->
   <div class="crypto-viewer">
@@ -245,7 +228,7 @@
   </div>
 
   <!-- Matrix Header -->
-  <h1 class="matrix-header-title">DEEPSEEK ORACLE 📈 XRP</h1>
+  <h1 class="matrix-header-title">📈 XRP</h1>
 
   <!-- Scripts for Interactivity -->
   <script>
@@ -256,13 +239,6 @@
         setTimeout(() => { card.style.backgroundColor = ''; }, 500);
       });
     });
-  </script>
-  <script>
-    // View Counter Logic using localStorage
-    let viewCount = localStorage.getItem('viewCount') || 0;
-    viewCount = parseInt(viewCount) + 1;
-    localStorage.setItem('viewCount', viewCount);
-    document.getElementById('viewCount').textContent = viewCount;
   </script>
 </body>
 </html>
