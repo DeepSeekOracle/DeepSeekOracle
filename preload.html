@@ -10,12 +10,12 @@
       --cyber-blue: #00f7ff;
       --hive-glow: rgba(0, 247, 255, 0.3);
     }
-    /* Matrix Header Styles */
+    /* Matrix Header Styles (XRP Title) */
     .matrix-header-title {
       position: fixed;
-      top: 5px;
-      left: 50%;
-      transform: translateX(-50%);
+      /* Position above the crypto viewer (300px high) with a margin */
+      bottom: 330px; 
+      left: 20px;
       font-family: 'Matrix Code NFI', 'Courier New', monospace;
       color: var(--matrix-green);
       font-size: 2.5rem;
@@ -104,12 +104,11 @@
       0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
       50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
     }
-    /* Crypto Viewer, Chat, Rumble, and Kick Player */
+    /* Crypto Viewer (moved to bottom left) */
     .crypto-viewer {
       position: fixed;
-      top: 50%;
-      left: 20%;
-      transform: translate(-50%, -50%);
+      bottom: 20px;
+      left: 20px;
       width: 300px;
       height: 300px;
       border: 1px solid var(--matrix-green);
@@ -117,6 +116,7 @@
       overflow: hidden;
       z-index: 999;
     }
+    /* Chat Frame remains unchanged */
     .chat-frame {
       position: fixed;
       top: 525px;
@@ -127,15 +127,14 @@
       border-radius: 8px;
       overflow: hidden;
     }
+    /* Kick Player now covers the full page and is placed as a background element */
     .kick-player {
       position: fixed;
-      bottom: 20px;
-      left: 300px;
-      width: 380px;
-      height: 300px;
-      z-index: 999;
-      border: 1px solid var(--matrix-green);
-      border-radius: 8px;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -3;
       overflow: hidden;
     }
     .robot-link {
@@ -212,24 +211,24 @@
   <div class="hive-core"></div>
   <div class="hologram-overlay"></div>
 
-  <!-- Crypto Viewer -->
+  <!-- Kick Player as Full-Page Background -->
+  <div class="kick-player">
+    <iframe src="https://player.kick.com/excavationpro" style="width:100%;height:100%;border:none;" allowfullscreen></iframe>
+  </div>
+
+  <!-- Crypto Viewer at Bottom Left -->
   <div class="crypto-viewer">
     <iframe src="https://crypto.com/exchange/trade/XRP_USD" style="width:100%;height:100%;border:none;"></iframe>
   </div>
+
+  <!-- XRP Title Positioned Above the Crypto Viewer -->
+  <h1 class="matrix-header-title">📈 XRP</h1>
 
   <!-- Chat Frame -->
   <div class="chat-frame">
     <iframe src="https://chat.restream.io/embed?token=4ebcd7a7-a420-4998-9d64-2901a6ec4685" style="width:100%;height:100%;border:none;"></iframe>
   </div>
   
-  <!-- Kick Player -->
-  <div class="kick-player">
-    <iframe src="https://player.kick.com/excavationpro" style="width:100%;height:100%;border:none;" allowfullscreen></iframe>
-  </div>
-
-  <!-- Matrix Header -->
-  <h1 class="matrix-header-title">📈 XRP</h1>
-
   <!-- Scripts for Interactivity -->
   <script>
     // Stat Card Click Animation
@@ -242,3 +241,4 @@
   </script>
 </body>
 </html>
+
