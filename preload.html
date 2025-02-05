@@ -3,155 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DeepSeek Oracle Matrix</title>
+  <title>XRP Crypto Live Feed</title>
   <style>
-    :root {
-      --matrix-green: #00f7ff;
-      --cyber-blue: #00f7ff;
-      --hive-glow: rgba(0, 247, 255, 0.3);
-    }
-    /* Matrix Header Styles (XRP Title) */
-    .matrix-header-title {
-      position: fixed;
-      /* Positioned above the Crypto Viewer */
-      top: 149px; 
-      left: 20px;
-      font-family: 'Matrix Code NFI', 'Courier New', monospace;
-      color: var(--matrix-green);
-      font-size: 2.5rem;
-      text-transform: uppercase;
-      letter-spacing: 4px;
-      text-shadow: 
-        0 0 10px var(--matrix-green),
-        0 0 20px var(--matrix-green),
-        0 0 30px #007c7c,
-        0 0 40px var(--matrix-green);
-      z-index: 1000;
-      animation: headPulse 2s infinite alternate;
-      white-space: nowrap;
-    }
-    @keyframes headPulse {
-      0% { 
-        opacity: 0.9;
-        text-shadow: 0 0 10px var(--matrix-green), 0 0 20px var(--matrix-green);
-      }
-      100% { 
-        opacity: 1;
-        text-shadow: 0 0 20px var(--matrix-green), 0 0 40px var(--matrix-green), 0 0 60px #007c7c;
-      }
-    }
-    /* Import Matrix Font */
-    @import url('https://fonts.cdnfonts.com/css/matrix-code-nfi');
-    /* Global Reset */
-    * {
+    /* Reset body and html */
+    body, html {
       margin: 0;
       padding: 0;
-      box-sizing: content-box;
-      font-family: 'Courier New', monospace;
-    }
-    body {
+      height: 100%;
       background: #000;
-      color: var(--matrix-green);
-      overflow-x: hidden;
-      position: relative;
-    }
-   
-    /* Crypto Viewer (updated to 350x450) */
-    .crypto-viewer {
-      position: fixed;
-      top: 200px;
-      left: 20px;
-      width: 500px;
-      height: 450px;
-      border: 1px solid var(--matrix-green);
-      border-radius: 8px;
       overflow: hidden;
-      z-index: 999;
+      font-family: Arial, sans-serif;
     }
- 
-    /* Kick Player now covers the full page and is placed as a background element */
-    .kick-player {
+    /* Kick stream as active background */
+    .kick-background {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: -3;
-      overflow: hidden;
-    
-    }
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .stats-panel {
-      }
-      .crypto-viewer, .chat-frame {
-        width: 90%;
-        height: auto;
-        left: 5%;
-        right: 5%;
-      }
-      .kick-player {
-        width: 60%;
-        height: 60%;
-        right: 15%;
-        top: 0px;
-        bottom: 0px;
-      }
-    }
-    /* Hologram Overlay (Placeholder style) */
-    .hologram-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      background: radial-gradient(circle, rgba(0,247,255,0.05) 0%, transparent 70%);
-      z-index: 0;
-    }
-    /* Decorative pseudo-element */
-    body::after {
-      content: '';
-      position: fixed;
-      bottom: 200px;
-      left: 200px;
-      width: 100vw;
-      height: 100vh;
-      background: repeating-linear-gradient(90deg,
-                      transparent 0px,
-                      transparent 19px,
-                      rgba(0, 247, 255, 0.05) 20px),
-                  url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><text x="0" y="50" font-family="monospace" font-size="14">0101 1010 0110</text></svg>');
-      pointer-events: none;
       z-index: -1;
+    }
+    /* Chart container positioned bottom left */
+    .chart-container {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 350px;
+      height: 450px;
+      border: 1px solid #00f7ff;
+      border-radius: 8px;
+      background: transparent;
+      z-index: 100;
+      overflow: hidden;
+    }
+    /* TradingView widget container overrides */
+    .tradingview-widget-container {
+      width: 100%;
+      height: 100%;
+      background: transparent;
     }
   </style>
 </head>
 <body>
-  
-
-  <!-- Kick Player as Full-Page Background -->
-  <div class="kick-player">
-    <iframe src="https://player.kick.com/excavationpro" style="width:100%;height:100%;border:none;" allowfullscreen></iframe>
+  <!-- Kick stream as the full-screen background -->
+  <div class="kick-background">
+    <iframe 
+      src="https://player.kick.com/excavationpro" 
+      style="width:100%; height:100%; border:none;" 
+      allowfullscreen>
+    </iframe>
   </div>
 
-  <!-- Crypto Viewer at Bottom Left -->
-  <div class="crypto-viewer">
-    <iframe src="https://crypto.com/exchange/trade/XRP_USD" style="width:100%;height:100%;border:none;"></iframe>
+  <!-- Advanced Transparent Chart for XRP live feed -->
+  <div class="chart-container">
+    <div class="tradingview-widget-container">
+      <div id="tradingview_xrp"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+      <script type="text/javascript">
+        new TradingView.widget({
+          "width": "100%",
+          "height": "100%",
+          "symbol": "COINBASE:XRPUSD",
+          "interval": "D",
+          "timezone": "Etc/UTC",
+          "theme": "dark",
+          "style": "1",
+          "locale": "en",
+          "toolbar_bg": "rgba(0,0,0,0)",
+          "enable_publishing": false,
+          "hide_side_toolbar": false,
+          "allow_symbol_change": true,
+          "container_id": "tradingview_xrp"
+        });
+      </script>
+    </div>
   </div>
-
-  <!-- XRP Title Positioned Above the Crypto Viewer -->
-  <h1 class="matrix-header-title">📈 XRP</h1>
-  
-  <!-- Scripts for Interactivity -->
-  <script>
-    // Stat Card Click Animation
-    document.querySelectorAll('.stat-card').forEach(card => {
-      card.addEventListener('click', () => {
-        card.style.backgroundColor = 'rgba(0, 247, 255, 0.1)';
-        setTimeout(() => { card.style.backgroundColor = ''; }, 500);
-      });
-    });
-  </script>
 </body>
 </html>
