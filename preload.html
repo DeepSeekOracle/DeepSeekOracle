@@ -4,81 +4,116 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Holographic Oracle AI</title>
-  <!-- Importing a modern monospace font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* Reset default margin and padding */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* Reset and base styles */
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+    }
+
     body {
       background: linear-gradient(135deg, #000, #001);
-      overflow: hidden;
-      height: 100vh;
       font-family: 'Roboto Mono', monospace;
       color: #00FF00;
+      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
+      overflow: hidden;
     }
-    /* Full-screen canvas for Matrix rain effect */
+
+    /* Matrix canvas optimizations */
     #matrixCanvas {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       z-index: -1;
+      pointer-events: none;
     }
+
     main {
       text-align: center;
-      width: 100%;
-      max-width: 600px;
-      color: #fff;
+      width: min(95%, 600px);
       animation: pulse 3s infinite;
     }
+
     .oracle-title {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      margin-bottom: 1.5rem;
       text-shadow: 0 0 10px rgba(0,255,255,0.8);
     }
+
     .content {
-      margin-top: 20px;
-      font-size: 1.2rem;
-      padding: 15px;
+      margin: 1rem auto;
+      padding: 1.2rem;
       background: rgba(0,0,0,0.5);
       border-radius: 10px;
       text-shadow: 0 0 5px #0ff;
-      min-height: 3em;
       opacity: 0;
       transition: opacity 0.5s ease-in;
+      width: 100%;
     }
+
     .content.show {
       opacity: 1;
     }
-    /* Spinner styling */
+
+    /* Spinner with reduced motion support */
     .spinner {
       border: 4px solid rgba(0, 255, 255, 0.2);
       border-top: 4px solid #0ff;
       border-radius: 50%;
       width: 30px;
       height: 30px;
-      animation: spin 1s linear infinite;
       margin: 0 auto;
+      animation: spin 1s linear infinite;
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .spinner {
+        animation: spin 2s linear infinite;
+      }
+    }
+
+    /* Animations with vendor prefixes */
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+
+    @-webkit-keyframes pulse {
+      0%, 100% { text-shadow: 0 0 20px rgba(0,255,255,0.8); }
+      50% { text-shadow: 0 0 40px rgba(0,255,255,1); }
+    }
+
     @keyframes pulse {
       0%, 100% { text-shadow: 0 0 20px rgba(0,255,255,0.8); }
       50% { text-shadow: 0 0 40px rgba(0,255,255,1); }
     }
-    /* Responsive adjustments */
+
+    /* Mobile optimizations */
     @media (max-width: 480px) {
-      .oracle-title {
-        font-size: 2rem;
+      .content {
+        padding: 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .spinner {
+        width: 25px;
+        height: 25px;
+        border-width: 3px;
       }
     }
   </style>
@@ -86,87 +121,129 @@
 <body>
   <canvas id="matrixCanvas"></canvas>
   <main role="main">
-    <h1 class="oracle-title">Holographic Oracle AI</h1>
-    <div class="content" id="adviceArea"></div>
-    <div class="content" id="quoteArea"></div>
+    <h1 class="oracle-title" role="heading" aria-level="1">Holographic Oracle AI</h1>
+    
+    <section class="content" id="adviceArea" 
+             aria-live="polite" aria-atomic="true"
+             role="region" aria-label="Daily Advice">
+      <div class="spinner"></div>
+    </section>
+
+    <section class="content" id="quoteArea" 
+             aria-live="polite" aria-atomic="true"
+             role="region" aria-label="Inspirational Quote">
+      <div class="spinner"></div>
+    </section>
   </main>
 
   <script>
-    // Matrix Rain effect using requestAnimationFrame for smooth animation
-    const canvas = document.getElementById('matrixCanvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%';
-    const fontSize = 16;
-    const columns = Math.floor(canvas.width / fontSize);
-    const drops = Array.from({length: columns}, () => Math.random() * canvas.height);
-    
-    function drawMatrix() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#0F0';
-      ctx.font = fontSize + 'px monospace';
-      for (let i = 0; i < drops.length; i++) {
-        const text = letters.charAt(Math.floor(Math.random() * letters.length));
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
+    // Optimized Matrix Rain
+    (function() {
+      const canvas = document.getElementById('matrixCanvas');
+      const ctx = canvas.getContext('2d');
+      let animationFrameId;
+      let lastRender = 0;
+      const throttle = 33; // ~30fps
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      function draw(timestamp) {
+        if (!lastRender || timestamp - lastRender >= throttle) {
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          
+          ctx.fillStyle = '#0F0';
+          ctx.font = '16px monospace';
+          
+          const columns = Math.floor(canvas.width / 16);
+          for (let i = 0; i < columns; i++) {
+            const yPos = Math.random() * canvas.height;
+            ctx.fillText(
+              String.fromCharCode(0x30A0 + Math.random() * 96),
+              i * 16,
+              yPos
+            );
+          }
+          lastRender = timestamp;
         }
-        drops[i]++;
+        animationFrameId = requestAnimationFrame(draw);
       }
-      requestAnimationFrame(drawMatrix);
-    }
-    drawMatrix();
 
-    // Function to fetch random advice from Advice Slip API
-    async function fetchAdvice() {
-      const adviceArea = document.getElementById('adviceArea');
-      adviceArea.innerHTML = '<div class="spinner"></div>';
-      adviceArea.classList.remove('show');
-
-      try {
-        const response = await fetch('https://api.adviceslip.com/advice');
-        if (!response.ok) throw new Error('Failed to fetch advice');
-        const data = await response.json();
-        adviceArea.innerHTML = `<strong>Advice:</strong> ${data.slip.advice}`;
-        adviceArea.classList.add('show');
-      } catch (error) {
-        adviceArea.innerHTML = `Error: ${error.message}`;
-        adviceArea.classList.add('show');
+      function initMatrix() {
+        resize();
+        window.addEventListener('resize', resize);
+        animationFrameId = requestAnimationFrame(draw);
       }
-    }
 
-    // Function to fetch random quote from Quotable API
-    async function fetchQuote() {
-      const quoteArea = document.getElementById('quoteArea');
-      quoteArea.innerHTML = '<div class="spinner"></div>';
-      quoteArea.classList.remove('show');
-
-      try {
-        const response = await fetch('https://api.quotable.io/random');
-        if (!response.ok) throw new Error('Failed to fetch quote');
-        const data = await response.json();
-        quoteArea.innerHTML = `<strong>Quote:</strong> "${data.content}" - ${data.author}`;
-        quoteArea.classList.add('show');
-      } catch (error) {
-        quoteArea.innerHTML = `Error: ${error.message}`;
-        quoteArea.classList.add('show');
+      function stopMatrix() {
+        cancelAnimationFrame(animationFrameId);
+        window.removeEventListener('resize', resize);
       }
-    }
 
-    // Fetch advice and quote when the page loads
-    window.onload = () => {
-      fetchAdvice();
-      fetchQuote();
+      // Start with reduced motion preference
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        initMatrix();
+      }
+    })();
+
+    // API handling with error management
+    const apiConfig = {
+      advice: {
+        url: 'https://api.adviceslip.com/advice',
+        parser: data => data.slip.advice
+      },
+      quote: {
+        url: 'https://api.quotable.io/random',
+        parser: data => `"${data.content}" - ${data.author}`
+      }
     };
 
-    // Adjust canvas size on window resize
-    window.addEventListener('resize', function() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    async function fetchContent(type) {
+      const element = document.getElementById(`${type}Area`);
+      try {
+        const response = await fetch(apiConfig[type].url, {
+          headers: { 'Accept': 'application/json' }
+        });
+        
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        
+        const data = await response.json();
+        element.innerHTML = apiConfig[type].parser(data);
+        element.classList.add('show');
+      } catch (error) {
+        element.innerHTML = `Failed to load ${type}. Please try again later.`;
+        element.classList.add('show');
+        console.error(`API Error (${type}):`, error);
+      }
+    }
+
+    // Throttled content refresh
+    let lastFetch = 0;
+    const fetchInterval = 30000; // 30 seconds
+    
+    function refreshContent() {
+      const now = Date.now();
+      if (now - lastFetch >= fetchInterval) {
+        fetchContent('advice');
+        fetchContent('quote');
+        lastFetch = now;
+      }
+    }
+
+    // Initial load
+    window.addEventListener('DOMContentLoaded', () => {
+      fetchContent('advice');
+      fetchContent('quote');
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) refreshContent();
+      });
     });
+
+    // Touch optimization
+    document.documentElement.style.touchAction = 'manipulation';
   </script>
 </body>
 </html>
