@@ -127,7 +127,7 @@
     }
     setInterval(drawMatrix, 33);
     
-    // Function to query the AI endpoint
+    // Function to query the AI endpoint using Hugging Face Inference API
     async function askOracle() {
       const query = document.getElementById('query').value.trim();
       const responseArea = document.getElementById('responseArea');
@@ -140,13 +140,13 @@
       responseArea.innerHTML = "Thinking...";
       
       try {
-        const response = await fetch("https://api-inference.huggingface.co/models/distilgpt2", {  // Replace with your API endpoint
+        const response = await fetch("https://api-inference.huggingface.co/models/distilgpt2", {
           method: "POST",
           headers: {
+            "Authorization": "Bearer YOUR_HUGGING_FACE_API_TOKEN", // Replace with your actual token
             "Content-Type": "application/json"
-            // For security, do not expose your API key on the client side.
           },
-          body: JSON.stringify({ query: query })
+          body: JSON.stringify({ inputs: query })
         });
         
         if (!response.ok) {
@@ -154,8 +154,8 @@
         }
         
         const data = await response.json();
-        // Assume the server responds with an object { answer: "..." }
-        responseArea.innerHTML = data.answer || "No answer received.";
+        // The API returns an array of generated texts
+        responseArea.innerHTML = data && data.length > 0 ? data[0].generated_text : "No answer received.";
       } catch (error) {
         responseArea.innerHTML = "Error: " + error.message;
       }
