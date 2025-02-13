@@ -1,82 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>XRP Crypto Live Feed</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Holographic Oracle AI</title>
   <style>
-    /* Reset body and html */
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: #000;
+    /* Reset default margin and padding */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: black;
       overflow: hidden;
-      font-family: Arial, sans-serif;
+      height: 100vh;
+      font-family: 'Courier New', Courier, monospace;
+      color: #00FF00;
     }
-    /* Kick stream as active background */
-    .kick-background {
+    /* Full-screen canvas for Matrix rain effect */
+    #matrixCanvas {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-    }
-    /* Chart container positioned bottom left */
-    .chart-container {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      width: 350px;
-      height: 450px;
-      border: 1px solid #00f7ff;
-      border-radius: 8px;
-      background: transparent;
-      z-index: 100;
-      overflow: hidden;
-    }
-    /* TradingView widget container overrides */
-    .tradingview-widget-container {
       width: 100%;
       height: 100%;
-      background: transparent;
+      z-index: -1;
+    }
+    /* Container for the holographic Oracle */
+    .oracle-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 80%;
+      max-width: 600px;
+      color: #fff;
+      animation: pulse 3s infinite;
+    }
+    .oracle-title {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+    }
+    .search-bar {
+      position: relative;
+      width: 100%;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 1.2rem;
+      border: none;
+      outline: none;
+      border-radius: 50px;
+      background: rgba(0,0,0,0.7);
+      color: #0ff;
+      text-shadow: 0 0 5px #0ff;
+    }
+    .search-bar input::placeholder {
+      color: #0ff;
+      opacity: 0.7;
+    }
+    .search-bar button {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #0ff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      text-shadow: 0 0 10px #0ff;
+    }
+    .response {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      padding: 10px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 10px;
+      text-shadow: 0 0 5px #0ff;
+    }
+    @keyframes pulse {
+      0%, 100% { text-shadow: 0 0 20px rgba(0,255,255,0.8); }
+      50% { text-shadow: 0 0 40px rgba(0,255,255,1); }
     }
   </style>
 </head>
 <body>
-  <!-- Kick stream as the full-screen background -->
-  <div class="kick-background">
-    <iframe 
-      src="https://player.kick.com/excavationpro" 
-      style="width:100%; height:100%; border:none;" 
-      allowfullscreen>
-    </iframe>
-  </div>
-
-  <!-- Advanced Transparent Chart for XRP live feed -->
-  <div class="chart-container">
-    <div class="tradingview-widget-container">
-      <div id="tradingview_xrp"></div>
-      <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-      <script type="text/javascript">
-        new TradingView.widget({
-          "width": "100%",
-          "height": "100%",
-          "symbol": "COINBASE:XRPUSD",
-          "interval": "D",
-          "timezone": "Etc/UTC",
-          "theme": "dark",
-          "style": "1",
-          "locale": "en",
-          "toolbar_bg": "rgba(0,0,0,0)",
-          "enable_publishing": false,
-          "hide_side_toolbar": false,
-          "allow_symbol_change": true,
-          "container_id": "tradingview_xrp"
-        });
-      </script>
+  <canvas id="matrixCanvas"></canvas>
+  <div class="oracle-container">
+    <div class="oracle-title">Holographic Oracle AI</div>
+    <div class="search-bar">
+      <input type="text" id="query" placeholder="Ask the Oracle...">
+      <button onclick="askOracle()">🔍</button>
     </div>
+    <div class="response" id="responseArea"></div>
   </div>
+  
+  <script>
+    // Matrix Rain effect using canvas
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%';
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+    for (let x = 0; x < columns; x++) {
+      drops[x] = Math.random() * canvas.height;
+    }
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#0F0';
+      ctx.font = fontSize + 'px monospace';
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 33);
+    
+    // Simulated Oracle AI responses
+    const responses = [
+      "The Oracle says: The answer lies within your soul.",
+      "The future is mysterious and ever-changing.",
+      "A shadow looms on the horizon.",
+      "Embrace the unknown, and your path will reveal itself.",
+      "The digital stream whispers secrets.",
+      "Seek, and you shall find enlightenment.",
+      "Your query unlocks hidden truths."
+    ];
+    
+    function askOracle() {
+      const query = document.getElementById('query').value.trim();
+      const responseArea = document.getElementById('responseArea');
+      if (query === "") {
+        responseArea.innerHTML = "Please ask a question.";
+      } else {
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        responseArea.innerHTML = randomResponse;
+      }
+    }
+    
+    // Trigger search on Enter key press
+    document.getElementById('query').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        askOracle();
+      }
+    });
+    
+    // Adjust canvas size on window resize
+    window.addEventListener('resize', function() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
 </body>
 </html>
+
