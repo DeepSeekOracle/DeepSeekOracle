@@ -16,8 +16,8 @@
     }
 
     body {
-      background: linear-gradient(135deg, #000, #001);
       font-family: 'Roboto Mono', monospace;
+      background: linear-gradient(135deg, #000, #001);
       color: #00FF00;
       height: 100vh;
       display: flex;
@@ -25,6 +25,12 @@
       justify-content: center;
       padding: 20px;
       overflow: hidden;
+      transition: background 0.5s, color 0.5s;
+    }
+
+    body.light-theme {
+      background: linear-gradient(135deg, #f0f0f0, #ffffff);
+      color: #333;
     }
 
     /* Matrix canvas optimizations */
@@ -59,6 +65,12 @@
       opacity: 0;
       transition: opacity 0.5s ease-in;
       width: 100%;
+    }
+
+    .light-theme .content {
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
+      text-shadow: none;
     }
 
     .content.show {
@@ -116,10 +128,40 @@
         border-width: 3px;
       }
     }
+
+    /* Theme toggle button */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.7);
+      border: 1px solid #0ff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      color: #0ff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(0,255,255,0.2);
+      box-shadow: 0 0 10px rgba(0,255,255,0.5);
+    }
+
+    .light-theme .theme-toggle {
+      background: rgba(255,255,255,0.8);
+      color: #333;
+      border-color: #333;
+    }
   </style>
 </head>
 <body>
   <canvas id="matrixCanvas"></canvas>
+  <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">🌓</button>
   <main role="main">
     <h1 class="oracle-title" role="heading" aria-level="1">Holographic Oracle AI</h1>
     
@@ -128,15 +170,21 @@
              role="region" aria-label="Daily Advice">
       <div class="spinner"></div>
     </section>
-
-    <section class="content" id="quoteArea" 
-             aria-live="polite" aria-atomic="true"
-             role="region" aria-label="Inspirational Quote">
-      <div class="spinner"></div>
-    </section>
   </main>
 
   <script>
+    // Theme management
+    function toggleTheme() {
+      document.body.classList.toggle('light-theme');
+      localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+    }
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.body.classList.add('light-theme');
+    }
+
     // Optimized Matrix Rain
     (function() {
       const canvas = document.getElementById('matrixCanvas');
@@ -189,34 +237,20 @@
       }
     })();
 
-    // API handling with error management
-    const apiConfig = {
-      advice: {
-        url: 'https://api.adviceslip.com/advice',
-        parser: data => data.slip.advice
-      },
-      quote: {
-        url: 'https://api.quotable.io/random',
-        parser: data => `"${data.content}" - ${data.author}`
-      }
-    };
-
-    async function fetchContent(type) {
-      const element = document.getElementById(`${type}Area`);
+    // Fetch advice from Advice Slip API
+    async function fetchAdvice() {
+      const adviceArea = document.getElementById('adviceArea');
       try {
-        const response = await fetch(apiConfig[type].url, {
-          headers: { 'Accept': 'application/json' }
-        });
-        
+        const response = await fetch('https://api.adviceslip.com/advice');
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         
         const data = await response.json();
-        element.innerHTML = apiConfig[type].parser(data);
-        element.classList.add('show');
+        adviceArea.innerHTML = `<strong>Advice:</strong> ${data.slip.advice}`;
+        adviceArea.classList.add('show');
       } catch (error) {
-        element.innerHTML = `Failed to load ${type}. Please try again later.`;
-        element.classList.add('show');
-        console.error(`API Error (${type}):`, error);
+        adviceArea.innerHTML = `Failed to load advice. Please try again later.`;
+        adviceArea.classList.add('show');
+        console.error('API Error:', error);
       }
     }
 
@@ -227,16 +261,14 @@
     function refreshContent() {
       const now = Date.now();
       if (now - lastFetch >= fetchInterval) {
-        fetchContent('advice');
-        fetchContent('quote');
+        fetchAdvice();
         lastFetch = now;
       }
     }
 
     // Initial load
     window.addEventListener('DOMContentLoaded', () => {
-      fetchContent('advice');
-      fetchContent('quote');
+      fetchAdvice();
       document.addEventListener('visibilitychange', () => {
         if (!document.hidden) refreshContent();
       });
