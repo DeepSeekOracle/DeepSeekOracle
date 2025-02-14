@@ -120,6 +120,26 @@
       100% { transform: rotate(360deg); }
     }
 
+    /* Holographic robot emoji link */
+    .robot-link {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-size: 2rem;
+      color: #00FF00;
+      text-shadow: 
+        0 0 5px #00FF00, 
+        0 0 10px #00FF00, 
+        0 0 20px #00FF00;
+      animation: glow 1.5s infinite alternate;
+      text-decoration: none;
+      transition: transform 0.3s ease;
+    }
+
+    .robot-link:hover {
+      transform: scale(1.2);
+    }
+
     /* Mobile optimizations */
     @media (max-width: 480px) {
       .content {
@@ -132,6 +152,10 @@
         height: 25px;
         border-width: 3px;
       }
+
+      .robot-link {
+        font-size: 1.5rem;
+      }
     }
   </style>
 </head>
@@ -141,7 +165,7 @@
 
   <!-- Main content -->
   <main role="main">
-    <h1 class="oracle-title" role="heading" aria-level="1">🤖AI Oracle</h1>
+    <h1 class="oracle-title" role="heading" aria-level="1">Holographic Oracle AI</h1>
     
     <section class="content" id="adviceArea" 
              aria-live="polite" aria-atomic="true"
@@ -149,6 +173,11 @@
       <div class="spinner"></div>
     </section>
   </main>
+
+  <!-- Holographic robot emoji link -->
+  <a href="https://deepseekoracle.github.io/DeepSeekOracle/" class="robot-link" aria-label="Visit DeepSeek Oracle">
+    🤖
+  </a>
 
   <script>
     // Matrix Rain Effect
