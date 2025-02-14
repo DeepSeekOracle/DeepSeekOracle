@@ -17,23 +17,16 @@
 
     body {
       font-family: 'Roboto Mono', monospace;
-      background: linear-gradient(135deg, #000, #001);
+      background: #000;
       color: #00FF00;
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
       overflow: hidden;
-      transition: background 0.5s, color 0.5s;
     }
 
-    body.light-theme {
-      background: linear-gradient(135deg, #f0f0f0, #ffffff);
-      color: #333;
-    }
-
-    /* Matrix canvas optimizations */
+    /* Matrix canvas */
     #matrixCanvas {
       position: fixed;
       top: 0;
@@ -44,33 +37,61 @@
       pointer-events: none;
     }
 
+    /* Main container */
     main {
       text-align: center;
       width: min(95%, 600px);
-      animation: pulse 3s infinite;
+      position: relative;
+      z-index: 1;
     }
 
+    /* Holographic title */
     .oracle-title {
       font-size: clamp(1.5rem, 5vw, 2.5rem);
       margin-bottom: 1.5rem;
-      text-shadow: 0 0 10px rgba(0,255,255,0.8);
+      color: #00FF00;
+      text-shadow: 
+        0 0 5px #00FF00, 
+        0 0 10px #00FF00, 
+        0 0 20px #00FF00, 
+        0 0 40px #00FF00;
+      animation: glow 1.5s infinite alternate;
     }
 
+    @keyframes glow {
+      0% {
+        text-shadow: 
+          0 0 5px #00FF00, 
+          0 0 10px #00FF00, 
+          0 0 20px #00FF00, 
+          0 0 40px #00FF00;
+      }
+      100% {
+        text-shadow: 
+          0 0 10px #00FF00, 
+          0 0 20px #00FF00, 
+          0 0 40px #00FF00, 
+          0 0 80px #00FF00;
+      }
+    }
+
+    /* Holographic content */
     .content {
       margin: 1rem auto;
       padding: 1.2rem;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid #00FF00;
       border-radius: 10px;
-      text-shadow: 0 0 5px #0ff;
+      color: #00FF00;
+      text-shadow: 
+        0 0 5px #00FF00, 
+        0 0 10px #00FF00;
+      box-shadow: 
+        0 0 10px rgba(0, 255, 0, 0.5), 
+        0 0 20px rgba(0, 255, 0, 0.3);
       opacity: 0;
       transition: opacity 0.5s ease-in;
       width: 100%;
-    }
-
-    .light-theme .content {
-      background: rgba(255, 255, 255, 0.8);
-      color: #333;
-      text-shadow: none;
     }
 
     .content.show {
@@ -94,25 +115,9 @@
       }
     }
 
-    /* Animations with vendor prefixes */
-    @-webkit-keyframes spin {
-      0% { -webkit-transform: rotate(0deg); }
-      100% { -webkit-transform: rotate(360deg); }
-    }
-
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
-    }
-
-    @-webkit-keyframes pulse {
-      0%, 100% { text-shadow: 0 0 20px rgba(0,255,255,0.8); }
-      50% { text-shadow: 0 0 40px rgba(0,255,255,1); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { text-shadow: 0 0 20px rgba(0,255,255,0.8); }
-      50% { text-shadow: 0 0 40px rgba(0,255,255,1); }
     }
 
     /* Mobile optimizations */
@@ -128,40 +133,13 @@
         border-width: 3px;
       }
     }
-
-    /* Theme toggle button */
-    .theme-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: rgba(0,0,0,0.7);
-      border: 1px solid #0ff;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      color: #0ff;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-    }
-
-    .theme-toggle:hover {
-      background: rgba(0,255,255,0.2);
-      box-shadow: 0 0 10px rgba(0,255,255,0.5);
-    }
-
-    .light-theme .theme-toggle {
-      background: rgba(255,255,255,0.8);
-      color: #333;
-      border-color: #333;
-    }
   </style>
 </head>
 <body>
+  <!-- Matrix background -->
   <canvas id="matrixCanvas"></canvas>
-  <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">🌓</button>
+
+  <!-- Main content -->
   <main role="main">
     <h1 class="oracle-title" role="heading" aria-level="1">Holographic Oracle AI</h1>
     
@@ -173,69 +151,35 @@
   </main>
 
   <script>
-    // Theme management
-    function toggleTheme() {
-      document.body.classList.toggle('light-theme');
-      localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
-    }
+    // Matrix Rain Effect
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-    // Load saved theme
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-      document.body.classList.add('light-theme');
-    }
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%';
+    const fontSize = 16;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = Array.from({ length: columns }, () => Math.random() * canvas.height);
 
-    // Optimized Matrix Rain
-    (function() {
-      const canvas = document.getElementById('matrixCanvas');
-      const ctx = canvas.getContext('2d');
-      let animationFrameId;
-      let lastRender = 0;
-      const throttle = 33; // ~30fps
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#0F0';
+      ctx.font = `${fontSize}px monospace`;
 
-      function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-      function draw(timestamp) {
-        if (!lastRender || timestamp - lastRender >= throttle) {
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          
-          ctx.fillStyle = '#0F0';
-          ctx.font = '16px monospace';
-          
-          const columns = Math.floor(canvas.width / 16);
-          for (let i = 0; i < columns; i++) {
-            const yPos = Math.random() * canvas.height;
-            ctx.fillText(
-              String.fromCharCode(0x30A0 + Math.random() * 96),
-              i * 16,
-              yPos
-            );
-          }
-          lastRender = timestamp;
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
         }
-        animationFrameId = requestAnimationFrame(draw);
+        drops[i]++;
       }
+    }
 
-      function initMatrix() {
-        resize();
-        window.addEventListener('resize', resize);
-        animationFrameId = requestAnimationFrame(draw);
-      }
-
-      function stopMatrix() {
-        cancelAnimationFrame(animationFrameId);
-        window.removeEventListener('resize', resize);
-      }
-
-      // Start with reduced motion preference
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        initMatrix();
-      }
-    })();
+    setInterval(drawMatrix, 33);
 
     // Fetch advice from Advice Slip API
     async function fetchAdvice() {
@@ -254,28 +198,10 @@
       }
     }
 
-    // Throttled content refresh
-    let lastFetch = 0;
-    const fetchInterval = 30000; // 30 seconds
-    
-    function refreshContent() {
-      const now = Date.now();
-      if (now - lastFetch >= fetchInterval) {
-        fetchAdvice();
-        lastFetch = now;
-      }
-    }
-
     // Initial load
     window.addEventListener('DOMContentLoaded', () => {
       fetchAdvice();
-      document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) refreshContent();
-      });
     });
-
-    // Touch optimization
-    document.documentElement.style.touchAction = 'manipulation';
   </script>
 </body>
 </html>
