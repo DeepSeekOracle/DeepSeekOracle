@@ -1,103 +1,353 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Particle Background</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            height: 100%;
-            background-color: #000;
-        }
-        canvas {
-            display: block;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto Exchange</title>
+  <style>
+    :root {
+      --matrix-green: #00f7ff;
+      --cyber-blue: #00f7ff;
+      --hive-glow: rgba(0, 247, 255, 0.3);
+    }
+
+    /* Matrix Header Styles */
+    .matrix-header-title {
+      position: fixed;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Matrix Code NFI', 'Courier New', monospace;
+      color: var(--matrix-green);
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      text-shadow:
+        0 0 10px var(--matrix-green),
+        0 0 20px var(--matrix-green),
+        0 0 30px #007c7c,
+        0 0 40px var(--matrix-green);
+      z-index: 100;
+      animation: headPulse 2s infinite alternate;
+    }
+    @keyframes headPulse {
+      0% {
+        opacity: 0.9;
+        text-shadow: 0 0 10px var(--matrix-green), 0 0 20px var(--matrix-green);
+      }
+      100% {
+        opacity: 1;
+        text-shadow: 0 0 20px var(--matrix-green), 0 0 40px var(--matrix-green), 0 0 60px #007c7c;
+      }
+    }
+
+    /* Import Matrix Font */
+    @import url('https://fonts.cdnfonts.com/css/matrix-code-nfi');
+
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: content-box;
+      font-family: 'Courier New', monospace;
+    }
+    body {
+      background: #000;
+      color: var(--matrix-green);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Background Elements */
+    .matrix-bg {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 50%, rgba(0, 247, 255, 0.1)),
+                repeating-linear-gradient(-45deg, transparent 0px, transparent 19px, var(--hive-glow) 20px),
+                repeating-linear-gradient(45deg, transparent 0px, transparent 19px, var(--matrix-green) 20px);
+      animation: scan 8s linear infinite;
+      z-index: -2;
+    }
+    @keyframes scan {
+      0% {
+        background-position: 0 100vh;
+      }
+      100% {
+        background-position: 0 0;
+      }
+    }
+
+    .quantum-viz {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(to bottom, var(--matrix-green) 0%, transparent 70%),
+                repeating-linear-gradient(-45deg, transparent 0px, transparent 10px, var(--cyber-blue) 10px,
+                                      var(--cyber-blue) 11px);
+      animation: quantumShift 20s linear infinite;
+    }
+
+    @keyframes quantumShift {
+      0% { background-position: 0 0; }
+      100% { background-position: 40px 40px; }
+    }
+
+    .hive-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle at center, var(--hive-glow) 0%, transparent 70%),
+                repeating-linear-gradient(-45deg, transparent 0px, transparent 10px,
+                                        var(--matrix-green) 10px, var(--cyber-blue) 11px);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      animation: hivePulse 3s ease-in-out infinite;
+    }
+
+    @keyframes hivePulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+      50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+    }
+
+    /* Stats Panel & View Counter */
+    .stats-panel {
+      position: fixed;
+      top: 374px;
+      left: 220px;
+      display: flex;
+      gap: 5px;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    .stat-card {
+      border: 1px solid var(--matrix-green);
+      padding: 15px;
+      border-radius: 8px;
+      min-width: 120px;
+      transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px var(--matrix-green);
+    }
+
+    .view-counter {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      z-index: 100;
+      font-size: 1.5rem;
+      color: var(--matrix-green);
+    }
+
+    /* Crypto Viewer, Chat, Rumble, and Kick Player */
+    .crypto-viewer {
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 750px;
+      height: 650px;
+      border: 1px solid var(--matrix-green);
+      border-radius: 8px;
+    }
+
+    .chat-frame {
+      position: fixed;
+      top: 40%;
+      left: 20%;
+      width: 375px;
+      height: 230px;
+      border: 1px solid var(--matrix-green);
+      border-radius: 8px;
+    }
+
+    .rumble-container {
+      position: fixed;
+      top: 20%;
+      right: 20%;
+      width: 375px;
+      height: 350px;
+      z-index: 999;
+      border: 1px solid var(--matrix-green);
+    }
+
+    .kick-player {
+      position: fixed;
+      bottom: 20%;
+      right: 20%;
+      width: 380px;
+      height: 300px;
+      z-index: 999;
+      border: 1px solid var(--matrix-green);
+      border-radius: 8px;
+    }
+
+    .robot-link {
+      position: fixed;
+      bottom: 20%;
+      right: 20%;
+      font-size: 3rem;
+      text-decoration: none;
+      filter: drop-shadow(0 0 5px var(--cyber-blue);
+    }
+
+    /* Navigation Container (Placeholder) */
+    .nav-container {
+      margin-top: 20px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 8px;
+      max-width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-around;
+      color: var(--matrix-green);
+      font-size: 1.2rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .stats-panel {
+        flex-direction: column;
+        bottom: 80px;
+        left: 20px;
+        transform: none;
+      }
+
+      .crypto-viewer, .chat-frame {
+        width: 90%;
+        height: 120px;
+        left: 5%;
+        right: 5%;
+      }
+
+      .rumble-container {
+        width: 90%;
+        height: 200px;
+      }
+
+      .kick-player {
+        width: 90%;
+        height: 180px;
+        right: 5%;
+        bottom: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <canvas id="particleCanvas"></canvas>
-    <script src="particles.js"></script>
-</body>
-</html>
-```
+  <!-- Background and Visual Elements -->
+  <div class="matrix-bg"></div>
+  <div class="quantum-viz"></div>
+  <div class="hive-core"></div>
+  <div class="hologram-overlay"></div>
 
-#### Step 2: Style the Canvas
+  <!-- View Counter -->
+  <div id="viewCounter" class="view-counter">
+    <p>Views: 0</p>
+  </div>
 
-We've added some basic styles to ensure the canvas takes up the full screen and has no margins.
+  <!-- Stats Panel -->
+  <div class="stats-panel">
+    <a href="http://deepseekoracle.com/cryptocurrency" target="_blank" class="stat-card">CRISPR</a>
+    <a href="http://deepseekoracle.com/nanoBots" target="_blank" class="stat-card">NanoBots</a>
+  </div>
 
-#### Step 3: JavaScript for Particle Animation
+  <!-- Crypto Viewer -->
+  <iframe src="https://crypto.com/exchange/trade/XRP_USD"></iframe>
 
-Now, let's create a `particles.js` file that will handle the creation and animation of particles.
+  <!-- Chat Frame -->
+  <iframe id="chatFrame" style="width:100%;height:100%;border:none;"></iframe>
 
-```javascript
-// particles.js
+  <!-- Rumble Container -->
+  <div class="rumble-container">
+    <script
+src="https://restream.io/embed.js?token=v67zg11&args={%22video%22:%22v67zg11%22,%22layout%22:%22fullwidth%22}"
+async></script>
+  </div>
 
-document.addEventListener('DOMContentLoaded', () => {
-    const canvas = document.getElementById('particleCanvas');
-    const ctx = canvas.getContext('2d');
+  <!-- Kick Player -->
+  <iframe src="https://player.kick.com/excavationpro" style="width:100%;height:100%;border:none;"></iframe>
 
-    // Set canvas dimensions
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+  <!-- Robot Link -->
+  <a href="#" class="robot-link">🤖</a>
 
-    const particleCount = 100;
-    let particles = [];
+  <!-- Matrix Header -->
+  <h1 class="matrix-header-title">DEEPSEEK ORACLE</h1>
 
-    class Particle {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 5 + 1;
-            this.speedX = Math.random() * 3 - 1.5;
-            this.speedY = Math.random() * 3 - 1.5;
-        }
+  <!-- Navigation (Placeholder) -->
+  <div class="nav-container">
+    <nav>
+      <a href="#" style="color: var(--matrix-green); margin-right: 15px;">Home</a>
+      <a href="#" style="color: var(--matrix-green); margin-right: 15px;">About</a>
+      <a href="#" style="color: var(--matrix-green)">Contact</a>
+    </nav>
+  </div>
 
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-
-            if (this.size > 0.2) this.size -= 0.1;
-
-            // Reverse direction if particle goes out of bounds
-            if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-            if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-        }
-
-        draw() {
-            ctx.fillStyle = `hsl(${Math.random() * 360}, 100%, 50%)`;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
-
-    function init() {
-        particles = [];
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
-    }
-
-    function animate() {
-        requestAnimationFrame(animate);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        particles.forEach(particle => {
-            particle.update();
-            particle.draw();
-        });
-    }
-
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        init(); // Reinitialize to adjust for new dimensions
+  <!-- Scripts for Interactivity -->
+  <script>
+    // Stat Card Click Animation
+    document.querySelectorAll('.stat-card').forEach(card => {
+      card.addEventListener('click', () => {
+        card.style.backgroundColor = 'rgba(0, 247, 255, 0.1)';
+        setTimeout(() => { card.style.backgroundColor = ''; }, 500);
     });
 
-    init();
-    animate();
-});
-```
+    // View Counter Logic using localStorage
+    let viewCount = localStorage.getItem('viewCount') || 0;
+    document.getElementById('viewCounter').textContent = parseInt(viewCount) + 1;
+    localStorage.setItem('viewCount', viewCount + 1);
+  </script>
+
+  <!-- Live News Section -->
+  <div class="news-container">
+    <h2>Latest News</h2>
+    <ul id="news"></ul>
+    <button onclick="fetchNews()">Refresh</button>
+  </div>
+
+  <script>
+    function fetchNews() {
+      // Fetch latest news from API and populate the "news" section
+    }
+  </script>
+
+  <!-- Currency Converter -->
+  <form id="converter">
+    <label for="from">From:</label>
+    <select name="from"></select>
+    <br />
+    <label for="to">To:</label>
+    <select name="to"></select>
+    <br />
+    <label for="amount">Amount:</label>
+    <input type="number" step="any" name="amount" value="1">
+    <button type="submit">Convert</button>
+  </form>
+  <p id="result"></p>
+
+  <!-- Chart Section -->
+  <div class="charts-container">
+    <h2>Top Trading Pairs by Market Capitalization</h2>
+    <canvas id="marketCapChart" width="400" height="150"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Create market capitalization chart using Chart.js
+  </script>
+</body>
+</html>
