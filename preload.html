@@ -1,69 +1,157 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Webpage</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        #progress-bar {
-            width: 100%;
-            height: 20px;
-            background-color: rgba(255, 255, 255, 0.2);
-            border: 2px solid #ff0000;
-            position: relative;
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --background-color: #f5f5f5;
+            --text-color: #333;
+            --font-family: Arial, sans-serif;
         }
-        .orange-box {
-            padding: 10px;
-            color: #ff0000;
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        header, footer {
             text-align: center;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.05);
+        }
+
+        .video-player,
+        .chat-widget,
+        .crypto-viewer {
+            display: block;
+            width: 100%;
+            height: auto;
         }
     </style>
 </head>
 <body>
-    <canvas id="matrix"></canvas>
-    <div class="progress-bar" id="progress"></div>
-    <h3 id="error-message"></h3>
 
-    <script>
-        const ORACLE_COUNT = 100; // Define here
-        const canvas = document.getElementById('matrix');
-        let width, height;
+<header>
+    <h1>Welcome to the Enhanced Webpage</h1>
+</header>
 
-        function initMatrix() {
-            width = Math.floor(ORACLE_COUNT * (Math.cos(2 * Math.PI / ORACLE_COUNT) + 1));
-            height = Math.floor(ORACLE_COUNT * (Math.sin(2 * Math.PI / ORACLE_COUNT) + 1));
+<main class="container">
+    <section aria-labelledby="stats-title" role="region">
+        <h2 id="stats-title">Statistics</h2>
+        <div class="stat-card" tabindex="0" aria-label="CRISPR Accuracy Stats">
+            <p>CRISPR Accuracy: 99.5%</p>
+        </div>
+        <div class="stat-card" tabindex="0" aria-label="NanoBots Activity Stats">
+            <p>NanoBots Deployed: 10,000</p>
+        </div>
+    </section>
 
-            for(let i = 0; i < ORACLE_COUNT * 2 - 1; i++) {
-                const cell = canvas.create('div');
-                cell.className = 'orange-box';
+    <section aria-labelledby="video-title" role="region">
+        <h2 id="video-title">Rumble Video Player</h2>
+        <iframe class="lazyload video-player" data-src="https://rumble.com/embed/video" title="Rumble Video"></iframe>
+    </section>
 
-                if(i % ORACLE_COUNT !== 0 && (i+ORACLE_COUNT) % ORACLE_COUNT !== 0) {
-                    const x = width + Math.floor((width / ORACLE_COUNT) * Math.cos(2 * Math.PI * i / ORACLE_COUNT));
-                    const y = height - Math.floor((height / ORACLE_COUNT) * Math.sin(2 * Math.PI * i / ORACLE_COUNT));
+    <section aria-labelledby="chat-title" role="region">
+        <h2 id="chat-title">Chat Widget</h2>
+        <div class="lazyload chat-widget" title="Live Chat"></div>
+    </section>
 
-                    cell.style.left = `${x}px`;
-                    cell.style.top = `${y}px`;
-                }
+    <section aria-labelledby="crypto-title" role="region">
+        <h2 id="crypto-title">Crypto Viewer</h2>
+        <iframe class="lazyload crypto-viewer" data-src="https://exchange.example.com/crypto" title="Crypto Exchange"></iframe>
+    </section>
+</main>
 
-                canvas.appendChild(cell);
-            }
+<footer>
+    <p>View Count: <span id="view-count">0</span></p>
+    <a href="http://robot.link/" aria-label="Robot Link">
+        <img src="path/to/robot-icon.png" alt="Robot Icon">
+    </a>
+</footer>
+
+<script>
+    // Lazy Loading Implementation
+    document.addEventListener("DOMContentLoaded", function() {
+        const lazyLoadElements = document.querySelectorAll('.lazyload');
+
+        if ("IntersectionObserver" in window) {
+            let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        let element = entry.target;
+                        if (element.dataset.src) {
+                            element.src = element.dataset.src;
+                        }
+                        lazyImageObserver.unobserve(element);
+                    }
+                });
+            });
+
+            lazyLoadElements.forEach(function(lazyElement) {
+                lazyImageObserver.observe(lazyElement);
+            });
+        } else {
+            // Fallback for browsers without IntersectionObserver support
+            lazyLoadElements.forEach(function(lazyElement) {
+                lazyElement.src = lazyElement.dataset.src;
+            });
+        }
+    });
+
+    // Debounce Function
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func.apply(this, args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // View Counter with Debouncing
+    document.addEventListener("DOMContentLoaded", function() {
+        let viewCountElement = document.getElementById('view-count');
+        let currentViews = parseInt(localStorage.getItem('views') || '0', 10);
+
+        function updateViewCount() {
+            currentViews++;
+            localStorage.setItem('views', currentViews.toString());
+            viewCountElement.textContent = currentViews;
         }
 
-        function handleAPIError(error, message) {
-            const progressContainer = document.getElementById('progress');
-            progressContainer.innerHTML = '';
+        debounce(updateViewCount, 200)();
+    });
+</script>
 
-            if (error && message) {
-                let percentage = (message.length / ORACLE_COUNT * 100).toFixed(2);
-                progressContainer.style.width = `${percentage}%`;
-                setTimeout(() => {
-                    progressContainer.style.width = '0%';
-                }, error);
-            }
-        }
-
-        // Initialize matrix
-        initMatrix();
-
-        // Handle API errors
-        window.addEventListener('load', handleAPIError, { once: true });
-    </script>
 </body>
 </html>
