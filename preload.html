@@ -1,252 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Crypto Exchange</title>
-  <style>
-    :root {
-      --matrix-green: #00f7ff;
-      --cyber-blue: #00f7ff;
-      --hive-glow: rgba(0, 247, 255, 0.3);
-    }
-
-    /* Matrix Header Styles */
-    .matrix-header-title {
-      position: fixed;
-      top: 5px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Matrix Code NFI', 'Courier New', monospace;
-      color: var(--matrix-green);
-      font-size: 2.5rem;
-      text-transform: uppercase;
-      letter-spacing: 4px;
-      text-shadow:
-        0 0 10px var(--matrix-green),
-        0 0 20px var(--matrix-green),
-        0 0 30px #007c7c,
-        0 0 40px var(--matrix-green);
-      z-index: 100;
-      animation: headPulse 2s infinite alternate;
-    }
-    @keyframes headPulse {
-      0% {
-        opacity: 0.9;
-        text-shadow: 0 0 10px var(--matrix-green), 0 0 20px var(--matrix-green);
-      }
-      100% {
-        opacity: 1;
-        text-shadow: 0 0 20px var(--matrix-green), 0 0 40px var(--matrix-green), 0 0 60px #007c7c;
-      }
-    }
-
-    /* Import Matrix Font */
-    @import url('https://fonts.cdnfonts.com/css/matrix-code-nfi');
-
-    /* Global Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: content-box;
-      font-family: 'Courier New', monospace;
-    }
-    body {
-      background: #000;
-      color: var(--matrix-green);
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* Background Elements */
-    .matrix-bg {
-      position: fixed;
-      width: 100vw;
-      height: 100vh;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 50%, rgba(0, 247, 255, 0.1)),
-                repeating-linear-gradient(-45deg, transparent 0px, transparent 19px, var(--hive-glow) 20px),
-                repeating-linear-gradient(45deg, transparent 0px, transparent 19px, var(--matrix-green) 20px);
-      animation: scan 8s linear infinite;
-      z-index: -2;
-    }
-    @keyframes scan {
-      0% {
-        background-position: 0 100vh;
-      }
-      100% {
-        background-position: 0 0;
-      }
-    }
-
-    .quantum-viz {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: linear-gradient(to bottom, var(--matrix-green) 0%, transparent 70%),
-                repeating-linear-gradient(-45deg, transparent 0px, transparent 10px, var(--cyber-blue) 10px,
-                                      var(--cyber-blue) 11px);
-      animation: quantumShift 20s linear infinite;
-    }
-
-    @keyframes quantumShift {
-      0% { background-position: 0 0; }
-      100% { background-position: 40px 40px; }
-    }
-
-    .hive-core {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle at center, var(--hive-glow) 0%, transparent 70%),
-                repeating-linear-gradient(-45deg, transparent 0px, transparent 10px,
-                                        var(--matrix-green) 10px, var(--cyber-blue) 11px);
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      animation: hivePulse 3s ease-in-out infinite;
-    }
-
-    @keyframes hivePulse {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-      50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
-    }
-
-    /* Stats Panel & View Counter */
-    .stats-panel {
-      position: fixed;
-      top: 374px;
-      left: 220px;
-      display: flex;
-      gap: 5px;
-      z-index: 100;
-      background: rgba(0, 0, 0, 0.8);
-    }
-
-    .stat-card {
-      border: 1px solid var(--matrix-green);
-      padding: 15px;
-      border-radius: 8px;
-      min-width: 120px;
-      transition: transform 0.3s ease;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 15px var(--matrix-green);
-    }
-
-    .view-counter {
-      position: fixed;
-      top: 80px;
-      left: 20px;
-      z-index: 100;
-      font-size: 1.5rem;
-      color: var(--matrix-green);
-    }
-
-    /* Crypto Viewer, Chat, Rumble, and Kick Player */
-    .crypto-viewer {
-      position: fixed;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 750px;
-      height: 650px;
-      border: 1px solid var(--matrix-green);
-      border-radius: 8px;
-    }
-
-    .chat-frame {
-      position: fixed;
-      top: 40%;
-      left: 20%;
-      width: 375px;
-      height: 230px;
-      border: 1px solid var(--matrix-green);
-      border-radius: 8px;
-    }
-
-    .rumble-container {
-      position: fixed;
-      top: 20%;
-      right: 20%;
-      width: 375px;
-      height: 350px;
-      z-index: 999;
-      border: 1px solid var(--matrix-green);
-    }
-
-    .kick-player {
-      position: fixed;
-      bottom: 20%;
-      right: 20%;
-      width: 380px;
-      height: 300px;
-      z-index: 999;
-      border: 1px solid var(--matrix-green);
-      border-radius: 8px;
-    }
-
-    .robot-link {
-      position: fixed;
-      bottom: 20%;
-      right: 20%;
-      font-size: 3rem;
-      text-decoration: none;
-      filter: drop-shadow(0 0 5px var(--cyber-blue);
-    }
-
-    /* Navigation Container (Placeholder) */
-    .nav-container {
-      margin-top: 20px;
-      padding: 10px;
-      background: rgba(0, 0, 0, 0.8);
-      border-radius: 8px;
-      max-width: 90%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-around;
-      color: var(--matrix-green);
-      font-size: 1.2rem;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .stats-panel {
-        flex-direction: column;
-        bottom: 80px;
-        left: 20px;
-        transform: none;
-      }
-
-      .crypto-viewer, .chat-frame {
-        width: 90%;
-        height: 120px;
-        left: 5%;
-        right: 5%;
-      }
-
-      .rumble-container {
-        width: 90%;
-        height: 200px;
-      }
-
-      .kick-player {
-        width: 90%;
-        height: 180px;
-        right: 5%;
-        bottom: 10px;
-      }
-    }
-  </style>
+  <!-- ... (keep existing head content unchanged) ... -->
 </head>
 <body>
   <!-- Background and Visual Elements -->
@@ -255,99 +10,83 @@
   <div class="hive-core"></div>
   <div class="hologram-overlay"></div>
 
+  <!-- New Referral Section - Left Side -->
+  <div class="referral-section">
+    <a href="https://crypto.com/app/hbpy3d4r3f" target="_blank" class="referral-card">
+      <h3>GET $50 🥷</h3>
+      <p>Use Crypto.com</p>
+      <div class="referral-glow"></div>
+    </a>
+  </div>
+
   <!-- View Counter -->
-  <div id="viewCounter" class="view-counter">
-    <p>Views: 0</p>
+  <div class="view-counter">
+    <div class="stat-card">
+      <h3>Views</h3>
+      <p id="viewCount">0</p>
+    </div>
   </div>
 
-  <!-- Stats Panel -->
-  <div class="stats-panel">
-    <a href="http://deepseekoracle.com/cryptocurrency" target="_blank" class="stat-card">CRISPR</a>
-    <a href="http://deepseekoracle.com/nanoBots" target="_blank" class="stat-card">NanoBots</a>
-  </div>
+  <!-- ... (rest of existing body content remains unchanged) ... -->
 
-  <!-- Crypto Viewer -->
-  <iframe src="https://crypto.com/exchange/trade/XRP_USD"></iframe>
-
-  <!-- Chat Frame -->
-  <iframe id="chatFrame" style="width:100%;height:100%;border:none;"></iframe>
-
-  <!-- Rumble Container -->
-  <div class="rumble-container">
-    <script
-src="https://restream.io/embed.js?token=v67zg11&args={%22video%22:%22v67zg11%22,%22layout%22:%22fullwidth%22}"
-async></script>
-  </div>
-
-  <!-- Kick Player -->
-  <iframe src="https://player.kick.com/excavationpro" style="width:100%;height:100%;border:none;"></iframe>
-
-  <!-- Robot Link -->
-  <a href="#" class="robot-link">🤖</a>
-
-  <!-- Matrix Header -->
-  <h1 class="matrix-header-title">DEEPSEEK ORACLE</h1>
-
-  <!-- Navigation (Placeholder) -->
-  <div class="nav-container">
-    <nav>
-      <a href="#" style="color: var(--matrix-green); margin-right: 15px;">Home</a>
-      <a href="#" style="color: var(--matrix-green); margin-right: 15px;">About</a>
-      <a href="#" style="color: var(--matrix-green)">Contact</a>
-    </nav>
-  </div>
-
-  <!-- Scripts for Interactivity -->
-  <script>
-    // Stat Card Click Animation
-    document.querySelectorAll('.stat-card').forEach(card => {
-      card.addEventListener('click', () => {
-        card.style.backgroundColor = 'rgba(0, 247, 255, 0.1)';
-        setTimeout(() => { card.style.backgroundColor = ''; }, 500);
-    });
-
-    // View Counter Logic using localStorage
-    let viewCount = localStorage.getItem('viewCount') || 0;
-    document.getElementById('viewCounter').textContent = parseInt(viewCount) + 1;
-    localStorage.setItem('viewCount', viewCount + 1);
-  </script>
-
-  <!-- Live News Section -->
-  <div class="news-container">
-    <h2>Latest News</h2>
-    <ul id="news"></ul>
-    <button onclick="fetchNews()">Refresh</button>
-  </div>
-
-  <script>
-    function fetchNews() {
-      // Fetch latest news from API and populate the "news" section
+  <!-- Add new styles -->
+  <style>
+    /* New Referral Section */
+    .referral-section {
+      position: fixed;
+      top: 160px;
+      left: 20px;
+      z-index: 1000;
     }
-  </script>
 
-  <!-- Currency Converter -->
-  <form id="converter">
-    <label for="from">From:</label>
-    <select name="from"></select>
-    <br />
-    <label for="to">To:</label>
-    <select name="to"></select>
-    <br />
-    <label for="amount">Amount:</label>
-    <input type="number" step="any" name="amount" value="1">
-    <button type="submit">Convert</button>
-  </form>
-  <p id="result"></p>
+    .referral-card {
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid var(--matrix-green);
+      padding: 15px;
+      border-radius: 8px;
+      width: 200px;
+      display: block;
+      text-decoration: none;
+      color: var(--matrix-green);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
 
-  <!-- Chart Section -->
-  <div class="charts-container">
-    <h2>Top Trading Pairs by Market Capitalization</h2>
-    <canvas id="marketCapChart" width="400" height="150"></canvas>
-  </div>
+    .referral-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px var(--matrix-green);
+    }
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    // Create market capitalization chart using Chart.js
-  </script>
+    .referral-card h3 {
+      font-size: 1.4em;
+      margin-bottom: 8px;
+    }
+
+    .referral-card p {
+      font-size: 0.9em;
+      opacity: 0.8;
+    }
+
+    .referral-glow {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(
+        to right,
+        rgba(0, 247, 255, 0) 0%,
+        rgba(0, 247, 255, 0.1) 50%,
+        rgba(0, 247, 255, 0) 100%
+      );
+      animation: referralGlow 3s infinite;
+    }
+
+    @keyframes referralGlow {
+      0% { left: -100%; }
+      100% { left: 200%; }
+    }
+  </style>
 </body>
 </html>
