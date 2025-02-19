@@ -207,7 +207,6 @@
                        0 0 30px #00f7ff;
         }
 
-        /* Updated Rumble Player Styles */
         .cyber-audio-player {
             background: rgba(0, 15, 31, 0.8);
             border: 2px solid #00f7ff;
@@ -262,7 +261,6 @@
             100% { text-shadow: 0 0 15px #00f7ff; }
         }
 
-        /* Enhanced Cyber Links Styles */
         .cyber-links-container {
             display: flex;
             flex-direction: column;
@@ -324,7 +322,6 @@
             }
         }
 
-        /* New Chat Container Styles */
         .chat-container {
             display: flex;
             justify-content: center;
@@ -351,6 +348,24 @@
             background: transparent;
         }
 
+        /* Added Crypto Viewer Styles */
+        .crypto-viewer {
+            width: 90%;
+            max-width: 1200px;
+            height: 600px;
+            margin: 2rem auto;
+            border: 2px solid #00f7ff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 25px rgba(0, 247, 255, 0.3);
+        }
+
+        .crypto-viewer iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -369,24 +384,116 @@
                 max-width: 100%;
                 height: 300px;
             }
+
+            .crypto-viewer {
+                height: 400px;
+            }
         }
 
-        /* Crypto Viewer Styles */
-        .crypto-viewer {
-            width: 90%;
-            max-width: 1200px;
-            height: 600px;
-            margin: 2rem auto;
-            border: 2px solid #00f7ff;
-            border-radius: 8px;
+        .data-stream {
+            white-space: nowrap;
             overflow: hidden;
-            box-shadow: 0 0 25px rgba(0, 247, 255, 0.3);
         }
 
-        .crypto-viewer iframe {
+        @keyframes matrixScan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        /* === MATRIX LINK CORE STYLES === */
+        .hologram-conduit {
+            position: relative;
+            border: 3px solid #00f7ff;
+            margin: 2rem 0;
+            background: rgba(0, 15, 31, 0.9);
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0, 247, 255, 0.2);
+        }
+
+        .binary-veil {
+            position: absolute;
             width: 100%;
             height: 100%;
-            border: none;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0px,
+                transparent 2px,
+                rgba(0, 247, 255, 0.05) 3px,
+                rgba(0, 247, 255, 0.05) 4px
+            );
+            animation: matrixScan 8s linear infinite;
+        }
+
+        .neural-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cyber-node {
+            position: relative;
+            padding: 1.2rem;
+            border: 1px solid #00f7ff;
+            background: rgba(0, 39, 61, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .cyber-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.4);
+        }
+
+        .link-sigil {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background: #00f7ff;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        .neural-path {
+            font-family: 'Matrix Code NFI', monospace;
+            color: #00f7ff;
+            font-size: 1.1rem;
+            text-shadow: 0 0 15px #00f7ff;
+            position: relative;
+        }
+
+        .neural-path::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #ff00ff;
+            clip-path: inset(0 90% 0 0);
+            animation: glitchWave 2s infinite linear;
+        }
+
+        .data-stream {
+            padding: 1rem;
+            border-top: 2px solid #00f7ff;
+            font-family: 'Matrix Code NFI', monospace;
+            color: #00f7ff;
+            animation: streamFlow 20s linear infinite;
+        }
+
+        @keyframes glitchWave {
+            0% { clip-path: inset(0 85% 0 0) }
+            50% { clip-path: inset(0 10% 0 40%) }
+            100% { clip-path: inset(0 85% 0 0) }
+        }
+
+        @keyframes streamFlow {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
     </style>
 </head>
@@ -407,14 +514,11 @@
             </h2>
             <p>Synergizing Human Cognition with Quantum Bioprocessing</p>
             
-            <!-- Chat and Rumble Player Container -->
             <div class="chat-container">
-                <!-- Chat Window -->
                 <div class="chat-window">
                     <iframe src="https://chat.restream.io/embed?token=4ebcd7a7-a420-4998-9d64-2901a6ec4685"></iframe>
                 </div>
 
-                <!-- Rumble Player -->
                 <div class="cyber-audio-player neon-text">
                     <div class="audio-scanline"></div>
                     <div class="rumble-embed">
@@ -429,12 +533,9 @@
             </div>
         </section>
 
-        <!-- CYBERNEURAL LINK MATRIX -->
         <section class="hologram-conduit">
             <div class="binary-veil"></div>
-            <div class="neural-grid" id="cyberLinkCore">
-                <!-- Dynamic links injected here -->
-            </div>
+            <div class="neural-grid" id="cyberLinkCore"></div>
             <div class="data-stream">
                 <span class="packet">▓▓░░▒▒▓░▒▓░░ INITIALIZING NEURAL PATHS      ▓▓░░▒▒▓░▒▓░░ BOOT BIO DATA      ▓▓░░▒▒▓░▒▓░░ DOWNLOAD PACKETS      ▓▓░░▒▒▓░▒▓░░ ENCRYPTED HACKING      ▓▓░░▒▒▓░▒▓░░ INITIALIZING UPLOAD </span>
             </div>
@@ -466,7 +567,7 @@
             </div>
         </div>
 
-        <!-- Crypto Viewer -->
+        <!-- Added Crypto Viewer -->
         <div class="crypto-viewer">
             <iframe src="https://crypto.com/exchange/trade/XRP_USD"></iframe>
         </div>
@@ -487,7 +588,6 @@
             createMatrix();
         });
 
-        // Rumble Player Initialization
         !function(r,u,m,b,l,e){
             r._Rumble=b,r[b]||(r[b]=function(){
                 (r[b]._=r[b]._||[]).push(arguments);
@@ -505,6 +605,73 @@
             "div":"rumble_v6k6390",
             "autoplay":2
         });
+
+        const neuralLinks = [
+            {
+                text: "░▒▓ XRP LIVE MARKET ▓▒░",
+                url: "https://deepseekoracle.github.io/DeepSeekOracle/XRP.html",
+                type: "external",
+                security: "encrypted"
+            },
+            {
+                text: "░▒▓ RUMBLE VIDEO TRAINING ▓▒░",
+                url: "https://deepseekoracle.github.io/DeepSeekOracle/CyberRumble.html",
+                type: "external",
+                security: "encrypted"
+            },
+            {
+                text: "░▒▓ KICK MUSIC INSTALL ▓▒░",
+                url: "https://deepseekoracle.github.io/DeepSeekOracle/CyberKick.html",
+                type: "external",
+                security: "encrypted"
+            },
+            {
+                text: "░▒▓ RUMBLE NEURAL STREAM ▓▒░",
+                url: "https://deepseekoracle.github.io/DeepSeekOracle/CyberVideo.html",
+                type: "external",
+                security: "encrypted"
+            },
+            {
+                text: "░▒▓ EXCAVATION PRO ▓▒░",
+                url: "https://deepseekoracle.github.io/DeepSeekOracle/Excavationpro.html",
+                type: "external",
+                security: "encrypted"
+            }
+        ];
+
+        function initNeuralPaths() {
+            try {
+                const core = document.getElementById('cyberLinkCore');
+                
+                neuralLinks.forEach(link => {
+                    const node = document.createElement('a');
+                    node.className = 'cyber-node';
+                    node.href = link.url;
+                    node.target = '_blank';
+                    
+                    node.innerHTML = `
+                        <span class="link-sigil"></span>
+                        <span class="neural-path" data-text="${link.text}">${link.text}</span>
+                    `;
+                    
+                    node.addEventListener('mouseover', () => {
+                        node.style.background = 'rgba(0, 247, 255, 0.1)';
+                    });
+                    
+                    node.addEventListener('mouseout', () => {
+                        node.style.background = 'rgba(0, 39, 61, 0.3)';
+                    });
+                    
+                    core.appendChild(node);
+                });
+            } catch (neuroSyncError) {
+                console.error(`Neural path initialization failed: ${neuroSyncError}`);
+                document.getElementById('cyberLinkCore').innerHTML = 
+                    '<div class="error-pulse">SYSTEM FAILURE - CONTACT BIOADMIN</div>';
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', initNeuralPaths);
     </script>
 </body>
 </html>
