@@ -8,9 +8,15 @@
     <style>
         :root {
             --neon-yellow: #FFEE32;
-            --matrix-green: #00FF41;
             --black: #000000;
             --hologram-blue: #00F9FF;
+            --construction-tape: repeating-linear-gradient(
+                45deg,
+                var(--neon-yellow),
+                var(--neon-yellow) 10px,
+                var(--black) 10px,
+                var(--black) 20px
+            );
         }
 
         body {
@@ -21,13 +27,14 @@
             overflow-x: hidden;
         }
 
+        /* Construction tape border effect */
         .construction-border {
-            border: 3px solid var(--neon-yellow);
+            border: 3px solid;
+            border-image: var(--construction-tape) 30;
             position: relative;
             margin: 20px;
             padding: 15px;
-            box-shadow: 0 0 15px var(--neon-yellow);
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.9);
         }
 
         .hologram-effect {
@@ -49,144 +56,186 @@
             100% { background-position: 100px 100px; }
         }
 
-        .link-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
+        /* Centered Live Stream Section */
+        .live-stream-main {
+            grid-column: 1 / -1;
+            max-width: 1280px;
+            margin: 0 auto 40px;
+            position: relative;
         }
 
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 30px;
+        }
+
+        /* Enhanced Social Links */
         .social-link {
             border: 2px solid var(--neon-yellow);
-            padding: 15px;
+            padding: 20px;
             text-align: center;
             transition: all 0.3s ease;
             position: relative;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.8);
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                var(--neon-yellow),
+                transparent
+            );
+            animation: glow 4s linear infinite;
+            opacity: 0.3;
         }
 
         .social-link:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px var(--neon-yellow);
+            transform: translateY(-5px);
+            box-shadow: 0 0 35px var(--neon-yellow);
         }
 
-        .live-stream-container {
+        /* Bio Section */
+        .bio-section {
+            text-align: center;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 25px;
+            border: 2px solid var(--neon-yellow);
+            background: rgba(0,0,0,0.7);
+        }
+
+        .bio-text {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+
+        /* Enhanced Button Styles */
+        .icon-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 15px 25px;
+            border: 2px solid var(--neon-yellow);
+            background: linear-gradient(45deg, rgba(255,238,50,0.1), transparent);
             position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            max-width: 100%;
-            background: #000;
+            transition: all 0.3s ease;
         }
 
-        iframe {
+        .icon-button i {
+            font-size: 1.4em;
+        }
+
+        .icon-button::after {
+            content: '';
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            border: none;
+            height: 3px;
+            background: var(--neon-yellow);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
         }
 
-        .header {
-            text-align: center;
-            padding: 40px 0;
-            position: relative;
-        }
-
-        .title {
-            font-size: 2.5em;
-            text-shadow: 0 0 10px var(--neon-yellow);
-            margin: 0;
-        }
-
-        .subtitle {
-            color: var(--hologram-blue);
-            font-family: 'Roboto', sans-serif;
-        }
-
-        .twitter-hashtag-button {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: var(--neon-yellow);
-            color: var(--black);
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-
-        .twitter-hashtag-button:hover {
-            background-color: var(--hologram-blue);
-            color: var(--black);
+        .icon-button:hover::after {
+            transform: scaleX(1);
         }
     </style>
 </head>
 <body>
     <div class="construction-border">
         <div class="hologram-effect"></div>
-        <div class="header">
+        
+        <!-- Bio Section -->
+        <div class="bio-section">
             <h1 class="title">EXCAVATIONPRO</h1>
             <p class="subtitle">Building Beats & Breaking Ground</p>
+            <p class="bio-text">
+                👷♂️ Elite Construction Supervisor by day, BeatSmith by night! 
+                Verified music producer on Spotify, SoundCloud, and BeatStars 
+                with 5.5k+ followers. 24/7 live streamer on Kick, Rumble, and 
+                Twitch blending construction reality with electronic beats. 
+                Creator of "Content You Can Dig" – where heavy machinery meets 
+                heavy basslines. Under Construction Forever! 🚧:cite[1]:cite[2]:cite[5]
+            </p>
         </div>
 
-        <div class="link-grid">
-            <!-- Live Streams -->
+        <!-- Centered Live Stream -->
+        <div class="live-stream-main">
             <div class="social-link">
-                <h3>24/7 Live Stream</h3>
+                <h3>🚧 LIVE CONSTRUCTION ZONE 🎧</h3>
                 <div class="live-stream-container">
                     <iframe src="https://player.kick.com/excavationpro"></iframe>
                 </div>
             </div>
+        </div>
 
+        <!-- Enhanced Link Grid -->
+        <div class="link-grid">
             <!-- Music Platforms -->
-            <a href="https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S" class="social-link">
-                <h3>🎵 Spotify</h3>
-                <p>Official Releases</p>
+            <a href="https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S" class="social-link icon-button">
+                <i class="fab fa-spotify"></i>
+                <span>Spotify Releases</span>
             </a>
 
-            <a href="https://soundcloud.com/excavationpro" class="social-link">
-                <h3>🎧 SoundCloud</h3>
-                <p>Exclusive Mixes</p>
+            <a href="http://beatstars.com/excavationpro" class="social-link icon-button">
+                <i class="fas fa-drum"></i>
+                <span>BeatStars Store</span>
             </a>
 
-            <!-- Video Content -->
+            <!-- Construction Links -->
+            <a href="https://www.linkedin.com/in/excavationpro" class="social-link icon-button">
+                <i class="fas fa-hard-hat"></i>
+                <span>Construction Profile</span>
+            </a>
+
+            <!-- Video Platforms -->
             <div class="social-link">
+                <h3>Rumble Channel</h3>
                 <div id="rumble_v6k6390"></div>
                 <script>
                     Rumble("play", {"video":"v6k6390","div":"rumble_v6k6390"});
                 </script>
             </div>
 
-            <!-- Twitter Hashtag Button -->
+            <!-- Social Engagement -->
             <div class="social-link">
-                <h3>Join the Conversation</h3>
-                <a href="https://twitter.com/intent/tweet?button_hashtag=Excavationpro&ref_src=twsrc%5Etfw" 
-                   class="twitter-hashtag-button" 
-                   data-show-count="false">
-                    Tweet #Excavationpro
+                <h3>Join the Crew</h3>
+                <a href="https://twitter.com/intent/tweet?button_hashtag=Excavationpro" 
+                   class="twitter-hashtag-button icon-button">
+                    <i class="fab fa-twitter"></i>
+                    #Excavationpro
                 </a>
+                <div class="tidal-link" style="margin-top:15px;">
+                    <a href="https://tidal.com/browse/artist/9567342" class="icon-button">
+                        <i class="fas fa-wave-square"></i>
+                        Tidal Music
+                    </a>
+                </div>
             </div>
-        </div>
 
-        <!-- Additional Links -->
-        <div class="link-grid">
-            <a href="https://www.youtube.com/channel/UCr2GPEJcl2lXu0lS9-0FjvA" class="social-link">
-                <h3>📺 YouTube</h3>
-                <p>Music & Construction Content</p>
+            <!-- Additional Links -->
+            <a href="https://ffm.to/eovnvo9" class="social-link icon-button">
+                <i class="fas fa-download"></i>
+                Latest Release
             </a>
 
-            <a href="https://ffm.to/eovnvo9" class="social-link">
-                <h3>💿 Latest Release</h3>
-                <p>Stream/Download Now</p>
+            <a href="https://www.looperman.com/users/profile/5711248" class="social-link icon-button">
+                <i class="fas fa-music"></i>
+                Free Acapellas
             </a>
-
-            <div class="social-link">
-                <h3>💬 Live Chat</h3>
-                <iframe src="https://chat.restream.io/embed?token=4ebcd7a7-a420-4998-9d64-2901a6ec4685"
-                        style="width:100%;height:300px;border:none;"></iframe>
-            </div>
         </div>
     </div>
 
