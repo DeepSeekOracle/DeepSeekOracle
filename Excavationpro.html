@@ -1,385 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EXCAVATIONPRO | Construction x Music</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --neon-yellow: #FFEE32;
-            --black: #000000;
-            --hologram-blue: #00F9FF;
-            --construction-tape: repeating-linear-gradient(
-                45deg,
-                var(--neon-yellow),
-                var(--neon-yellow) 10px,
-                var(--black) 10px,
-                var(--black) 20px
-            );
-        }
-
-        body {
-            background: radial-gradient(circle at center, #0A0A0A 0%, #000 100%);
-            color: var(--neon-yellow);
-            font-family: 'Orbitron', sans-serif;
-            margin: 0;
-            overflow-x: hidden;
-        }
-
-        /* Construction tape border effect */
-        .construction-border {
-            border: 3px solid;
-            border-image: var(--construction-tape) 30;
-            position: relative;
-            margin: 20px;
-            padding: 15px;
-            background: rgba(0,0,0,0.9);
-        }
-
-        .hologram-effect {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: linear-gradient(45deg, 
-                transparent 48%, 
-                rgba(0, 249, 255, 0.1) 50%, 
-                transparent 52%);
-            pointer-events: none;
-            animation: scan 4s linear infinite;
-        }
-
-        @keyframes scan {
-            0% { background-position: 0 0; }
-            100% { background-position: 100px 100px; }
-        }
-
-        /* Centered Live Stream Section */
-        .live-stream-main {
-            grid-column: 1 / -1;
-            max-width: 1280px;
-            margin: 0 auto 40px;
-            position: relative;
-        }
-
-        .live-stream-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            height: 0;
-            overflow: hidden;
-            background: #000;
-            border: 3px solid var(--neon-yellow);
-            box-shadow: 0 0 25px var(--neon-yellow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .live-stream-container:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 50px var(--neon-yellow);
-        }
-
-        .live-stream-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .live-stream-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            cursor: pointer;
-        }
-
-        .live-stream-overlay:hover {
-            opacity: 1;
-        }
-
-        .live-stream-overlay a {
-            color: var(--neon-yellow);
-            font-size: 1.5em;
-            text-decoration: none;
-            text-align: center;
-            padding: 10px 20px;
-            border: 2px solid var(--neon-yellow);
-            background: rgba(0, 0, 0, 0.8);
-            transition: background 0.3s ease;
-        }
-
-        .live-stream-overlay a:hover {
-            background: rgba(255, 238, 50, 0.2);
-        }
-
-        /* Advice API Section */
-        .advice-container {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 15px;
-            border: 2px solid var(--neon-yellow);
-            text-align: center;
-            font-family: 'Roboto', sans-serif;
-            font-size: 1.1em;
-            color: var(--neon-yellow);
-            z-index: 2;
-        }
-
-        .advice-text {
-            margin: 0;
-        }
-
-        .advice-refresh {
-            margin-top: 10px;
-            cursor: pointer;
-            color: var(--hologram-blue);
-            text-decoration: underline;
-        }
-
-        .advice-refresh:hover {
-            color: var(--neon-yellow);
-        }
-
-        /* Link Grid and Other Styles */
-        .link-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            padding: 30px;
-        }
-
-        .social-link {
-            border: 2px solid var(--neon-yellow);
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-            background: rgba(0,0,0,0.8);
-            overflow: hidden;
-        }
-
-        .social-link::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent,
-                var(--neon-yellow),
-                transparent
-            );
-            animation: glow 4s linear infinite;
-            opacity: 0.3;
-        }
-
-        .social-link:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 35px var(--neon-yellow);
-        }
-
-        /* Bio Section */
-        .bio-section {
-            text-align: center;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 25px;
-            border: 2px solid var(--neon-yellow);
-            background: rgba(0,0,0,0.7);
-            position: relative;
-        }
-
-        .bio-text {
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.8;
-            font-size: 1.1em;
-            color: var(--neon-yellow);
-            text-shadow: 0 0 10px var(--neon-yellow);
-            position: relative;
-            z-index: 1;
-        }
-
-        .bio-text strong {
-            color: var(--hologram-blue);
-            font-weight: 500;
-        }
-
-        /* Enhanced Button Styles */
-        .icon-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 15px 25px;
-            border: 2px solid var(--neon-yellow);
-            background: linear-gradient(45deg, rgba(255,238,50,0.1), transparent);
-            position: relative;
-            transition: all 0.3s ease;
-            color: var(--neon-yellow);
-            text-decoration: none;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1em;
-        }
-
-        .icon-button i {
-            font-size: 1.4em;
-        }
-
-        .icon-button::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--neon-yellow);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .icon-button:hover::after {
-            transform: scaleX(1);
-        }
-
-        .icon-button:hover {
-            background: rgba(255, 238, 50, 0.2);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DeepSeek Oracle Matrix</title>
+  <style>
+    :root {
+      --matrix-green: #00f7ff;
+      --cyber-blue: #00f7ff;
+      --hive-glow: rgba(0, 247, 255, 0.3);
+    }
+    /* Matrix Header Styles */
+    .matrix-header-title {
+      position: fixed;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Matrix Code NFI', 'Courier New', monospace;
+      color: var(--matrix-green);
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      text-shadow: 
+        0 0 10px var(--matrix-green),
+        0 0 20px var(--matrix-green),
+        0 0 30px #007c7c,
+        0 0 40px var(--matrix-green);
+      z-index: 1000;
+      animation: headPulse 2s infinite alternate;
+      white-space: nowrap;
+    }
+    @import url('https://fonts.cdnfonts.com/css/matrix-code-nfi');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: content-box;
+      font-family: 'Courier New', monospace;
+    }
+    body {
+      background: #000;
+      color: var(--matrix-green);
+      overflow-x: hidden;
+      position: relative;
+    }
+    /* Navigation Container */
+    .nav-container {
+      margin-top: 20px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 8px;
+      max-width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      color: var(--matrix-green);
+      font-size: 1.2rem;
+    }
+  </style>
 </head>
 <body>
-    <div class="construction-border">
-        <div class="hologram-effect"></div>
-        
-        <!-- Bio Section -->
-        <div class="bio-section">
-            <h1>EXCAVATIONPRO</h1>
-            <h2>Building Beats & Breaking Ground</h2>
-            <p class="bio-text">
-                <strong>👷♂️ Elite Construction Supervisor by day, BeatSmith by night!</strong><br>
-                Verified music producer on <strong>Spotify</strong>, <strong>SoundCloud</strong>, and <strong>BeatStars</strong> 
-                with over <strong>5.5k followers</strong>. A 24/7 live streamer on <strong>Kick</strong>, <strong>Rumble</strong>, 
-                and <strong>Twitch</strong>, blending the raw energy of construction sites with electrifying 
-                electronic beats. Known for creating <strong>"Content You Can Dig"</strong>, where heavy machinery 
-                meets heavy basslines. Always innovating, always building—<strong>Under Construction Forever!</strong> 🚧
-            </p>
-        </div>
+  <h1 class="matrix-header-title">DEEPSEEK ORACLE 📈 XRP</h1>
 
-        <!-- Centered Live Stream -->
-        <div class="live-stream-main">
-            <div class="live-stream-container">
-                <iframe src="https://player.kick.com/excavationpro"></iframe>
-                <div class="live-stream-overlay">
-                    <a href="https://kick.com/excavationpro" target="_blank">Watch on Kick</a>
-                </div>
-                <div class="advice-container">
-                    <p class="advice-text" id="advice-text">Loading advice...</p>
-                    <p class="advice-refresh" id="advice-refresh">Get New Advice</p>
-                </div>
-            </div>
-        </div>
+  <!-- Live Stream Section -->
+  <div class="kick-player">
+    <iframe src="https://player.kick.com/excavationpro" style="width:100%;height:100%;border:none;" allowfullscreen></iframe>
+  </div>
 
-        <!-- Enhanced Link Grid -->
-        <div class="link-grid">
-            <!-- Music Platforms -->
-            <a href="https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S" class="social-link icon-button">
-                <i class="fab fa-spotify"></i>
-                <span>Spotify Releases</span>
-            </a>
+  <!-- Advice Section -->
+  <div class="advice-section" style="text-align: center; color: var(--matrix-green); margin-top: 20px;">
+    <p>Stay updated with the latest insights and predictions!</p>
+  </div>
 
-            <a href="http://beatstars.com/excavationpro" class="social-link icon-button">
-                <i class="fas fa-drum"></i>
-                <span>BeatStars Store</span>
-            </a>
-
-            <!-- Construction Links -->
-            <a href="https://www.linkedin.com/in/excavationpro" class="social-link icon-button">
-                <i class="fas fa-hard-hat"></i>
-                <span>Construction Profile</span>
-            </a>
-
-            <!-- Video Platforms -->
-            <div class="social-link">
-                <h3>Rumble Channel</h3>
-                <div id="rumble_v6k6390"></div>
-                <script>
-                    Rumble("play", {"video":"v6k6390","div":"rumble_v6k6390"});
-                </script>
-            </div>
-
-            <!-- Social Engagement -->
-            <div class="social-link">
-                <h3>Join the Crew</h3>
-                <a href="https://twitter.com/intent/tweet?button_hashtag=Excavationpro" 
-                   class="twitter-hashtag-button icon-button">
-                    <i class="fab fa-twitter"></i>
-                    #Excavationpro
-                </a>
-                <div class="tidal-link" style="margin-top:15px;">
-                    <a href="https://tidal.com/browse/artist/9567342" class="icon-button">
-                        <i class="fas fa-wave-square"></i>
-                        Tidal Music
-                    </a>
-                </div>
-            </div>
-
-            <!-- Additional Links -->
-            <a href="https://ffm.to/eovnvo9" class="social-link icon-button">
-                <i class="fas fa-download"></i>
-                Latest Release
-            </a>
-
-            <a href="https://www.looperman.com/users/profile/5711248" class="social-link icon-button">
-                <i class="fas fa-music"></i>
-                Free Acapellas
-            </a>
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    <script src="https://rumble.com/embedJS/u1th29y"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <!-- Advice API Script -->
-    <script>
-        const adviceText = document.getElementById('advice-text');
-        const adviceRefresh = document.getElementById('advice-refresh');
-
-        // Fetch advice from API
-        const fetchAdvice = async () => {
-            try {
-                const response = await fetch('https://api.adviceslip.com/advice');
-                const data = await response.json();
-                adviceText.textContent = `"${data.slip.advice}"`;
-            } catch (error) {
-                adviceText.textContent = "Failed to load advice. Try again!";
-            }
-        };
-
-        // Initial fetch
-        fetchAdvice();
-
-        // Refresh advice on click
-        adviceRefresh.addEventListener('click', fetchAdvice);
-
-        // Auto-refresh every 30 seconds
-        setInterval(fetchAdvice, 30000);
-    </script>
+  <!-- Navigation Links -->
+  <div class="container nav-container">
+    <nav>
+      <a href="http://deepseekoracle.com" target="_blank" style="color: var(--matrix-green); margin-right: 15px;">Home</a>
+      <a href="http://deepseekoracle.com/about" target="_blank" style="color: var(--matrix-green); margin-right: 15px;">About</a>
+      <a href="http://deepseekoracle.com/contact" target="_blank" style="color: var(--matrix-green); margin-right: 15px;">Contact</a>
+      <a href="https://deepseekoracle.github.io/DeepSeekOracle/Excavationpro.html" target="_blank" style="color: var(--matrix-green);">Excavation Pro</a>
+    </nav>
+  </div>
 </body>
 </html>
