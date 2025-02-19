@@ -3,136 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚧 Hard Hat Stream Zone 🚧</title>
+    <title>EXCAVATIONPRO | Construction x Music</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;500&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --neon-yellow: #FFEE32;
+            --matrix-green: #00FF41;
+            --black: #000000;
+            --hologram-blue: #00F9FF;
+        }
+
         body {
-            background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
-            color: #fff;
-            font-family: 'Arial', sans-serif;
+            background: radial-gradient(circle at center, #0A0A0A 0%, #000 100%);
+            color: var(--neon-yellow);
+            font-family: 'Orbitron', sans-serif;
             margin: 0;
+            overflow-x: hidden;
+        }
+
+        .construction-border {
+            border: 3px solid var(--neon-yellow);
+            position: relative;
+            margin: 20px;
+            padding: 15px;
+            box-shadow: 0 0 15px var(--neon-yellow);
+            background: rgba(0,0,0,0.8);
+        }
+
+        .hologram-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: linear-gradient(45deg, 
+                transparent 48%, 
+                rgba(0, 249, 255, 0.1) 50%, 
+                transparent 52%);
+            pointer-events: none;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
             padding: 20px;
-            min-height: 100vh;
         }
 
-        .holographic-box {
-            background: linear-gradient(145deg, 
-                rgba(255,223,0,0.1) 0%, 
-                rgba(255,94,0,0.1) 50%, 
-                rgba(0,212,255,0.1) 100%);
-            border: 2px solid rgba(255,223,0,0.3);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 1200px;
-            box-shadow: 0 0 30px rgba(0,212,255,0.2);
-            animation: hologlow 2s infinite alternate;
-        }
-
-        @keyframes hologlow {
-            from { box-shadow: 0 0 20px rgba(0,212,255,0.2); }
-            to { box-shadow: 0 0 40px rgba(0,212,255,0.4); }
-        }
-
-        .construction-header {
+        .social-link {
+            border: 2px solid var(--neon-yellow);
+            padding: 15px;
             text-align: center;
-            font-size: 2.5em;
-            text-shadow: 0 0 15px #ffdf00;
-            margin: 20px 0;
+            transition: all 0.3s ease;
+            position: relative;
+            background: rgba(0,0,0,0.7);
         }
 
-        .livestream-container {
+        .social-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--neon-yellow);
+        }
+
+        .live-stream-container {
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
             max-width: 100%;
             background: #000;
-            border: 3px solid #ffdf00;
-            border-radius: 10px;
         }
 
-        .livestream-iframe {
+        iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-        }
-
-        .toolbelt-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .holographic-btn {
-            background: linear-gradient(45deg, #ffdf00, #ff5e00);
             border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            color: #000;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        .title {
+            font-size: 2.5em;
+            text-shadow: 0 0 10px var(--neon-yellow);
+            margin: 0;
+        }
+
+        .subtitle {
+            color: var(--hologram-blue);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .twitter-hashtag-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: var(--neon-yellow);
+            color: var(--black);
+            text-decoration: none;
+            border-radius: 5px;
             font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-            border: 2px solid rgba(255,223,0,0.5);
+            transition: background-color 0.3s ease;
         }
 
-        .holographic-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px #ffdf00;
-        }
-
-        .warning-stripe {
-            background: repeating-linear-gradient(
-                45deg,
-                #ffdf00,
-                #ffdf00 20px,
-                #000 20px,
-                #000 40px
-            );
-            height: 10px;
-            margin: 20px 0;
+        .twitter-hashtag-button:hover {
+            background-color: var(--hologram-blue);
+            color: var(--black);
         }
     </style>
 </head>
 <body>
-    <div class="holographic-box">
-        <h1 class="construction-header">🛠️ HARD HAT HQ 🚧<br>LIVE CONSTRUCTION ZONE</h1>
-        
-        <div class="warning-stripe"></div>
-
-        <div class="livestream-container">
-            <iframe class="livestream-iframe" 
-                src="https://rumble.com/embed/v6a7v1v/?pub=4" 
-                frameborder="0" 
-                allowfullscreen>
-            </iframe>
+    <div class="construction-border">
+        <div class="hologram-effect"></div>
+        <div class="header">
+            <h1 class="title">EXCAVATIONPRO</h1>
+            <p class="subtitle">Building Beats & Breaking Ground</p>
         </div>
 
-        <div class="toolbelt-buttons">
-            <button class="holographic-btn">🔧 Tool Chat</button>
-            <button class="holographic-btn">📅 Work Schedule</button>
-            <button class="holographic-btn">🚨 Safety Alert</button>
+        <div class="link-grid">
+            <!-- Live Streams -->
+            <div class="social-link">
+                <h3>24/7 Live Stream</h3>
+                <div class="live-stream-container">
+                    <iframe src="https://player.kick.com/excavationpro"></iframe>
+                </div>
+            </div>
+
+            <!-- Music Platforms -->
+            <a href="https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S" class="social-link">
+                <h3>🎵 Spotify</h3>
+                <p>Official Releases</p>
+            </a>
+
+            <a href="https://soundcloud.com/excavationpro" class="social-link">
+                <h3>🎧 SoundCloud</h3>
+                <p>Exclusive Mixes</p>
+            </a>
+
+            <!-- Video Content -->
+            <div class="social-link">
+                <div id="rumble_v6k6390"></div>
+                <script>
+                    Rumble("play", {"video":"v6k6390","div":"rumble_v6k6390"});
+                </script>
+            </div>
+
+            <!-- Twitter Hashtag Button -->
+            <div class="social-link">
+                <h3>Join the Conversation</h3>
+                <a href="https://twitter.com/intent/tweet?button_hashtag=Excavationpro&ref_src=twsrc%5Etfw" 
+                   class="twitter-hashtag-button" 
+                   data-show-count="false">
+                    Tweet #Excavationpro
+                </a>
+            </div>
         </div>
 
-        <div id="api-data" class="holographic-box"></div>
+        <!-- Additional Links -->
+        <div class="link-grid">
+            <a href="https://www.youtube.com/channel/UCr2GPEJcl2lXu0lS9-0FjvA" class="social-link">
+                <h3>📺 YouTube</h3>
+                <p>Music & Construction Content</p>
+            </a>
+
+            <a href="https://ffm.to/eovnvo9" class="social-link">
+                <h3>💿 Latest Release</h3>
+                <p>Stream/Download Now</p>
+            </a>
+
+            <div class="social-link">
+                <h3>💬 Live Chat</h3>
+                <iframe src="https://chat.restream.io/embed?token=4ebcd7a7-a420-4998-9d64-2901a6ec4685"
+                        style="width:100%;height:300px;border:none;"></iframe>
+            </div>
+        </div>
     </div>
 
-    <script>
-        // Fetch Rumble API data
-        fetch('https://rumble.com/-livestream-api/get-data?key=_NuLEKmPV33adJqk8qycoOuwit-Hm8JGKm-rOBx-gJ-DG5DylHaGK1xo8uCUiScy9wHdYS6mWskZVu3ucaAShw')
-            .then(response => response.json())
-            .then(data => {
-                const apiContainer = document.getElementById('api-data');
-                apiContainer.innerHTML = `
-                    <h3>🚨 Live Construction Updates:</h3>
-                    <p>📡 Stream Status: ${data.live ? 'ACTIVE 🟢' : 'OFFLINE 🔴'}</p>
-                    <p>👷 Crew Online: ${data.viewers}</p>
-                `;
-            })
-            .catch(error => console.error('🚧 API Error:', error));
-    </script>
+    <!-- Scripts -->
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="https://rumble.com/embedJS/u1th29y"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </body>
 </html>
