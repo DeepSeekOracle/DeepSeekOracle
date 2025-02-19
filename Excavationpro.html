@@ -125,10 +125,8 @@
 
         /* Advice API Section */
         .advice-container {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
+            position: relative;
+            margin: 20px auto;
             background: rgba(0, 0, 0, 0.8);
             padding: 15px;
             border: 2px solid var(--neon-yellow);
@@ -287,11 +285,13 @@
                 <div class="live-stream-overlay">
                     <a href="https://kick.com/excavationpro" target="_blank">Watch on Kick</a>
                 </div>
-                <div class="advice-container">
-                    <p class="advice-text" id="advice-text">Loading advice...</p>
-                    <p class="advice-refresh" id="advice-refresh">Get New Advice</p>
-                </div>
             </div>
+        </div>
+
+        <!-- Advice Section -->
+        <div class="advice-container">
+            <p class="advice-text" id="advice-text">Loading advice...</p>
+            <p class="advice-refresh" id="advice-refresh">Get New Advice</p>
         </div>
 
         <!-- Enhanced Link Grid -->
@@ -347,6 +347,12 @@
             <a href="https://www.looperman.com/users/profile/5711248" class="social-link icon-button">
                 <i class="fas fa-music"></i>
                 Free Acapellas
+            </a>
+
+            <!-- DeepSeekOracle Link -->
+            <a href="https://deepseekoracle.github.io/DeepSeekOracle/" class="social-link icon-button">
+                <i class="fas fa-globe"></i>
+                DeepSeekOracle
             </a>
         </div>
     </div>
