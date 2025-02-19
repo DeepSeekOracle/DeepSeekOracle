@@ -366,6 +366,66 @@
             border: none;
         }
 
+        /* Popup Styles */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .popup-content {
+            background: rgba(0, 15, 31, 0.9);
+            border: 2px solid #00f7ff;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.5);
+            transform: scale(0.8);
+            transition: transform 0.5s ease;
+        }
+
+        .popup-content h3 {
+            color: #00f7ff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .popup-content a {
+            color: #ffff00;
+            text-decoration: none;
+            font-weight: bold;
+            text-shadow: 0 0 10px #ffff00;
+        }
+
+        .popup-content button {
+            background: #00f7ff;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin-top: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .popup-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .popup-overlay.active .popup-content {
+            transform: scale(1);
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -502,6 +562,16 @@
     <div class="hologram-overlay"></div>
     <div class="view-counter">Views: <span id="viewCount">0</span></div>
     
+    <!-- Popup Overlay -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-content">
+            <h3>🚀 Exclusive Offer! 🚀</h3>
+            <p>Use my referral link to sign up for <strong>Crypto.com</strong>, and we'll both get <strong>$50 USD</strong>! 🫶😀</p>
+            <a href="https://crypto.com/app/hbpy3d4r3f" target="_blank">Sign Up Now</a>
+            <button onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
     <div class="container">
         <nav>
             <h1 class="cyber-glitch neon-text">DeepSeekOracle.com</h1>
@@ -672,6 +742,20 @@
         }
 
         window.addEventListener('DOMContentLoaded', initNeuralPaths);
+
+        // Popup Logic
+        const popupOverlay = document.getElementById('popupOverlay');
+
+        function showPopup() {
+            popupOverlay.classList.add('active');
+        }
+
+        function closePopup() {
+            popupOverlay.classList.remove('active');
+        }
+
+        // Show popup every 15 minutes (900,000 milliseconds)
+        setInterval(showPopup, 900000);
     </script>
 </body>
 </html>
