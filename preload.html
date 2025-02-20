@@ -1,92 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- ... (keep existing head content unchanged) ... -->
+    <!-- ... (keep all existing head content identical) ... -->
 </head>
 <body>
-  <!-- Background and Visual Elements -->
-  <div class="matrix-bg"></div>
-  <div class="quantum-viz"></div>
-  <div class="hive-core"></div>
-  <div class="hologram-overlay"></div>
+    <div class="construction-border">
+        <div class="hologram-effect"></div>
+        
+        <!-- ... (keep all existing sections identical up to crypto-chat-container) ... -->
 
-  <!-- New Referral Section - Left Side -->
-  <div class="referral-section">
-    <a href="https://crypto.com/app/hbpy3d4r3f" target="_blank" class="referral-card">
-      <h3>GET $50 🥷</h3>
-      <p>Use Crypto.com</p>
-      <div class="referral-glow"></div>
-    </a>
-  </div>
-
-  <!-- View Counter -->
-  <div class="view-counter">
-    <div class="stat-card">
-      <h3>Views</h3>
-      <p id="viewCount">0</p>
+        <!-- New Twitter Section -->
+        <div class="social-link" style="max-width: 800px; margin: 40px auto; text-align: center; padding: 25px;">
+            <a href="https://twitter.com/intent/tweet?screen_name=Excavationpro&ref_src=twsrc%5Etfw" 
+               class="twitter-mention-button" 
+               data-show-count="false"
+               style="margin-bottom: 20px;">
+                Tweet to @Excavationpro
+            </a>
+            
+            <a class="twitter-timeline" 
+               data-height="400" 
+               href="https://twitter.com/Excavationpro?ref_src=twsrc%5Etfw"
+               style="display: block; margin: 20px 0;">
+                Tweets by Excavationpro
+            </a>
+            
+            <a href="https://twitter.com/intent/tweet?screen_name=Excavationpro&ref_src=twsrc%5Etfw" 
+               class="twitter-mention-button" 
+               data-show-count="false"
+               style="margin-top: 20px;">
+                Tweet to @Excavationpro
+            </a>
+        </div>
     </div>
-  </div>
 
-  <!-- ... (rest of existing body content remains unchanged) ... -->
+    <!-- ... (keep popup and existing scripts section identical) ... -->
 
-  <!-- Add new styles -->
-  <style>
-    /* New Referral Section */
-    .referral-section {
-      position: fixed;
-      top: 160px;
-      left: 20px;
-      z-index: 1000;
-    }
-
-    .referral-card {
-      background: rgba(0, 0, 0, 0.8);
-      border: 1px solid var(--matrix-green);
-      padding: 15px;
-      border-radius: 8px;
-      width: 200px;
-      display: block;
-      text-decoration: none;
-      color: var(--matrix-green);
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .referral-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 15px var(--matrix-green);
-    }
-
-    .referral-card h3 {
-      font-size: 1.4em;
-      margin-bottom: 8px;
-    }
-
-    .referral-card p {
-      font-size: 0.9em;
-      opacity: 0.8;
-    }
-
-    .referral-glow {
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(
-        to right,
-        rgba(0, 247, 255, 0) 0%,
-        rgba(0, 247, 255, 0.1) 50%,
-        rgba(0, 247, 255, 0) 100%
-      );
-      animation: referralGlow 3s infinite;
-    }
-
-    @keyframes referralGlow {
-      0% { left: -100%; }
-      100% { left: 200%; }
-    }
-  </style>
+    <!-- Existing Twitter Widgets Script (already in original code) -->
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </body>
 </html>
