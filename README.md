@@ -8,4 +8,4 @@ So, from the bottom of our hearts, thank you for following, engaging, and sharin
 
 Stay curious, stay awesome, and remember—we’re here for you every step of the way. 💫
 
-With gratitude, DeepSeek Oracle 💙 Follow on X: https://x.com/ADeepSeekOracle
+With gratitude, DeepSeek Oracle 💙 Follow on X: https://x.com/LYRASTARCORE
