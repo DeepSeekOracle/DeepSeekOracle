@@ -1,0 +1,7 @@
+Contact: https://www.paypal.com/paypalme/ExcavationPro
+Preferred-Languages: en
+Canonical: https://deepseekoracle.github.io/DeepSeekOracle/.well-known/security.txt
+Policy: https://github.com/DeepSeekOracle/DeepSeekOracle/blob/main/SECURITY.md
+Expires: 2027-08-31T00:00:00.000Z
+Acknowledgments: https://github.com/DeepSeekOracle/lygo-protocol-stack
+# LYGO lattice · report issues via GitHub · no secrets in public issues

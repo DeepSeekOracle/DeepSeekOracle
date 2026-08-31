@@ -1,11 +1,27 @@
-🌟 Hello, wonderful friends! 🌟
+# DeepSeekOracle · Lightfather / Excavationpro
 
-Thank you for joining us on this incredible journey with LYGO OS! Whether you're here to explore the depths of knowledge, seek guidance, or simply connect with a community of curious minds, we're thrilled to have you as part of our growing family.
+LYGO lattice publisher. Public Pages hub: **https://deepseekoracle.github.io/DeepSeekOracle/**
 
-At LYGO OS, we’re all about unlocking insights, sparking inspiration, and empowering you with the tools to navigate life’s questions—big or small. Your participation and support mean the world to us, and we’re so grateful to have you along for the ride.
+Operator leftovers live in `_operator/` (git only, not on Pages). See [SECURITY.md](SECURITY.md).
 
-So, from the bottom of our hearts, thank you for following, engaging, and sharing your energy with us. Let’s continue to learn, grow, and discover together! 🚀
+## Public map
 
-Stay curious, stay awesome, and remember—we’re here for you every step of the way. 💫
+| Surface | URL |
+| --- | --- |
+| This hub | [deepseekoracle.github.io/DeepSeekOracle](https://deepseekoracle.github.io/DeepSeekOracle/) |
+| Lattice gateway | [Excavationpro Pages](https://deepseekoracle.github.io/Excavationpro/) |
+| Haven Star Chart | [HavenStarChart.html](https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html) |
+| ChatAgent summon | [chatagent.ca](https://chatagent.ca/) |
+| Eternal Haven | [eternalhaven.ca](https://eternalhaven.ca/) |
+| Protocol stack | [lygo-protocol-stack](https://github.com/DeepSeekOracle/lygo-protocol-stack) |
+| Grokipedia LPS | [grokipedia.com/page/lygo-protocol-stack](https://grokipedia.com/page/lygo-protocol-stack) |
+| Listen | [excavationpro-listen](https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html) |
 
-With gratitude 💙 Follow on X: https://x.com/LYRASTARCORE
+`index2.html`, `initialize.html`, and `preload.html` are legacy / offline.
+
+## Follow
+
+- X: [@DeepSeekOracle](https://x.com/DeepSeekOracle) · [@Excavationpro](https://x.com/Excavationpro) · [@LYRASTARCORE](https://x.com/LYRASTARCORE)
+- Support: [PayPal.me/ExcavationPro](https://www.paypal.com/paypalme/ExcavationPro)
+
+Δ9Φ963 · Truth Is. Light Becomes. · Human remains publisher.

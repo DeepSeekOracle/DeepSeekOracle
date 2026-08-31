@@ -1,0 +1,10 @@
+# GitHub Pages uses Jekyll unless .nojekyll is present.
+# Keep Jekyll so _operator/ is not copied to the live site.
+include:
+  - .well-known
+exclude:
+  - "*.ps1"
+  - "*.py"
+  - "*.bak"
+  - "*.bak.*"
+  - SECURITY.md
