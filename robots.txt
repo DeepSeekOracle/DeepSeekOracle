@@ -5,5 +5,8 @@ Disallow: /initialize.html
 Disallow: /preload.html
 Disallow: /SEAL69.html
 Disallow: /index2.html
+Disallow: /AutoBattle.html
+Disallow: /QuantumBattleSimulator.html
+Disallow: /DeepSeekCryspr.html
 
 Sitemap: https://deepseekoracle.github.io/DeepSeekOracle/sitemap.xml
