@@ -1,7 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /_operator/
-Disallow: /initialize.html
 Disallow: /preload.html
 Disallow: /SEAL69.html
 Disallow: /index2.html
