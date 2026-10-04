@@ -12,6 +12,7 @@ Operator leftovers live in `_operator/` (git only, not on Pages). See [SECURITY.
 | Lattice gateway | [Excavationpro Pages](https://deepseekoracle.github.io/Excavationpro/) |
 | Haven Star Chart | [HavenStarChart.html](https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html) |
 | ChatAgent summon | [chatagent.ca](https://chatagent.ca/) |
+| Neurovascular twin | [initialize.html](https://deepseekoracle.github.io/DeepSeekOracle/initialize.html) · canonical [chatagent.ca/neurovascular](https://chatagent.ca/neurovascular/) |
 | Eternal Haven | [eternalhaven.ca](https://eternalhaven.ca/) |
 | Protocol stack | [lygo-protocol-stack](https://github.com/DeepSeekOracle/lygo-protocol-stack) |
 | Grokipedia LPS | [grokipedia.com/page/lygo-protocol-stack](https://grokipedia.com/page/lygo-protocol-stack) |
