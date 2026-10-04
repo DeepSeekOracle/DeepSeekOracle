@@ -9,7 +9,7 @@ The BioCyber gateway, about, oracle, music/stream players, games, XRP viewer, an
 
 ## What is not published
 
-`initialize.html` is the public Neurovascular Interface mock. Broken preload, the operator copy of that page, and seal JSON stay under `_operator/` (Jekyll does not copy `_` folders). Other old operator URLs still return a **noindex stub**.
+`initialize.html` is the public Neurovascular Interface, a simulated wire-node twin. Broken preload, the operator copy of that page, and seal JSON stay under `_operator/` (Jekyll does not copy `_` folders). Other old operator URLs still return a **noindex stub**.
 
 ## Do not
 

@@ -1,371 +1,890 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepSeek Oracle - BioCyber Intelligence</title>
-    <style>
-        /* Original styles maintained */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Courier New', monospace;
-        }
-
-        body {
-            background-color: #000;
-            color: #00f7ff;
-            overflow-x: hidden;
-            --neon-primary: #00f7ff;
-            --neon-secondary: #00f7ff;
-            --bio-rhythm: 100%;
-        }
-
-        /* Enhanced DNA Animation */
-        .dna-helix {
-            position: fixed;
-            width: 300px;
-            height: 100vh;
-            opacity: 0.05;
-            animation: dna-rotate 120s linear infinite;
-            z-index: -1;
-        }
-
-        @keyframes dna-rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Quantum Optimization Additions */
-        .cyber-card {
-            will-change: transform, opacity;
-            transform: translateZ(0);
-        }
-
-        /* Circadian Rhythm Adaptation */
-        @media (prefers-color-scheme: light) {
-            body {
-                --neon-primary: #00f7ff;
-                --neon-secondary: #00f7ff;
-            }
-        }
-
-        /* Enhanced Accessibility */
-        .cyber-glitch {
-            position: relative;
-        }
-
-        .cyber-glitch::after {
-            content: attr(aria-label);
-            position: absolute;
-            left: 2px;
-            text-shadow: none;
-            background: #000;
-            color: #00f7ff; /* Changed to match main text color */
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .cyber-glitch:focus::after {
-            opacity: 1;
-        }
-
-        /* WebGPU-Powered Particles */
-        #quantum-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        /* Neurological Feedback */
-        .neural-cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--neon-primary) 0%, rgba(0,247,255,0) 70%);
-            pointer-events: none;
-            mix-blend-mode: screen;
-            transition: transform 0.1s;
-        }
-
-        /* New Button Styles */
-        .main-frame-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #00f7ff 0%, rgba(0,247,255,0.2) 70%);
-            box-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff;
-            animation: pulse 2s infinite;
-        }
-
-        .main-frame-button::before {
-            content: "🤖";
-            font-size: 30px;
-            color: #00f7ff;
-            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff;
-        }
-
-        .main-frame-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px #00f7ff, 0 0 30px #00f7ff;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        /* New Styles for Top Center Text */
-        .top-center {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            z-index: 1000;
-        }
-
-        .top-center h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: #00f7ff;
-            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
-            animation: glow 1.5s infinite alternate;
-        }
-
-        .top-center h3 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-            color: #00f7ff;
-            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
-            animation: glow 1.5s infinite alternate;
-        }
-
-        .top-center p {
-            font-size: 1rem;
-            color: #00f7ff;
-            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
-            animation: glow 1.5s infinite alternate;
-        }
-
-        @keyframes glow {
-            0% {
-                text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
-            }
-            100% {
-                text-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff, 0 0 80px #00f7ff;
-            }
-        }
-
-        /* New TV Square with Biometrics */
-        .tv-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            height: 300px;
-            background: #000;
-            border: 4px solid #00f7ff;
-            box-shadow: 0 0 20px #00f7ff, 0 0 40px #00f7ff;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .tv-screen {
-            flex: 1;
-            background: #111;
-            border: 2px solid #00f7ff;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-        }
-
-        .bio-metric {
-            color: #ff0000; /* Changed to neon red */
-            font-size: 1.2rem;
-            text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000;
-        }
-
-        .bio-graph {
-            width: 100%;
-            height: 100px;
-            background: #000;
-            border: 1px solid #00ff00; /* Changed to neon green */
-            position: relative;
-        }
-
-        .bio-graph-line {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, #00ff00 0%, rgba(0, 255, 0, 0) 100%);
-            animation: graph-animate 2s infinite alternate;
-        }
-
-        @keyframes graph-animate {
-            0% { height: 20%; }
-            100% { height: 80%; }
-        }
-
-        /* View Counter */
-        .view-counter {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: #00f7ff; /* Changed to match main text color */
-            font-size: 1rem;
-            text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 40px #00f7ff;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeepSeek Oracle — Neurovascular Interface</title>
+<meta name="description" content="LYGO Neurovascular Interface. A simulated digital twin: a wire-node human figure on a nanotech world mesh, with bio, frame, and mesh readouts. No live sensors are connected.">
+<meta name="theme-color" content="#000000">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://deepseekoracle.github.io/DeepSeekOracle/initialize.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cyan: #00f7ff;
+    --green: #5dff9a;
+    --amber: #ffc14a;
+    --rose: #ff5d7a;
+    --violet: #c9b6ff;
+    --ice: #9adfff;
+    --dim: #7f93a3;
+    --line: rgba(0, 247, 255, 0.28);
+    --panel: rgba(0, 10, 14, 0.78);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #000; color: var(--cyan); }
+  body {
+    font-family: "Share Tech Mono", Consolas, monospace;
+    overflow: hidden;
+  }
+  #rain { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.22; pointer-events: none; }
+  .app {
+    position: relative;
+    z-index: 1;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 42%, rgba(0, 247, 255, 0.05), transparent 60%),
+      linear-gradient(#000, #000);
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 16px 8px;
+  }
+  .brand { min-width: 0; }
+  .brand h1 {
+    margin: 0;
+    font-family: Orbitron, "Segoe UI", sans-serif;
+    font-size: 1.15rem;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+    text-shadow: 0 0 12px rgba(0, 247, 255, 0.85);
+  }
+  .brand p { margin: 2px 0 0; color: var(--dim); font-size: 0.78rem; letter-spacing: 0.08em; }
+  .brand a { color: var(--cyan); text-decoration: none; }
+  .brand a:hover { text-shadow: 0 0 8px var(--cyan); }
+  .sym {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--line);
+    padding: 6px 10px;
+    background: var(--panel);
+  }
+  .ring {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: conic-gradient(var(--green) calc(var(--p) * 1%), rgba(0, 247, 255, 0.12) 0);
+    display: grid; place-items: center;
+  }
+  .ring span {
+    width: 26px; height: 26px; border-radius: 50%; background: #000;
+    display: grid; place-items: center; font-size: 0.62rem; color: var(--green);
+  }
+  .sym b { display: block; font-family: Orbitron, sans-serif; letter-spacing: 0.14em; font-size: 0.78rem; }
+  .sym small { color: var(--dim); letter-spacing: 0.12em; }
+  .pill {
+    border: 1px solid rgba(255, 193, 74, 0.7);
+    color: var(--amber);
+    padding: 4px 8px;
+    letter-spacing: 0.16em;
+    font-size: 0.68rem;
+  }
+  .deck {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr) 280px;
+    gap: 12px;
+    padding: 0 12px 12px;
+  }
+  .panel {
+    border: 1px solid var(--line);
+    background: var(--panel);
+    box-shadow: inset 0 0 40px rgba(0, 247, 255, 0.04), 0 0 24px rgba(0, 247, 255, 0.05);
+    padding: 10px;
+    min-height: 0;
+    overflow: auto;
+  }
+  .panel h2 {
+    margin: 0 0 8px;
+    font-family: Orbitron, sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    font-weight: 500;
+    color: var(--dim);
+  }
+  button.row, button.node {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    color: inherit;
+    border: 1px solid transparent;
+    font: inherit;
+    cursor: pointer;
+    padding: 7px 8px;
+    margin: 0 0 6px;
+  }
+  button.row { border-color: rgba(0, 247, 255, 0.16); }
+  button.row strong { display: flex; justify-content: space-between; font-weight: 400; }
+  button.row em { font-style: normal; color: #d7fbff; }
+  button.row span, button.node span { color: var(--dim); font-size: 0.75rem; }
+  button.row:hover, button.node:hover, button.row.on, button.node.on {
+    border-color: var(--cyan);
+    box-shadow: 0 0 12px rgba(0, 247, 255, 0.25);
+  }
+  .bar { height: 3px; margin-top: 6px; background: rgba(0, 247, 255, 0.12); }
+  .bar i { display: block; height: 100%; width: 0; background: var(--cyan); }
+  .stage { position: relative; min-height: 0; border: 1px solid var(--line); background: rgba(0, 0, 0, 0.35); }
+  #fig { width: 100%; height: 100%; display: block; cursor: crosshair; touch-action: manipulation; }
+  .hint {
+    position: absolute; top: 10px; left: 0; right: 0;
+    text-align: center; letter-spacing: 0.14em; font-size: 0.72rem; color: var(--dim);
+    pointer-events: none;
+  }
+  .inspect {
+    position: absolute; left: 12px; bottom: 12px; width: min(520px, 62%);
+    display: grid; grid-template-columns: minmax(0, 1fr) 180px;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(0, 6, 10, 0.82);
+    border: 1px solid var(--line);
+    pointer-events: none;
+  }
+  .inspect h3 {
+    margin: 0;
+    font-family: Orbitron, sans-serif;
+    letter-spacing: 0.12em;
+    font-size: 1rem;
+  }
+  .kicker { margin: 0 0 2px; color: var(--dim); letter-spacing: 0.14em; font-size: 0.7rem; }
+  .inspect p { margin: 4px 0 0; color: #c6f7ff; font-size: 0.82rem; line-height: 1.35; }
+  .meters { display: flex; gap: 14px; margin-top: 8px; }
+  .meters b { display: block; font-weight: 400; color: #fff; font-size: 0.95rem; }
+  .meters span { color: var(--dim); font-size: 0.68rem; letter-spacing: 0.08em; }
+  #wave { width: 180px; height: 64px; display: block; background: rgba(0, 247, 255, 0.05); }
+  .log { list-style: none; margin: 0; padding: 0; }
+  .log li { color: #b7fff0; font-size: 0.75rem; padding: 3px 0; border-bottom: 1px solid rgba(0, 247, 255, 0.08); }
+  .nodes { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+  button.node { margin: 0; padding: 4px 6px; font-size: 0.72rem; border-color: rgba(0, 247, 255, 0.1); }
+  @media (max-width: 980px) {
+    body { overflow: auto; }
+    .app { height: auto; min-height: 100dvh; }
+    header { flex-wrap: wrap; }
+    .brand p { line-height: 1.45; }
+    .deck { display: flex; flex-direction: column; }
+    .stage { order: -1; height: 72vh; }
+    .inspect { width: auto; right: 12px; grid-template-columns: 1fr; }
+    #wave { width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #rain { display: none; }
+  }
+</style>
 </head>
 <body>
-    <canvas id="quantum-particles"></canvas>
-    <div class="dna-helix">
-        <svg viewBox="0 0 100 100">
-            <path d="M50 0 Q60 20 50 40 Q40 60 50 80 Q60 100 50 100" stroke="var(--neon-primary)" fill="none"/>
-            <path d="M50 0 Q40 20 50 40 Q60 60 50 80 Q40 100 50 100" stroke="var(--neon-secondary)" fill="none"/>
-        </svg>
+<canvas id="rain" aria-hidden="true"></canvas>
+<div class="app">
+  <header>
+    <div class="brand">
+      <h1>DEEPSEEK ORACLE</h1>
+      <p>NEUROVASCULAR INTERFACE · <a href="https://deepseekoracle.github.io/DeepSeekOracle/">Main frame</a> · <a href="https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html">Star chart</a></p>
     </div>
-    <div class="neural-cursor"></div>
-
-    <!-- View Counter -->
-    <div class="view-counter">Views: <span id="view-count">0</span></div>
-
-    <!-- Moved Text to Top Center -->
-    <div class="top-center">
-        <h1 class="cyber-glitch neon-text" aria-label="DeepSeek Oracle">DeepSeek Oracle</h1>
-        <h3>Neurovascular Interface</h3>
-        <p>System Symbiosis: <span id="symbiosis-level">OPTIMAL</span></p>
+    <div class="sym" id="sym">
+      <div class="ring" style="--p:92"><span id="sym-num">92</span></div>
+      <div>
+        <b id="sym-word">OPTIMAL</b>
+        <small>SYSTEM SYMBIOSIS</small>
+      </div>
     </div>
-
-    <!-- TV Square with Biometrics -->
-    <div class="tv-container">
-        <div class="tv-screen">
-            <div class="bio-metric">Heart Rate: <span id="heart-rate">--</span> BPM</div>
-            <div class="bio-metric">Oxygen Level: <span id="oxygen-level">--</span>%</div>
-            <div class="bio-metric">Brain Activity: <span id="brain-activity">--</span>%</div>
-            <div class="bio-graph">
-                <div class="bio-graph-line"></div>
-            </div>
+    <div class="pill">SIMULATION</div>
+  </header>
+  <div class="deck">
+    <aside class="panel" id="bio">
+      <h2>BIO SENSORS</h2>
+    </aside>
+    <section class="stage">
+      <canvas id="fig" aria-label="Wire-node digital twin. Choose a point on the figure."></canvas>
+      <div class="hint" id="hint">SELECT A NODE ON THE FIGURE</div>
+      <div class="inspect" id="inspect" aria-live="polite">
+        <div>
+          <p class="kicker" id="ins-k">TWIN</p>
+          <h3 id="ins-name">Digital twin</h3>
+          <p id="ins-line">A helper model in this browser. The figure is a mesh of nodes, in the same spirit as the Haven Star Chart.</p>
+          <div class="meters" id="ins-meters"></div>
         </div>
-    </div>
+        <canvas id="wave" width="360" height="120" aria-hidden="true"></canvas>
+      </div>
+    </section>
+    <aside class="panel" id="world">
+      <h2>WORLD MESH</h2>
+      <div id="mesh-rows"></div>
+      <h2 style="margin-top:14px">DATA MODULES</h2>
+      <ul class="log" id="log"></ul>
+      <h2 style="margin-top:14px">FIGURE NODES</h2>
+      <div class="nodes" id="nodes"></div>
+    </aside>
+  </div>
+</div>
+<script>
+(function () {
+  const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const params = new URLSearchParams(location.search);
+  const SHOT = params.has("shot");
 
-    <!-- New Button -->
-    <button class="main-frame-button" onclick="window.location.href='https://deepseekoracle.github.io/DeepSeekOracle/'" aria-label="Main Frame"></button>
+  const SYS = {
+    neural:    { color: "#00f7ff", label: "NEURAL" },
+    cardiac:   { color: "#ff5d7a", label: "CARDIAC" },
+    breath:    { color: "#5dff9a", label: "BREATH" },
+    metabolic: { color: "#ffc14a", label: "METABOLIC" },
+    frame:     { color: "#9adfff", label: "FRAME" },
+    mesh:      { color: "#c9b6ff", label: "MESH" },
+    comms:     { color: "#7dfff1", label: "COMMS" }
+  };
 
-    <script>
-        // Quantum Particle System
-        function initParticles() {
-            const canvas = document.getElementById('quantum-particles');
-            const ctx = canvas.getContext('2d');
+  const READ = {
+    neural:    [["Focus", "%", 64, 8, 0], ["Lace sync", "%", 96, 2, 0], ["Noise", "%", 12, 4, 0]],
+    cardiac:   [["Rate", "bpm", 72, 4, 0], ["Variability", "ms", 46, 6, 0], ["Confidence", "%", 97, 1.2, 0]],
+    breath:    [["Rate", "/min", 14, 1.4, 0], ["Oxygen", "%", 98, 0.6, 0], ["Depth", "%", 70, 6, 0]],
+    metabolic: [["Temp", "C", 36.7, 0.15, 1], ["Reserve", "%", 81, 3, 0], ["Hydration", "%", 74, 2, 0]],
+    frame:     [["Load", "%", 22, 8, 0], ["Flex", "%", 40, 10, 0], ["Heat", "C", 33.4, 0.3, 1]],
+    mesh:      [["Latency", "ms", 18, 6, 0], ["Yield", "%", 93, 3, 0], ["Drift", "m", 0.4, 0.2, 1]],
+    comms:     [["SNR", "dB", 28, 3, 0], ["Lock", "%", 99, 1, 0], ["Packets", "/s", 42, 8, 0]]
+  };
 
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
+  const BLURB = {
+    neural: "Neural lace mirror. Focus is a model of attention for the twin, not a reading of a mind.",
+    cardiac: "Escort rhythm. The same job as a wrist watch: keep a steady pulse in view.",
+    breath: "Breath and oxygen window for the twin. Generated here, the way a training rig fakes a soldier's vitals.",
+    metabolic: "Core reserve. Heat, stores, and hydration as a helper dashboard.",
+    frame: "Limb and spine load. The wire frame reports how the stance is carrying itself.",
+    mesh: "Nanotech world mote. It samples the simulated field and reports back to the twin.",
+    comms: "Throat link. Band lock between the twin and the mesh."
+  };
 
-            window.addEventListener('resize', resize);
-            resize();
+  const RAW = [
+    ["crown","Crown","neural",0,-0.94,0.02],
+    ["cortex","Cortex","neural",0,-0.80,0.1],
+    ["ltemple","Left temple","neural",-0.13,-0.78,0],
+    ["rtemple","Right temple","neural",0.13,-0.78,0],
+    ["leye","Left eye","neural",-0.055,-0.71,0.28],
+    ["reye","Right eye","neural",0.055,-0.71,0.28],
+    ["nose","Nose","neural",0,-0.66,0.36],
+    ["jaw","Jaw","neural",0,-0.58,0.16],
+    ["throat","Throat","comms",0,-0.48,0.08],
+    ["lclav","Left clavicle","frame",-0.16,-0.40,0.12],
+    ["rclav","Right clavicle","frame",0.16,-0.40,0.12],
+    ["sternum","Sternum","frame",0,-0.36,0.2],
+    ["heart","Heart","cardiac",0.055,-0.28,0.24],
+    ["llung","Left lung","breath",-0.1,-0.28,0.12],
+    ["rlung","Right lung","breath",0.12,-0.26,0.1],
+    ["spineT","Upper spine","frame",0,-0.30,-0.2],
+    ["solar","Solar plexus","metabolic",0,-0.14,0.16],
+    ["liver","Liver","metabolic",0.1,-0.06,0.12],
+    ["core","Core","metabolic",0,0.02,0.14],
+    ["spineL","Lower spine","frame",0,0.04,-0.18],
+    ["pelvis","Pelvis","frame",0,0.16,0.02],
+    ["lsho","Left shoulder","frame",-0.28,-0.40,0.04],
+    ["lelbow","Left elbow","frame",-0.38,-0.16,0.08],
+    ["lwrist","Left wrist","frame",-0.34,0.08,0.1],
+    ["lpalm","Left palm","frame",-0.30,0.22,0.14],
+    ["rsho","Right shoulder","frame",0.28,-0.40,0.04],
+    ["relbow","Right elbow","frame",0.40,-0.14,0.02],
+    ["rwrist","Right wrist","frame",0.36,0.1,0.08],
+    ["rpalm","Right palm","frame",0.32,0.24,0.12],
+    ["lscap","Left scapula","frame",-0.12,-0.34,-0.24],
+    ["rscap","Right scapula","frame",0.12,-0.34,-0.24],
+    ["lhip","Left hip","frame",-0.12,0.2,0.08],
+    ["lknee","Left knee","frame",-0.13,0.48,0.06],
+    ["lankle","Left ankle","frame",-0.11,0.74,0.02],
+    ["lfoot","Left foot","frame",-0.13,0.88,0.16],
+    ["rhip","Right hip","frame",0.12,0.2,0.08],
+    ["rknee","Right knee","frame",0.135,0.48,0.04],
+    ["rankle","Right ankle","frame",0.12,0.74,0.02],
+    ["rfoot","Right foot","frame",0.14,0.88,0.16],
+    ["m1","Mote crown","mesh",-0.28,-1.02,0.25],
+    ["m2","Mote halo","mesh",0.28,-1.02,0.25],
+    ["m3","Mote west","mesh",-0.62,-0.2,0.15],
+    ["m4","Mote east","mesh",0.64,-0.18,0.12],
+    ["m5","Mote flank","mesh",-0.55,0.28,-0.05],
+    ["m6","Mote field","mesh",0.56,0.3,-0.08],
+    ["m7","Mote ground L","mesh",-0.38,0.92,0.2],
+    ["m8","Mote ground R","mesh",0.4,0.92,0.18],
+    ["lbrow","Left brow","neural",-0.07,-0.88,0.16],
+    ["rbrow","Right brow","neural",0.07,-0.88,0.16],
+    ["occiput","Occiput","neural",0,-0.84,-0.18],
+    ["lcheek","Left cheek","neural",-0.1,-0.64,0.16],
+    ["rcheek","Right cheek","neural",0.1,-0.64,0.16],
+    ["lrib","Left rib","frame",-0.15,-0.18,0.12],
+    ["rrib","Right rib","frame",0.16,-0.16,0.1],
+    ["spineM","Mid spine","frame",0,-0.12,-0.2]
+  ];
 
-            const particles = Array.from({length: 500}, () => ({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5,
-                size: Math.random() * 2
-            }));
+  const EDGES = [
+    ["crown","cortex"],["crown","ltemple"],["crown","rtemple"],
+    ["cortex","ltemple"],["cortex","rtemple"],["cortex","leye"],["cortex","reye"],["cortex","jaw"],
+    ["ltemple","leye"],["rtemple","reye"],["leye","nose"],["reye","nose"],["nose","jaw"],
+    ["leye","jaw"],["reye","jaw"],["jaw","throat"],["ltemple","lclav"],["rtemple","rclav"],
+    ["throat","sternum"],["throat","spineT"],
+    ["lclav","sternum"],["rclav","sternum"],["lclav","lsho"],["rclav","rsho"],
+    ["sternum","heart"],["sternum","llung"],["sternum","rlung"],["sternum","solar"],
+    ["heart","llung"],["heart","rlung"],["heart","solar"],
+    ["llung","spineT"],["rlung","spineT"],["spineT","spineL"],["spineT","lscap"],["spineT","rscap"],
+    ["lscap","lsho"],["rscap","rsho"],["lscap","rscap"],
+    ["solar","liver"],["solar","core"],["liver","core"],["core","spineL"],["core","pelvis"],["spineL","pelvis"],
+    ["lsho","lelbow"],["lelbow","lwrist"],["lwrist","lpalm"],
+    ["rsho","relbow"],["relbow","rwrist"],["rwrist","rpalm"],
+    ["pelvis","lhip"],["pelvis","rhip"],["lhip","rhip"],
+    ["lhip","lknee"],["lknee","lankle"],["lankle","lfoot"],
+    ["rhip","rknee"],["rknee","rankle"],["rankle","rfoot"],
+    ["m1","crown"],["m1","ltemple"],["m2","crown"],["m2","rtemple"],["m1","m2"],
+    ["m3","lsho"],["m3","lelbow"],["m4","rsho"],["m4","relbow"],
+    ["m5","core"],["m5","lhip"],["m6","core"],["m6","rhip"],
+    ["m7","lankle"],["m7","lfoot"],["m8","rankle"],["m8","rfoot"],
+    ["m3","m5"],["m5","m7"],["m4","m6"],["m6","m8"],["m7","m8"],
+    ["crown","lbrow"],["crown","rbrow"],["lbrow","rbrow"],["lbrow","leye"],["rbrow","reye"],
+    ["lbrow","ltemple"],["rbrow","rtemple"],["occiput","crown"],["occiput","ltemple"],["occiput","rtemple"],["occiput","spineT"],
+    ["lcheek","jaw"],["rcheek","jaw"],["lcheek","leye"],["rcheek","reye"],["lcheek","ltemple"],["rcheek","rtemple"],
+    ["lrib","llung"],["lrib","solar"],["rrib","rlung"],["rrib","solar"],["lrib","spineM"],["rrib","spineM"],
+    ["spineT","spineM"],["spineM","spineL"]
+  ];
 
-            function animate() {
-                ctx.fillStyle = 'rgba(0,0,0,0.05)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+  const NODES = RAW.map((r, i) => ({
+    id: r[0], name: r[1], system: r[2], x: r[3], y: r[4], z: r[5], order: i
+  }));
+  const byId = Object.fromEntries(NODES.map(n => [n.id, n]));
+  function bridge(aId, bId, count, label) {
+    const a = byId[aId], b = byId[bId];
+    const ids = [aId];
+    for (let i = 1; i <= count; i++) {
+      const t = i / (count + 1);
+      const id = aId + "-" + bId + "-" + i;
+      const node = {
+        id: id, name: label, system: a.system, quiet: true,
+        x: a.x + (b.x - a.x) * t,
+        y: a.y + (b.y - a.y) * t,
+        z: a.z + (b.z - a.z) * t,
+        order: NODES.length
+      };
+      NODES.push(node);
+      byId[id] = node;
+      ids.push(id);
+    }
+    ids.push(bId);
+    for (let i = 0; i < ids.length - 1; i++) EDGES.push([ids[i], ids[i + 1]]);
+  }
+  bridge("jaw", "throat", 2, "Neck");
+  bridge("throat", "sternum", 2, "Neck");
+  bridge("lsho", "lelbow", 3, "Left arm");
+  bridge("lelbow", "lwrist", 3, "Left arm");
+  bridge("lwrist", "lpalm", 2, "Left hand");
+  bridge("rsho", "relbow", 3, "Right arm");
+  bridge("relbow", "rwrist", 3, "Right arm");
+  bridge("rwrist", "rpalm", 2, "Right hand");
+  bridge("lhip", "lknee", 4, "Left leg");
+  bridge("lknee", "lankle", 4, "Left leg");
+  bridge("lankle", "lfoot", 2, "Left foot");
+  bridge("rhip", "rknee", 4, "Right leg");
+  bridge("rknee", "rankle", 4, "Right leg");
+  bridge("rankle", "rfoot", 2, "Right foot");
+  bridge("lclav", "lrib", 2, "Left rib");
+  bridge("rclav", "rrib", 2, "Right rib");
+  const orbs = [];
+  for (let i = 0; i < 18; i++) {
+    const ang = (i / 18) * Math.PI * 2;
+    const id = "orb" + i;
+    const node = {
+      id: id, name: "Field mote", system: "mesh", quiet: true,
+      x: Math.sin(ang) * 0.82,
+      y: Math.cos(ang) * 1.05,
+      z: Math.sin(ang * 2) * 0.28,
+      order: 200 + i
+    };
+    NODES.push(node);
+    byId[id] = node;
+    orbs.push(id);
+  }
+  orbs.forEach((id, i) => {
+    EDGES.push([id, orbs[(i + 1) % orbs.length]]);
+    let best = null, bestD = 1e9;
+    NODES.forEach(n => {
+      if (n.system === "mesh") return;
+      const d = (n.x - byId[id].x) * (n.x - byId[id].x) + (n.y - byId[id].y) * (n.y - byId[id].y);
+      if (d < bestD) { bestD = d; best = n.id; }
+    });
+    if (best) EDGES.push([id, best]);
+  });
+  EDGES.forEach(([a, b]) => {
+    if (!byId[a] || !byId[b]) throw new Error("bad edge " + a + " " + b);
+  });
 
-                particles.forEach(p => {
-                    p.x += p.vx;
-                    p.y += p.vy;
+  const rand = (function (a) {
+    return function () {
+      a |= 0; a = a + 0x6D2B79F5 | 0;
+      let t = Math.imul(a ^ a >>> 15, 1 | a);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  })(963);
+  const DUST = Array.from({ length: 70 }, () => ({
+    x: (rand() - 0.5) * 1.15,
+    y: (rand() - 0.5) * 2.05,
+    z: (rand() - 0.5) * 0.8,
+    s: rand() * 1.4 + 0.3
+  }));
 
-                    if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                    if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+  const BIO = [
+    ["heart", "Heart", 0],
+    ["llung", "Breath", 0],
+    ["llung", "Oxygen", 1],
+    ["cortex", "Neural", 0],
+    ["core", "Core temp", 0],
+    ["lpalm", "Frame load", 0]
+  ];
+  const MESH_ROWS = [
+    ["m4", "Mesh latency", 0],
+    ["m3", "Mote yield", 1],
+    ["m1", "Field drift", 2],
+    ["throat", "Comms lock", 1]
+  ];
 
-                    ctx.beginPath();
-                    ctx.fillStyle = `hsl(${Math.random()*360}, 70%, 50%)`;
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-                    ctx.fill();
-                });
+  const fig = document.getElementById("fig");
+  const rain = document.getElementById("rain");
+  const wave = document.getElementById("wave");
+  const wctx = wave.getContext("2d");
+  const hint = document.getElementById("hint");
+  let ctx, w = 1, h = 1;
+  let yaw = SHOT ? 0.42 : 0;
+  let pitch = SHOT ? 0.06 : 0;
+  let targetYaw = yaw, targetPitch = pitch;
+  let lastMove = SHOT ? 1e15 : 0;
+  let selected = null;
+  let hover = null;
+  let screen = [];
+  const hist = {};
+  const logLines = [];
+  const bootAt = SHOT || REDUCE ? -1e9 : performance.now();
 
-                requestAnimationFrame(animate);
-            }
-            animate();
-        }
+  function fit(canvas) {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    const r = canvas.getBoundingClientRect();
+    canvas.width = Math.max(1, r.width * dpr);
+    canvas.height = Math.max(1, r.height * dpr);
+    const c = canvas.getContext("2d");
+    c.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return c;
+  }
 
-        // Neurological Cursor
-        document.addEventListener('mousemove', e => {
-            const cursor = document.querySelector('.neural-cursor');
-            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-        });
+  function sample(node, index, t) {
+    const spec = READ[node.system][index];
+    const phase = node.order * 0.7;
+    return spec[2] + Math.sin(t / 900 + phase) * spec[3] + Math.sin(t / 2400 + phase * 1.7) * spec[3] * 0.35;
+  }
+  function fmt(node, index, t) {
+    const spec = READ[node.system][index];
+    const v = sample(node, index, t);
+    const text = spec[4] ? v.toFixed(spec[4]) : String(Math.round(v));
+    return { text, unit: spec[1], label: spec[0], v, spec };
+  }
 
-        // Biometric Simulation
-        function updateBiometrics() {
-            const heartRate = Math.floor(Math.random() * 40 + 60);
-            const oxygenLevel = Math.floor(Math.random() * 10 + 90);
-            const brainActivity = Math.floor(Math.random() * 20 + 80);
+  function project(n) {
+    const cy = Math.cos(yaw), sy = Math.sin(yaw);
+    const cp = Math.cos(pitch), sp = Math.sin(pitch);
+    const x1 = n.x * cy - n.z * sy;
+    let z1 = n.x * sy + n.z * cy;
+    const y1 = n.y * cp - z1 * sp;
+    z1 = n.y * sp + z1 * cp;
+    const persp = 1.45 / (1.65 + z1);
+    const scale = Math.min(w, h) * 0.46;
+    return {
+      sx: w * 0.5 + x1 * scale * persp,
+      sy: h * 0.47 + y1 * scale * persp,
+      z: z1,
+      r: (n.system === "mesh" ? 2.4 : 4) * persp
+    };
+  }
 
-            document.getElementById('heart-rate').textContent = heartRate;
-            document.getElementById('oxygen-level').textContent = oxygenLevel;
-            document.getElementById('brain-activity').textContent = brainActivity;
+  function reveal(node, now) {
+    const start = bootAt + node.order * 38;
+    return Math.max(0, Math.min(1, (now - start) / 420));
+  }
 
-            setTimeout(updateBiometrics, 2000);
-        }
+  function linked(id) {
+    if (!selected) return false;
+    if (id === selected.id) return true;
+    return EDGES.some(([a, b]) => (a === selected.id && b === id) || (b === selected.id && a === id));
+  }
 
-        // View Counter
-        function updateViewCounter() {
-            let views = localStorage.getItem('viewCount') || 0;
-            views = parseInt(views) + 1;
-            localStorage.setItem('viewCount', views);
-            document.getElementById('view-count').textContent = views;
-        }
+  function drawFloor() {
+    const feet = project({ x: 0, y: 0.9, z: 0 });
+    ctx.save();
+    ctx.translate(feet.sx, feet.sy + 8);
+    for (let i = 3; i >= 1; i--) {
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 70 * i, 16 * i, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(0,247,255," + (0.05 + i * 0.04) + ")";
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
 
-        // Initialize Enhanced Features
-        window.addEventListener('DOMContentLoaded', () => {
-            initParticles();
-            updateBiometrics();
-            updateViewCounter();
+  function draw(now) {
+    ctx.clearRect(0, 0, w, h);
+    if (!SHOT && !REDUCE) {
+      if (now - lastMove > 2800) {
+        targetYaw = Math.sin(now / 4200) * 0.4;
+        targetPitch = 0.05;
+      }
+    }
+    yaw += (targetYaw - yaw) * 0.06;
+    pitch += (targetPitch - pitch) * 0.06;
 
-            // Adaptive Performance
-            if('connection' in navigator && navigator.connection.saveData) {
-                document.getElementById('quantum-particles').style.display = 'none';
-            }
-        });
+    DUST.forEach(d => {
+      const p = project(d);
+      const a = 0.15 + (Math.sin(now / 500 + d.x * 8) + 1) * 0.08;
+      ctx.fillStyle = "rgba(0,247,255," + a + ")";
+      ctx.fillRect(p.sx, p.sy, d.s, d.s);
+    });
+    drawFloor();
 
-        // Circadian Adaptation
-        const hours = new Date().getHours();
-        document.body.style.setProperty('--neon-primary',
-            hours > 18 || hours < 6 ? '#0047ab' : '#00f7ff');
-    </script>
+    screen = NODES.map(n => Object.assign({ node: n, vis: reveal(n, now) }, project(n)));
+    const at = Object.fromEntries(screen.map(s => [s.node.id, s]));
+
+    const crown = at.crown, jaw = at.jaw, lt = at.ltemple, rt = at.rtemple;
+    if (crown && jaw && lt && rt && crown.vis > 0.3) {
+      ctx.beginPath();
+      ctx.ellipse(
+        (crown.sx + jaw.sx) / 2,
+        (crown.sy + jaw.sy) / 2,
+        Math.max(22, Math.abs(lt.sx - rt.sx) * 0.78),
+        Math.max(26, Math.abs(jaw.sy - crown.sy) * 0.62),
+        0, 0, Math.PI * 2
+      );
+      ctx.strokeStyle = "rgba(0,247,255,0.35)";
+      ctx.lineWidth = 1.25;
+      ctx.stroke();
+    }
+    ["lsho", "rsho", "rhip", "lhip"].reduce((ok, id) => ok && at[id], true) && (function () {
+      ctx.beginPath();
+      ["lsho", "rsho", "rhip", "lhip"].forEach((id, i) => {
+        const p = at[id];
+        if (i === 0) ctx.moveTo(p.sx, p.sy); else ctx.lineTo(p.sx, p.sy);
+      });
+      ctx.closePath();
+      ctx.fillStyle = "rgba(0,247,255,0.035)";
+      ctx.strokeStyle = "rgba(0,247,255,0.12)";
+      ctx.lineWidth = 1.2;
+      ctx.fill();
+      ctx.stroke();
+    })();
+
+    EDGES.forEach(([a, b], i) => {
+      const A = at[a], B = at[b];
+      const vis = Math.min(A.vis, B.vis);
+      if (vis <= 0) return;
+      const hot = selected && (a === selected.id || b === selected.id);
+      const meshEdge = byId[a].system === "mesh" || byId[b].system === "mesh";
+      const col = hot ? SYS[selected.system].color : (meshEdge ? "rgba(201,182,255,0.45)" : "rgba(0,247,255,0.55)");
+      ctx.globalAlpha = vis * (selected && !hot ? 0.16 : 0.95);
+      ctx.strokeStyle = col;
+      ctx.lineWidth = hot ? 2 : (meshEdge ? 0.7 : 1.45);
+      ctx.beginPath();
+      ctx.moveTo(A.sx, A.sy);
+      ctx.lineTo(B.sx, B.sy);
+      ctx.stroke();
+      if (hot && !REDUCE) {
+        const u = (Math.sin(now / 650 + i) + 1) / 2;
+        ctx.globalAlpha = vis;
+        ctx.fillStyle = "#fff";
+        ctx.beginPath();
+        ctx.arc(A.sx + (B.sx - A.sx) * u, A.sy + (B.sy - A.sy) * u, 1.7, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
+
+    if (!REDUCE) {
+      const scan = ((now / 40) % (h + 40)) - 20;
+      ctx.globalAlpha = 0.18;
+      ctx.fillStyle = "#00f7ff";
+      ctx.fillRect(0, scan, w, 2);
+    }
+
+    screen.sort((a, b) => a.z - b.z);
+    screen.forEach(s => {
+      if (s.vis <= 0) return;
+      const col = SYS[s.node.system].color;
+      const hot = s.node === selected || s.node === hover || linked(s.node.id);
+      ctx.globalAlpha = s.vis * (selected && !hot ? 0.28 : 1);
+      ctx.fillStyle = col;
+      ctx.globalAlpha *= 0.25;
+      ctx.beginPath();
+      ctx.arc(s.sx, s.sy, s.r * (hot ? 6 : 3.5), 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = s.vis * (selected && !hot ? 0.45 : 1);
+      ctx.fillStyle = hot ? "#fff" : col;
+      ctx.beginPath();
+      ctx.arc(s.sx, s.sy, s.r * (s.node === selected ? 1.7 : 1), 0, Math.PI * 2);
+      ctx.fill();
+      if (s.node === selected) {
+        ctx.strokeStyle = col;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(s.sx, s.sy, 14 + Math.sin(now / 200) * 2, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+    });
+    ctx.globalAlpha = 1;
+
+    const label = hover || selected;
+    if (label) {
+      const s = at[label.id];
+      if (s && s.vis > 0.4) {
+        ctx.font = "13px Share Tech Mono, Consolas, monospace";
+        ctx.fillStyle = "#e8feff";
+        ctx.strokeStyle = "rgba(0,0,0,0.85)";
+        ctx.lineWidth = 3;
+        const text = label.name.toUpperCase();
+        const x = Math.min(w - 130, s.sx + 14);
+        const y = Math.max(18, s.sy - 12);
+        ctx.strokeText(text, x, y);
+        ctx.fillText(text, x, y);
+      }
+    }
+  }
+
+  function pushHist(now) {
+    NODES.forEach(n => {
+      if (!hist[n.id]) hist[n.id] = [];
+      const arr = hist[n.id];
+      arr.push(sample(n, 0, now));
+      if (arr.length > 64) arr.shift();
+    });
+  }
+
+  function drawWave(node) {
+    const arr = hist[node.id] || [];
+    const cw = wave.width, ch = wave.height;
+    wctx.clearRect(0, 0, cw, ch);
+    wctx.strokeStyle = "rgba(0,247,255,0.2)";
+    wctx.strokeRect(0.5, 0.5, cw - 1, ch - 1);
+    if (arr.length < 2) return;
+    const min = Math.min.apply(null, arr);
+    const max = Math.max.apply(null, arr);
+    const span = max - min || 1;
+    wctx.beginPath();
+    arr.forEach((v, i) => {
+      const x = (i / (arr.length - 1)) * (cw - 8) + 4;
+      const y = ch - 6 - ((v - min) / span) * (ch - 14);
+      if (i === 0) wctx.moveTo(x, y); else wctx.lineTo(x, y);
+    });
+    wctx.strokeStyle = SYS[node.system].color;
+    wctx.lineWidth = 1.5;
+    wctx.stroke();
+  }
+
+  function paintInspect(now) {
+    const node = selected;
+    document.getElementById("ins-k").textContent = node
+      ? SYS[node.system].label + " · NX-" + node.id.toUpperCase()
+      : "TWIN · OVERVIEW";
+    document.getElementById("ins-name").textContent = node ? node.name : "Digital twin";
+    document.getElementById("ins-line").textContent = node
+      ? BLURB[node.system]
+      : "Wire-node body on a nanotech field. Pick any point. Numbers stay inside this browser.";
+    const box = document.getElementById("ins-meters");
+    const specs = node ? READ[node.system] : READ.cardiac;
+    const src = node || byId.heart;
+    if (box.childElementCount !== specs.length) {
+      box.innerHTML = "";
+      specs.forEach(() => {
+        const d = document.createElement("div");
+        d.innerHTML = "<b></b><span></span>";
+        box.appendChild(d);
+      });
+    }
+    specs.forEach((_, i) => {
+      const f = fmt(src, i, now);
+      const cell = box.children[i];
+      cell.querySelector("b").textContent = f.text + (f.unit ? " " + f.unit : "");
+      cell.querySelector("span").textContent = f.label.toUpperCase();
+    });
+    if (node) drawWave(node);
+  }
+
+  function paintSide(now) {
+    document.querySelectorAll("#bio button").forEach(btn => {
+      const f = fmt(byId[btn.dataset.id], +btn.dataset.i, now);
+      btn.querySelector("em").textContent = f.text + " " + f.unit;
+      const pct = Math.max(6, Math.min(100, (f.v / (f.spec[2] * 1.4)) * 100));
+      btn.querySelector("i").style.width = pct + "%";
+      btn.querySelector("i").style.background = SYS[byId[btn.dataset.id].system].color;
+      btn.classList.toggle("on", selected && selected.id === btn.dataset.id);
+    });
+    document.querySelectorAll("#mesh-rows button").forEach(btn => {
+      const f = fmt(byId[btn.dataset.id], +btn.dataset.i, now);
+      btn.querySelector("em").textContent = f.text + " " + f.unit;
+      btn.classList.toggle("on", selected && selected.id === btn.dataset.id);
+    });
+    document.querySelectorAll("#nodes button").forEach(btn => {
+      btn.classList.toggle("on", selected && selected.id === btn.dataset.id);
+    });
+    const scores = ["heart", "llung", "cortex", "core", "throat"].map(id => {
+      const n = byId[id];
+      const v = sample(n, n.system === "cardiac" ? 2 : 1, now);
+      return Math.max(0, Math.min(100, v));
+    });
+    const sym = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+    document.getElementById("sym-num").textContent = String(sym);
+    document.querySelector(".ring").style.setProperty("--p", String(sym));
+    const word = sym >= 90 ? "OPTIMAL" : sym >= 75 ? "NOMINAL" : "WATCH";
+    document.getElementById("sym-word").textContent = word;
+  }
+
+  function note(line) {
+    logLines.unshift(line);
+    if (logLines.length > 6) logLines.pop();
+    const ul = document.getElementById("log");
+    ul.innerHTML = "";
+    logLines.forEach(text => {
+      const li = document.createElement("li");
+      li.textContent = text;
+      ul.appendChild(li);
+    });
+  }
+
+  function select(node) {
+    selected = node;
+    if (node) hint.textContent = SYS[node.system].label + " CHANNEL";
+    paintInspect(performance.now());
+  }
+
+  function pick(x, y) {
+    let best = null;
+    let bestD = 22;
+    screen.forEach(s => {
+      const d = Math.hypot(s.sx - x, s.sy - y);
+      if (d < bestD) { bestD = d; best = s.node; }
+    });
+    return best;
+  }
+
+  function buildLists() {
+    const bio = document.getElementById("bio");
+    BIO.forEach(([id, label, index]) => {
+      const b = document.createElement("button");
+      b.className = "row";
+      b.dataset.id = id;
+      b.dataset.i = String(index);
+      b.innerHTML = "<strong><span></span><em></em></strong><div class='bar'><i></i></div>";
+      b.querySelector("span").textContent = label.toUpperCase();
+      b.addEventListener("click", () => select(byId[id]));
+      bio.appendChild(b);
+    });
+    const mesh = document.getElementById("mesh-rows");
+    MESH_ROWS.forEach(([id, label, index]) => {
+      const b = document.createElement("button");
+      b.className = "row";
+      b.dataset.id = id;
+      b.dataset.i = String(index);
+      b.innerHTML = "<strong><span></span><em></em></strong>";
+      b.querySelector("span").textContent = label.toUpperCase();
+      b.addEventListener("click", () => select(byId[id]));
+      mesh.appendChild(b);
+    });
+    const box = document.getElementById("nodes");
+    NODES.forEach(n => {
+      if (n.quiet) return;
+      const b = document.createElement("button");
+      b.className = "node";
+      b.dataset.id = n.id;
+      b.textContent = n.name;
+      b.addEventListener("click", () => select(n));
+      box.appendChild(b);
+    });
+  }
+
+  function pointer(ev) {
+    const r = fig.getBoundingClientRect();
+    return { x: ev.clientX - r.left, y: ev.clientY - r.top, r };
+  }
+
+  fig.addEventListener("pointermove", ev => {
+    const p = pointer(ev);
+    lastMove = performance.now();
+    targetYaw = ((p.x / p.r.width) - 0.5) * 0.85;
+    targetPitch = ((p.y / p.r.height) - 0.5) * 0.28;
+    hover = pick(p.x, p.y);
+    fig.style.cursor = hover ? "pointer" : "crosshair";
+  });
+  fig.addEventListener("pointerleave", () => { hover = null; });
+  fig.addEventListener("pointerdown", ev => {
+    const p = pointer(ev);
+    const hit = pick(p.x, p.y);
+    if (hit) select(hit);
+    else select(null);
+  });
+
+  let acc = 0;
+  let last = performance.now();
+  function frame(now) {
+    const dt = now - last;
+    last = now;
+    acc += dt;
+    if (acc > 900) {
+      acc = 0;
+      pushHist(now);
+      const n = NODES[Math.floor(rand() * NODES.length)];
+      const f = fmt(n, 0, now);
+      note(SYS[n.system].label + " " + n.name + " " + f.text + " " + f.unit);
+      paintSide(now);
+      paintInspect(now);
+    }
+    draw(now);
+    if (!REDUCE) requestAnimationFrame(frame);
+  }
+
+  function boot() {
+    ctx = fit(fig);
+    w = fig.getBoundingClientRect().width;
+    h = fig.getBoundingClientRect().height;
+    fit(rain);
+    buildLists();
+    for (let i = 0; i < 64; i++) pushHist(i * 140);
+    const hash = (location.hash || "").replace("#", "");
+    select(byId[hash] || byId.heart);
+    note("BREATH left lung 14 /min");
+    note("NEURAL cortex 64 %");
+    note("MESH mote east 18 ms");
+    note("Twin online. Mesh listening. No external sensor.");
+    paintSide(performance.now());
+    if (REDUCE) {
+      draw(performance.now());
+      return;
+    }
+    const rctx = rain.getContext("2d");
+    const cols = Math.ceil(rain.getBoundingClientRect().width / 14);
+    const drops = Array.from({ length: cols }, () => Math.random() * 40);
+    const glyphs = "01Δ9ΦΛ";
+    function rainFrame() {
+      const rw = rain.getBoundingClientRect().width;
+      const rh = rain.getBoundingClientRect().height;
+      rctx.fillStyle = "rgba(0,0,0,0.12)";
+      rctx.fillRect(0, 0, rw, rh);
+      rctx.font = "13px Share Tech Mono, monospace";
+      drops.forEach((y, i) => {
+        const ch = glyphs[Math.floor(Math.random() * glyphs.length)];
+        rctx.fillStyle = Math.random() > 0.85 ? "#5dff9a" : "#00f7ff";
+        rctx.fillText(ch, i * 14, y * 14);
+        drops[i] = y * 14 > rh && Math.random() > 0.975 ? 0 : y + 0.35;
+      });
+    }
+    setInterval(rainFrame, 70);
+    requestAnimationFrame(frame);
+    addEventListener("resize", () => {
+      ctx = fit(fig);
+      w = fig.getBoundingClientRect().width;
+      h = fig.getBoundingClientRect().height;
+      fit(rain);
+    });
+  }
+  addEventListener("DOMContentLoaded", boot);
+})();
+</script>
 </body>
 </html>
-
