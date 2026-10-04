@@ -84,7 +84,7 @@
   .slot i { font-style: normal; color: var(--dim); letter-spacing: 0.08em; }
   .meters.lat { margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(0, 247, 255, 0.16); }
   .meters.lat b { color: var(--green); }
-  .meters.lat span { color: var(--dim); }
+  .meters.lat span { color: var(--dim); white-space: nowrap; }
   .app {
     position: relative;
     z-index: 1;
@@ -741,7 +741,7 @@
     const node = selected;
     const lmap = node ? LATTICE_OF[node.system] : null;
     document.getElementById("ins-k").textContent = node
-      ? SYS[node.system].label + " · NX-" + node.id.toUpperCase() + (lmap ? " · LATTICE " + (sourcesOk() ? "LIVE" : "OFFLINE") : "")
+      ? SYS[node.system].label + " · NX-" + node.id.toUpperCase() + (lmap ? " · LATTICE " + (sourcesOk() ? "LIVE" : "OFFLINE") + " · " + lmap.layer.toUpperCase() : "")
       : "TWIN · OVERVIEW";
     document.getElementById("ins-name").textContent = node ? node.name : "Digital twin";
     document.getElementById("ins-line").textContent = node
@@ -1125,7 +1125,7 @@
       return d;
     };
     if (!rows) { box.appendChild(cell("\u2014", "no feed")); return; }
-    rows.forEach(r => box.appendChild(cell(String(r[1]) + (r[2] ? " " + r[2] : ""), r[0].toUpperCase() + " · " + map.layer.toUpperCase())));
+    rows.forEach(r => box.appendChild(cell(String(r[1]) + (r[2] ? " " + r[2] : ""), r[0].toUpperCase())));
   }
 
   /* The world-mesh rows measure the real mesh: the lattice feeds themselves. */
