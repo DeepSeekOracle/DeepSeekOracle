@@ -220,6 +220,7 @@
   }
   .slot:hover { border-color: rgba(0, 247, 255, 0.35); }
   .slot i { font-style: normal; color: var(--dim); letter-spacing: 0.08em; }
+  .slot-sum { font-size: 0.62rem; letter-spacing: 0.08em; color: var(--dim); margin: 2px 0 6px; line-height: 1.45; }
   .meters.lat { margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(0, 247, 255, 0.16); }
   .meters.lat b { color: var(--green); }
   .meters.lat span { color: var(--dim); white-space: nowrap; }
@@ -409,7 +410,10 @@
       <div class="lattice-head" id="lat-yield"></div>
       <div id="lat-body"></div>
       <div id="lat-feeds"></div>
+      <h2 style="margin-top:12px">WITNESS FEED</h2>
+      <div id="lat-vitals"></div>
       <h2 style="margin-top:12px">CANON SLOTS</h2>
+      <div class="slot-sum" id="lat-slots-sum"></div>
       <div class="slots" id="lat-slots"></div>
       <h2 style="margin-top:14px">WORLD MESH</h2>
       <div id="mesh-rows"></div>
@@ -802,6 +806,12 @@
       ctx.fillRect(0, scan, w, 2);
     }
 
+    const ringOk = {};
+    Object.keys(SYS).forEach(k => { const c = canonOf(k); ringOk[k] = !!(c && c.total && c.ok === c.total); });
+    /* one ring per system: its first node, so a verified canon reads as a halo not a swarm */
+    const hubOf = {};
+    NODES.forEach(n => { if (n.system !== "mesh" && !(n.system in hubOf)) hubOf[n.system] = n.id; });
+
     screen.sort((a, b) => a.z - b.z);
     screen.forEach(s => {
       if (s.vis <= 0) return;
@@ -818,6 +828,14 @@
       ctx.beginPath();
       ctx.arc(s.sx, s.sy, s.r * (s.node === selected ? 1.7 : 1), 0, Math.PI * 2);
       ctx.fill();
+      if (ringOk[s.node.system] && s.node.id === hubOf[s.node.system]) {   /* its canon answered */
+        ctx.globalAlpha = s.vis * 0.55;
+        ctx.strokeStyle = "#5dff9a";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(s.sx, s.sy, s.r * 3.2, 0, Math.PI * 2);
+        ctx.stroke();
+      }
       if (s.node === selected) {
         ctx.strokeStyle = col;
         ctx.lineWidth = 1;
@@ -1044,7 +1062,8 @@
     { key: "star", label: "Star chart feed", url: "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json" },
     { key: "pulse", label: "Agora pulse", url: "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/pulse.json" }
   ];
-  const LAT = { sources: {}, at: 0, reading: false };
+  const LAT = { sources: {}, vitals: {}, at: 0, reading: false, probing: false, probedAt: 0, probeSig: "" };
+  const SLOT = {};            /* canon surface -> this browser's own measurement */
   const REFRESH_MS = 60000;
 
   const SHORT = h => (typeof h === "string" && h.length > 10) ? h.slice(0, 8) + "\u2026" : (h || "\u2014");
@@ -1110,9 +1129,10 @@
       });
   }
 
-  function refreshLattice() {
+  function refreshLattice(force) {
     if (LAT.reading) return Promise.resolve(false);
     LAT.reading = true;
+    fetchVitals();
     return Promise.all(SOURCES.map(fetchSource)).then(res => {
       LAT.reading = false;
       LAT.at = Date.now();
@@ -1121,6 +1141,10 @@
       if (a) note("LATTICE " + a.yield + " live " + a.live + " miss " + a.miss + " future " + a.future);
       if (s) note("STAR seq " + s.entry_count + (s.chain_valid ? " valid" : " BROKEN") + " " + SHORT(s.chain_root));
       if (p) note("AGORA nodes " + p.chart_nodes + " pending " + p.pending + " feed " + SHORT(p.feed_root));
+      if (a && Array.isArray(a.slots) && a.slots.length) {
+        if (force || slotSig(a.slots) !== LAT.probeSig) { LAT.probeSig = slotSig(a.slots); probeSlots(a.slots); }
+        else paintSlots();
+      }
       note("FEED " + SOURCES.map(x => x.key + " " + (srcState(x.key).ok ? srcState(x.key).ms + " ms" : "offline")).join(" \u00b7 "));
       paintSide(performance.now());
       if (selected) paintInspect(performance.now());
@@ -1135,6 +1159,118 @@
     d.firstChild.textContent = label;
     d.lastChild.textContent = value;
     return d;
+  }
+
+
+  /* ---------- the rest of the lattice: witness vitals + every canon slot ------------------
+     Two independent sources say whether a canon surface is up: the lattice's own heartbeat
+     (public.surfaces, with canon_fail) and this browser fetching the surface itself. They
+     are shown side by side, and a disagreement is named rather than hidden. */
+  const WITNESS_BASE = "https://huggingface.co/datasets/DeepSeekOracle/lygo-public-witness-feed/resolve/main/";
+  const VITALS = [
+    { key: "heartbeat", file: "heartbeat.json" },
+    { key: "tick", file: "protocol_tick.json" },
+    { key: "wfeed", file: "feed.json" },
+    { key: "eggs", file: "network-eggs.json" }
+  ];
+  const vitals = k => { const v = LAT.vitals[k]; return v && v.ok ? v.data : null; };
+
+  /* Which body system each canon surface feeds. Everything the audit names gets a body. */
+  const SLOT_SYS = {
+    overview: "neural", witness: "neural", godseye: "neural", starchart: "neural", self: "neural",
+    star_feed: "cardiac", star_monitor: "cardiac",
+    deadman: "breath", hf_overlay: "breath",
+    eggs: "metabolic", skynet_pulse: "metabolic", free_sources: "metabolic",
+    anchors: "frame", lattice_map: "frame", agent_runtime: "frame", join_gate: "frame", bench: "frame",
+    agora: "mesh", usgs: "mesh", witness_news: "mesh", witness_event_ledger: "mesh", continuum_page: "mesh", skillhub: "mesh",
+    origin: "comms", skynet: "comms", p6_quantum: "comms", p9_tls: "comms", slm: "comms",
+    qd_anchors: "comms", ble_mesh: "comms", lora_mesh: "comms"
+  };
+
+  function fetchVitals() {
+    VITALS.forEach(v => {
+      const t0 = performance.now();
+      fetch(WITNESS_BASE + v.file, { cache: "no-store", mode: "cors" })
+        .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
+        .then(t => { LAT.vitals[v.key] = { ok: true, ms: Math.round(performance.now() - t0), bytes: t.length, at: Date.now(), data: JSON.parse(t) }; })
+        .catch(e => { LAT.vitals[v.key] = { ok: false, err: (e && e.message) || "fetch failed", at: Date.now() }; })
+        .then(() => { paintVitals(); if (selected) paintInspect(performance.now()); });
+    });
+  }
+
+  function paintVitals() {
+    const box = document.getElementById("lat-vitals");
+    if (!box) return;
+    box.innerHTML = "";
+    const hb = vitals("heartbeat"), tk = vitals("tick"), fd = vitals("wfeed"), eg = vitals("eggs");
+    if (hb) {
+      const pub = hb.public || {};
+      box.appendChild(kv("Heartbeat", hb.verdict + (isNum(pub.canon_fail) ? " \u00b7 fail " + pub.canon_fail : "")
+        + " \u00b7 " + ageText(ageOf(hb.created_utc))));
+      const sur = pub.surfaces || {};
+      const keys = Object.keys(sur);
+      if (keys.length) {
+        const okN = keys.filter(k => sur[k] && sur[k].ok).length;
+        const bytes = keys.reduce((n, k) => n + ((sur[k] && isNum(sur[k].bytes)) ? sur[k].bytes : 0), 0);
+        box.appendChild(kv("Lattice saw", okN + "/" + keys.length + " surfaces \u00b7 " + Math.round(bytes / 1024) + " KB"));
+      }
+      if (pub.yield) box.appendChild(kv("Pulse yield", pub.yield + (hb.live_star_chart_ingest ? " \u00b7 ingest live" : " \u00b7 ingest quiet")));
+    }
+    if (tk) box.appendChild(kv("Protocol tick", (tk.yield || "\u2014") + (tk.halt ? " \u00b7 HALT" : " \u00b7 running")
+      + " \u00b7 " + ageText(ageOf(tk.utc))));
+    if (fd) box.appendChild(kv("Source feed", fd.live_count + "/" + fd.source_count + " live \u00b7 "
+      + fd.point_count + " points"));
+    if (eg) box.appendChild(kv("Kernel eggs", "gen " + eg.generation + " \u00b7 " + (eg.eggs ? eg.eggs.length : "\u2014")
+      + (eg.open ? " held \u00b7 open" : " held \u00b7 sealed")));
+    if (!hb && !tk && !fd && !eg) box.appendChild(kv("Witness feed", "no answer yet"));
+  }
+
+  /* Row-state for one surface: the lattice's own word first, the browser's measurement under it. */
+  function probeSlot(sl) {
+    if (!sl || !sl.url) { SLOT[sl.id] = { state: "none", at: Date.now() }; return Promise.resolve(); }
+    const t0 = performance.now();
+    const ctrl = new AbortController();
+    const to = setTimeout(() => ctrl.abort(), 10000);
+    return fetch(sl.url, { cache: "no-store", mode: "cors", signal: ctrl.signal })
+      .then(r => r.arrayBuffer().then(buf => {
+        SLOT[sl.id] = { state: r.ok ? "ok" : "gone", status: r.status, ms: Math.round(performance.now() - t0),
+                        bytes: buf.byteLength, lastMod: r.headers.get("last-modified"), at: Date.now() };
+      }))
+      .catch(e => {
+        SLOT[sl.id] = { state: "blocked", status: 0, ms: Math.round(performance.now() - t0), at: Date.now(),
+                        err: (e && e.name === "AbortError") ? "no answer in 10 s" : "unreachable from this browser" };
+      })
+      .then(() => { clearTimeout(to); paintSlots(); });
+  }
+
+  function probeSlots(list) {
+    LAT.probing = true;
+    let i = 0;
+    const lanes = Array.from({ length: 6 }, () => (function run() {
+      return i < list.length ? probeSlot(list[i++]).then(run) : Promise.resolve();
+    })());
+    return Promise.all(lanes).then(() => { LAT.probing = false; LAT.probedAt = Date.now(); LAT.probeSig = slotSig(list); paintSlots(); });
+  }
+  const slotSig = list => list.length + ":" + list.map(x => x.id).join(",");
+
+  function canonOf(system) {
+    const a = lat("audit");
+    if (!a || !Array.isArray(a.slots) || !a.slots.length) return null;
+    const mine = a.slots.filter(sl => SLOT_SYS[sl.id] === system);
+    if (!mine.length) return null;
+    let done = 0, ok = 0;
+    mine.forEach(sl => { const st = SLOT[sl.id]; if (st) { done++; if (st.state === "ok") ok++; } });
+    return { ok: ok, done: done, total: mine.length };
+  }
+
+  function layerVerdict(pl) {
+    const t = vitals("tick");
+    if (!t || !t.layers || !t.layers[pl]) return null;
+    const L = t.layers[pl];
+    const word = L.verdict || (L.stored ? "stored" : L.consensus_found ? "consensus" : L.success ? "accepted" : null);
+    if (!word) return null;
+    const num = isNum(L.confidence) ? " " + L.confidence : (isNum(L.resonance) ? " " + L.resonance : (isNum(L.fragments) ? " \u00b7 " + L.fragments + " frag" : ""));
+    return { word: String(word), num: num };
   }
 
   function paintLattice() {
@@ -1189,26 +1325,54 @@
       feeds.appendChild(row);
     });
 
-    const slots = document.getElementById("lat-slots");
-    slots.innerHTML = "";
-    if (a && Array.isArray(a.slots) && a.slots.length) {
-      a.slots.forEach(sl => {
-        const el = document.createElement("a");
-        el.className = "slot";
-        el.href = sl.url || "#";
-        el.target = "_blank";
-        el.rel = "noopener noreferrer";
-        el.innerHTML = "<span class='dot " + (sl.live ? "ok" : "wait") + "'></span><span id='sl-t'></span> <i id='sl-c'></i>";
-        el.querySelector("#sl-t").textContent = sl.title || sl.id;
-        el.querySelector("#sl-c").textContent = (sl.class || "") + (sl.era ? " \u00b7 " + sl.era : "");
-        el.title = (sl.note || "") + (sl.url ? "\n" + sl.url : "");
-        slots.appendChild(el);
-      });
-    } else {
+    paintSlots();
+  }
+
+  function paintSlots() {
+    const box = document.getElementById("lat-slots");
+    const sum = document.getElementById("lat-slots-sum");
+    if (!box) return;
+    const a = lat("audit");
+    box.innerHTML = "";
+    if (!a || !Array.isArray(a.slots) || !a.slots.length) {
       const e = document.createElement("span");
       e.className = "slot";
       e.textContent = a ? "no slots published" : "canon slots need the kernel audit feed";
-      slots.appendChild(e);
+      box.appendChild(e);
+      if (sum) sum.textContent = "";
+      return;
+    }
+    let ok = 0, gone = 0, blocked = 0, queued = 0;
+    a.slots.forEach(sl => {
+      const st = SLOT[sl.id];
+      let cls = "wait";
+      if (!st) queued++;
+      else if (st.state === "ok") { ok++; cls = "ok"; }
+      else if (st.state === "gone") { gone++; cls = "bad"; }
+      else blocked++;
+      const el = document.createElement("a");
+      el.className = "slot";
+      el.href = sl.url || "#";
+      el.target = "_blank";
+      el.rel = "noopener noreferrer";
+      el.innerHTML = "<span class='dot " + cls + "'></span><span></span> <i></i>";
+      el.children[1].textContent = sl.title || sl.id;
+      const bits = [(sl.class || "") + (sl.era ? " \u00b7 " + sl.era : "")];
+      if (!st) bits.push("queued");
+      else if (st.state === "ok") bits.push(st.ms + " ms \u00b7 " + Math.round((st.bytes || 0) / 1024) + " KB");
+      else if (st.state === "gone") bits.push("HTTP " + st.status);
+      else bits.push(st.err || "unreachable");
+      if (st && st.state !== "blocked" && (st.state === "ok") !== !!sl.live) bits.push("audit said " + (sl.live ? "live" : "not live"));
+      el.children[2].textContent = bits.filter(Boolean).join(" \u00b7 ");
+      el.title = (sl.note || "") + (sl.url ? "\n" + sl.url : "");
+      box.appendChild(el);
+    });
+    if (sum) {
+      sum.textContent = (ok + gone + blocked) + "/" + a.slots.length + " measured \u00b7 " + ok + " verified"
+        + (gone ? " \u00b7 " + gone + " gone" : "")
+        + (blocked ? " \u00b7 " + blocked + " unreachable here" : "")
+        + (queued ? " \u00b7 " + queued + " queued" : "")
+        + (LAT.probedAt ? " \u00b7 " + new Date(LAT.probedAt).toISOString().slice(11, 19) + "Z" : "");
     }
   }
 
@@ -1247,6 +1411,8 @@
     } }
   };
 
+  const LAYER_PL = { neural: "P0", breath: "P1", metabolic: "P2", frame: "P3" };
+
   function paintLatticeMeters(node) {
     const box = document.getElementById("ins-lat");
     if (!node) { box.style.display = "none"; box.innerHTML = ""; return; }
@@ -1264,6 +1430,10 @@
     };
     if (!rows) { box.appendChild(cell("\u2014", "no feed")); return; }
     rows.forEach(r => box.appendChild(cell(String(r[1]) + (r[2] ? " " + r[2] : ""), r[0].toUpperCase())));
+    const lv = LAYER_PL[node.system] ? layerVerdict(LAYER_PL[node.system]) : null;
+    if (lv) box.appendChild(cell(lv.word + lv.num, (LAYER_PL[node.system] + " layer").toUpperCase()));
+    const cn = canonOf(node.system);
+    if (cn) box.appendChild(cell(cn.done ? cn.ok + "/" + cn.total : "\u2014", "canon verified"));
   }
 
   /* The world-mesh rows measure the real mesh: the lattice feeds themselves. */
@@ -1297,7 +1467,7 @@
     select(byId[hash] || byId.heart);
     note("Twin online. Lattice link opening.");
     note("Twin numbers are simulated. The lattice layer below reads live feeds.");
-    document.getElementById("lat-refresh").addEventListener("click", () => refreshLattice());
+    document.getElementById("lat-refresh").addEventListener("click", () => refreshLattice(true));
     refreshLattice();
     setInterval(refreshLattice, REFRESH_MS);
     document.addEventListener("visibilitychange", () => {
