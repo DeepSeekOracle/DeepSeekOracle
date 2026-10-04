@@ -33,7 +33,7 @@
     --neon-secondary: #00f7ff;
   }
   #quantum-particles {
-    position: fixed;
+    position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
@@ -41,21 +41,21 @@
     pointer-events: none;
   }
   .dna-helix {
-    position: fixed;
+    position: absolute;
     left: 50%;
     top: 50%;
-    width: min(520px, 46vw);
-    height: 130vh;
-    opacity: 0.22;
+    width: 78%;
+    height: 150%;
+    opacity: 0.45;
     z-index: 0;
     pointer-events: none;
     animation: dna-rotate 120s linear infinite;
   }
   .dna-helix svg { width: 100%; height: 100%; }
-  .dna-helix path { fill: none; stroke-width: 0.7; }
+  .dna-helix path { fill: none; stroke-width: 1.1; }
   @keyframes dna-rotate {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
   }
   .app {
     position: relative;
@@ -156,15 +156,15 @@
   }
   .bar { height: 3px; margin-top: 6px; background: rgba(0, 247, 255, 0.12); }
   .bar i { display: block; height: 100%; width: 0; background: var(--cyan); }
-  .stage { position: relative; min-height: 0; border: 1px solid var(--line); background: transparent; }
-  #fig { width: 100%; height: 100%; display: block; cursor: crosshair; touch-action: manipulation; }
+  .stage { position: relative; min-height: 0; border: 1px solid var(--line); background: #000; overflow: hidden; }
+  #fig { position: relative; z-index: 1; width: 100%; height: 100%; display: block; cursor: crosshair; touch-action: manipulation; background: transparent; }
   .hint {
-    position: absolute; top: 10px; left: 0; right: 0;
+    position: absolute; z-index: 2; top: 10px; left: 0; right: 0;
     text-align: center; letter-spacing: 0.14em; font-size: 0.72rem; color: var(--dim);
     pointer-events: none;
   }
   .inspect {
-    position: absolute; left: 12px; bottom: 12px; width: min(520px, 62%);
+    position: absolute; z-index: 2; left: 12px; bottom: 12px; width: min(520px, 62%);
     display: grid; grid-template-columns: minmax(0, 1fr) 180px;
     gap: 10px;
     padding: 10px 12px;
@@ -198,19 +198,9 @@
     .inspect { width: auto; right: 12px; grid-template-columns: 1fr; }
     #wave { width: 100%; }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .dna-helix { animation: none; }
-  }
 </style>
 </head>
 <body>
-<canvas id="quantum-particles" aria-hidden="true"></canvas>
-<div class="dna-helix" aria-hidden="true">
-  <svg viewBox="0 0 100 100" preserveAspectRatio="none">
-    <path d="M50 0 Q60 20 50 40 Q40 60 50 80 Q60 100 50 100" stroke="var(--neon-primary)"/>
-    <path d="M50 0 Q40 20 50 40 Q60 60 50 80 Q40 100 50 100" stroke="var(--neon-secondary)"/>
-  </svg>
-</div>
 <div class="app">
   <header>
     <div class="brand">
@@ -231,6 +221,13 @@
       <h2>BIO SENSORS</h2>
     </aside>
     <section class="stage">
+      <canvas id="quantum-particles" aria-hidden="true"></canvas>
+      <div class="dna-helix" aria-hidden="true">
+        <svg viewBox="0 0 100 100">
+          <path d="M50 0 Q60 20 50 40 Q40 60 50 80 Q60 100 50 100" stroke="var(--neon-primary)"/>
+          <path d="M50 0 Q40 20 50 40 Q60 60 50 80 Q40 100 50 100" stroke="var(--neon-secondary)"/>
+        </svg>
+      </div>
       <canvas id="fig" aria-label="Wire-node digital twin. Choose a point on the figure."></canvas>
       <div class="hint" id="hint">SELECT A NODE ON THE FIGURE</div>
       <div class="inspect" id="inspect" aria-live="polite">
@@ -866,7 +863,7 @@
       paintInspect(now);
     }
     draw(now);
-    if (!REDUCE) requestAnimationFrame(frame);
+    requestAnimationFrame(frame);
   }
 
   function boot() {
@@ -890,8 +887,13 @@
     const field = document.getElementById("quantum-particles");
     const fctx = field.getContext("2d");
     function sizeField() {
-      field.width = window.innerWidth;
-      field.height = window.innerHeight;
+      const box = field.parentElement.getBoundingClientRect();
+      const width = Math.max(1, Math.floor(box.width));
+      const height = Math.max(1, Math.floor(box.height));
+      if (field.width !== width || field.height !== height) {
+        field.width = width;
+        field.height = height;
+      }
     }
     sizeField();
     const particles = Array.from({ length: 500 }, () => ({
@@ -915,16 +917,11 @@
         fctx.fill();
       });
     }
-    for (let i = 0; i < 90; i++) paintField();
-    if (!REDUCE) {
-      (function fieldLoop() {
-        paintField();
-        requestAnimationFrame(fieldLoop);
-      })();
-    } else {
-      draw(performance.now());
-      return;
+    function fieldLoop() {
+      paintField();
+      requestAnimationFrame(fieldLoop);
     }
+    fieldLoop();
     requestAnimationFrame(frame);
     addEventListener("resize", () => {
       ctx = fit(fig);
