@@ -17,7 +17,7 @@ Operator leftovers live in `_operator/` (git only, not on Pages). See [SECURITY.
 | Grokipedia LPS | [grokipedia.com/page/lygo-protocol-stack](https://grokipedia.com/page/lygo-protocol-stack) |
 | Listen | [excavationpro-listen](https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html) |
 
-`initialize.html` is the public Neurovascular Interface: a simulated wire-node digital twin. `index2.html` and `preload.html` stay legacy / offline.
+`initialize.html` is the Neurovascular Interface twin. The chatagent door is https://chatagent.ca/neurovascular/ and is the canonical URL. `index2.html` and `preload.html` stay legacy / offline.
 
 ## Follow
 
