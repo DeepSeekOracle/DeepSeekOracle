@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DeepSeek Oracle — Neurovascular Interface</title>
-<meta name="description" content="LYGO Neurovascular Interface. A simulated digital twin: a wire-node human figure on a nanotech world mesh, with bio, frame, and mesh readouts. No live sensors are connected.">
+<meta name="description" content="LYGO Neurovascular Interface. A simulated digital twin, wired to the live LYGO lattice: kernel audit, star chain and agora feeds read straight from the deployed lattice. No body sensor is connected; every lattice number is live.">
 <meta name="theme-color" content="#000000">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://chatagent.ca/neurovascular/">
@@ -38,25 +38,53 @@
     width: 100%;
     height: 100%;
     z-index: 0;
+    opacity: 0.55;
     pointer-events: none;
   }
-  .dna-helix {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 78%;
-    height: 150%;
-    opacity: 0.45;
-    z-index: 0;
-    pointer-events: none;
-    animation: dna-rotate 120s linear infinite;
+  /* The rotating DNA helix that used to sit over the twin is gone: it dragged across
+     the figure and read as an artefact rather than as anatomy. The particle field
+     behind the twin stays, in the interface's own palette. */
+  .lattice-head {
+    display: flex; align-items: center; gap: 6px;
+    font-family: Orbitron, sans-serif; font-size: 0.7rem; letter-spacing: 0.12em;
+    color: var(--green); margin-bottom: 6px;
   }
-  .dna-helix svg { width: 100%; height: 100%; }
-  .dna-helix path { fill: none; stroke-width: 1.1; }
-  @keyframes dna-rotate {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  .lattice-head i { font-style: normal; color: var(--dim); letter-spacing: 0.08em; font-family: "Share Tech Mono", monospace; }
+  .feed-row {
+    display: block; width: 100%; text-align: left; font: inherit; color: inherit;
+    background: transparent; text-decoration: none; cursor: pointer;
+    border: 1px solid rgba(0, 247, 255, 0.14); padding: 5px 7px; margin: 0 0 5px;
   }
+  .feed-row:hover { border-color: var(--cyan); box-shadow: 0 0 12px rgba(0, 247, 255, 0.2); }
+  .feed-row strong { display: block; font-weight: 400; font-size: 0.74rem; }
+  .feed-row em { display: block; font-style: normal; color: var(--dim); font-size: 0.68rem; margin-top: 1px; }
+  .dot {
+    display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--dim); margin-right: 6px; vertical-align: middle;
+  }
+  .dot.ok { background: var(--green); box-shadow: 0 0 7px var(--green); }
+  .dot.bad { background: var(--rose); box-shadow: 0 0 7px var(--rose); }
+  .dot.wait { background: var(--amber); }
+  .kv {
+    display: flex; justify-content: space-between; gap: 8px;
+    font-size: 0.73rem; padding: 2px 0; border-bottom: 1px solid rgba(0, 247, 255, 0.07);
+  }
+  .kv b { font-weight: 400; color: #eaffff; text-align: right; }
+  .kv span { color: var(--dim); }
+  .slots {
+    display: grid; grid-template-columns: 1fr; gap: 2px;
+    max-height: 170px; overflow: auto; padding-right: 2px;
+  }
+  .slot {
+    display: block; font-size: 0.68rem; padding: 2px 4px; color: #bfefff;
+    text-decoration: none; border: 1px solid transparent; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .slot:hover { border-color: rgba(0, 247, 255, 0.35); }
+  .slot i { font-style: normal; color: var(--dim); letter-spacing: 0.08em; }
+  .meters.lat { margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(0, 247, 255, 0.16); }
+  .meters.lat b { color: var(--green); }
+  .meters.lat span { color: var(--dim); }
   .app {
     position: relative;
     z-index: 1;
@@ -208,13 +236,14 @@
       <p>NEUROVASCULAR INTERFACE · <a href="https://chatagent.ca/neurovascular/">chatagent</a> · <a href="https://chatagent.ca/">Home</a> · <a href="https://chatagent.ca/starchart/">Star chart</a> · <a href="https://chatagent.ca/signal/">Signal</a> · <a href="https://chatagent.ca/books/">Books</a> · <a href="https://chatagent.ca/app.html">Tools</a> · <a href="https://deepseekoracle.github.io/DeepSeekOracle/">Main frame</a></p>
     </div>
     <div class="sym" id="sym">
-      <div class="ring" style="--p:92"><span id="sym-num">92</span></div>
+      <div class="ring" style="--p:0"><span id="sym-num">—</span></div>
       <div>
-        <b id="sym-word">OPTIMAL</b>
-        <small>SYSTEM SYMBIOSIS</small>
+        <b id="sym-word">LINKING</b>
+        <small>LATTICE SYMBIOSIS</small>
       </div>
     </div>
-    <div class="pill">SIMULATION</div>
+    <div class="pill" id="pill-twin">TWIN · SIM</div>
+    <div class="pill" id="pill-lattice">LATTICE · LINKING</div>
   </header>
   <div class="deck">
     <aside class="panel" id="bio">
@@ -222,12 +251,6 @@
     </aside>
     <section class="stage">
       <canvas id="quantum-particles" aria-hidden="true"></canvas>
-      <div class="dna-helix" aria-hidden="true">
-        <svg viewBox="0 0 100 100">
-          <path d="M50 0 Q60 20 50 40 Q40 60 50 80 Q60 100 50 100" stroke="var(--neon-primary)"/>
-          <path d="M50 0 Q40 20 50 40 Q60 60 50 80 Q40 100 50 100" stroke="var(--neon-secondary)"/>
-        </svg>
-      </div>
       <canvas id="fig" aria-label="Wire-node digital twin. Choose a point on the figure."></canvas>
       <div class="hint" id="hint">SELECT A NODE ON THE FIGURE</div>
       <div class="inspect" id="inspect" aria-live="polite">
@@ -236,12 +259,21 @@
           <h3 id="ins-name">Digital twin</h3>
           <p id="ins-line">A helper model in this browser. The figure is a mesh of nodes, in the same spirit as the Haven Star Chart.</p>
           <div class="meters" id="ins-meters"></div>
+          <div class="meters lat" id="ins-lat"></div>
         </div>
         <canvas id="wave" width="360" height="120" aria-hidden="true"></canvas>
       </div>
     </section>
     <aside class="panel" id="world">
-      <h2>WORLD MESH</h2>
+      <h2 style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">LATTICE CORE
+        <button id="lat-refresh" type="button" style="background:transparent;border:1px solid rgba(0,247,255,0.35);color:var(--cyan);font:inherit;font-size:0.64rem;letter-spacing:0.1em;padding:2px 6px;cursor:pointer">READ</button>
+      </h2>
+      <div class="lattice-head" id="lat-yield"></div>
+      <div id="lat-body"></div>
+      <div id="lat-feeds"></div>
+      <h2 style="margin-top:12px">CANON SLOTS</h2>
+      <div class="slots" id="lat-slots"></div>
+      <h2 style="margin-top:14px">WORLD MESH</h2>
       <div id="mesh-rows"></div>
       <h2 style="margin-top:14px">DATA MODULES</h2>
       <ul class="log" id="log"></ul>
@@ -282,8 +314,8 @@
     breath: "Breath and oxygen window for the twin. Generated here, the way a training rig fakes a soldier's vitals.",
     metabolic: "Core reserve. Heat, stores, and hydration as a helper dashboard.",
     frame: "Limb and spine load. The wire frame reports how the stance is carrying itself.",
-    mesh: "Nanotech world mote. It samples the simulated field and reports back to the twin.",
-    comms: "Throat link. Band lock between the twin and the mesh."
+    mesh: "World mote. It reads the live lattice feeds and reports their timing and freshness back to the twin.",
+    comms: "Throat link. Band lock between the twin and the lattice feeds."
   };
 
   const RAW = [
@@ -466,10 +498,10 @@
     ["lpalm", "Frame load", 0]
   ];
   const MESH_ROWS = [
-    ["m4", "Mesh latency", 0],
-    ["m3", "Mote yield", 1],
-    ["m1", "Field drift", 2],
-    ["throat", "Comms lock", 1]
+    ["m4", "Mesh latency", "latency"],
+    ["m3", "Mote yield", "yield"],
+    ["m1", "Field drift", "drift"],
+    ["throat", "Comms lock", "lock"]
   ];
 
   const fig = document.getElementById("fig");
@@ -707,8 +739,9 @@
 
   function paintInspect(now) {
     const node = selected;
+    const lmap = node ? LATTICE_OF[node.system] : null;
     document.getElementById("ins-k").textContent = node
-      ? SYS[node.system].label + " · NX-" + node.id.toUpperCase()
+      ? SYS[node.system].label + " · NX-" + node.id.toUpperCase() + (lmap ? " · LATTICE " + (sourcesOk() ? "LIVE" : "OFFLINE") : "")
       : "TWIN · OVERVIEW";
     document.getElementById("ins-name").textContent = node ? node.name : "Digital twin";
     document.getElementById("ins-line").textContent = node
@@ -731,6 +764,7 @@
       cell.querySelector("b").textContent = f.text + (f.unit ? " " + f.unit : "");
       cell.querySelector("span").textContent = f.label.toUpperCase();
     });
+    paintLatticeMeters(node);
     if (node) drawWave(node);
   }
 
@@ -744,22 +778,17 @@
       btn.classList.toggle("on", selected && selected.id === btn.dataset.id);
     });
     document.querySelectorAll("#mesh-rows button").forEach(btn => {
-      const f = fmt(byId[btn.dataset.id], +btn.dataset.i, now);
+      const f = meshMetric(btn.dataset.metric);
       btn.querySelector("em").textContent = f.text + " " + f.unit;
       btn.classList.toggle("on", selected && selected.id === btn.dataset.id);
     });
     document.querySelectorAll("#nodes button").forEach(btn => {
       btn.classList.toggle("on", selected && selected.id === btn.dataset.id);
     });
-    const scores = ["heart", "llung", "cortex", "core", "throat"].map(id => {
-      const n = byId[id];
-      const v = sample(n, n.system === "cardiac" ? 2 : 1, now);
-      return Math.max(0, Math.min(100, v));
-    });
-    const sym = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
-    document.getElementById("sym-num").textContent = String(sym);
+    const sym = latticeScore();
+    document.getElementById("sym-num").textContent = sourcesOk() ? String(sym) : "—";
     document.querySelector(".ring").style.setProperty("--p", String(sym));
-    const word = sym >= 90 ? "OPTIMAL" : sym >= 75 ? "NOMINAL" : "WATCH";
+    const word = !sourcesOk() ? "NO LINK" : sym >= 90 ? "OPTIMAL" : sym >= 75 ? "NOMINAL" : "WATCH";
     document.getElementById("sym-word").textContent = word;
   }
 
@@ -808,7 +837,7 @@
       const b = document.createElement("button");
       b.className = "row";
       b.dataset.id = id;
-      b.dataset.i = String(index);
+      b.dataset.metric = String(index);
       b.innerHTML = "<strong><span></span><em></em></strong>";
       b.querySelector("span").textContent = label.toUpperCase();
       b.addEventListener("click", () => select(byId[id]));
@@ -866,6 +895,260 @@
     requestAnimationFrame(frame);
   }
 
+  /* ---------- LIVE LYGO LATTICE ----------
+     Three public lattice feeds, read straight from the deployed lattice. Every number
+     this layer shows is measured or parsed from those bytes: per-feed round-trip time,
+     the kernel's own verdict, the star chain's sequence and root, the agora's node and
+     feed counts. Nothing here is invented; when a feed does not answer, the interface
+     says so and shows a dash. */
+  const SOURCES = [
+    { key: "audit", label: "Kernel audit", url: "https://huggingface.co/datasets/DeepSeekOracle/lygo-public-witness-feed/resolve/main/lattice-audit.json" },
+    { key: "star", label: "Star chart feed", url: "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json" },
+    { key: "pulse", label: "Agora pulse", url: "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/pulse.json" }
+  ];
+  const LAT = { sources: {}, at: 0, reading: false };
+  const REFRESH_MS = 60000;
+
+  const SHORT = h => (typeof h === "string" && h.length > 10) ? h.slice(0, 8) + "\u2026" : (h || "\u2014");
+  const lat = k => { const s = LAT.sources[k]; return s && s.ok ? s.data : null; };
+  const srcState = k => LAT.sources[k] || { ok: false, pending: true };
+  const sourcesOk = () => SOURCES.filter(s => srcState(s.key).ok).length;
+  const passCount = a => (a && Array.isArray(a.claims)) ? a.claims.filter(c => c && c.pass).length : null;
+  const claimCount = a => (a && Array.isArray(a.claims)) ? a.claims.length : null;
+  const isNum = v => typeof v === "number" && isFinite(v);
+
+  function ageText(ms) {
+    if (!isNum(ms)) return "\u2014";
+    const s = Math.max(0, ms) / 1000;
+    if (s < 90) return s.toFixed(0) + " s";
+    const m = s / 60;
+    if (m < 90) return m.toFixed(0) + " m";
+    const h = m / 60;
+    if (h < 36) return h.toFixed(1) + " h";
+    return (h / 24).toFixed(1) + " d";
+  }
+  const ageOf = iso => { const t = Date.parse(iso); return isFinite(t) ? Date.now() - t : null; };
+  function avgMs() {
+    const xs = SOURCES.map(s => srcState(s.key)).filter(x => x.ok && isNum(x.ms)).map(x => x.ms);
+    return xs.length ? Math.round(xs.reduce((a, b) => a + b, 0) / xs.length) : null;
+  }
+  function newestStamp() {
+    const a = lat("audit"), s = lat("star"), p = lat("pulse");
+    const xs = [a && a.utc, s && s.updated_utc, p && p.now_utc].map(t => Date.parse(t)).filter(t => isFinite(t));
+    return xs.length ? Math.max.apply(null, xs) : null;
+  }
+  function rootsMatch() {
+    const a = lat("audit"), s = lat("star"), p = lat("pulse");
+    if (!a || !s || !p) return null;
+    const ex = a.extras || {};
+    const x = ex.star && ex.star.chain_root, y = ex.agora && ex.agora.feed_root;
+    if (!x || !y) return null;
+    return x === s.chain_root && y === p.feed_root;
+  }
+  function latticeScore() {
+    if (!sourcesOk()) return 0;
+    const a = lat("audit"), s = lat("star");
+    const parts = [sourcesOk() / SOURCES.length];
+    if (claimCount(a)) parts.push(passCount(a) / claimCount(a));
+    if (s) parts.push(s.chain_valid ? 1 : 0.25);
+    return Math.round((parts.reduce((x, y) => x + y, 0) / parts.length) * 100);
+  }
+
+  function fetchSource(src) {
+    const ctrl = new AbortController();
+    const to = setTimeout(() => ctrl.abort(), 12000);
+    const t0 = performance.now();
+    const done = ok => { clearTimeout(to); return ok; };
+    return fetch(src.url, { cache: "no-store", mode: "cors", signal: ctrl.signal })
+      .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
+      .then(txt => {
+        LAT.sources[src.key] = { ok: true, ms: Math.round(performance.now() - t0), bytes: txt.length, at: Date.now(), data: JSON.parse(txt) };
+        return done(true);
+      })
+      .catch(e => {
+        const why = (e && e.name === "AbortError") ? "no answer in 12 s" : ((e && e.message) || "fetch failed");
+        LAT.sources[src.key] = { ok: false, ms: Math.round(performance.now() - t0), at: Date.now(), err: why };
+        return done(false);
+      });
+  }
+
+  function refreshLattice() {
+    if (LAT.reading) return Promise.resolve(false);
+    LAT.reading = true;
+    return Promise.all(SOURCES.map(fetchSource)).then(res => {
+      LAT.reading = false;
+      LAT.at = Date.now();
+      paintLattice();
+      const a = lat("audit"), s = lat("star"), p = lat("pulse");
+      if (a) note("LATTICE " + a.yield + " live " + a.live + " miss " + a.miss + " future " + a.future);
+      if (s) note("STAR seq " + s.entry_count + (s.chain_valid ? " valid" : " BROKEN") + " " + SHORT(s.chain_root));
+      if (p) note("AGORA nodes " + p.chart_nodes + " pending " + p.pending + " feed " + SHORT(p.feed_root));
+      note("FEED " + SOURCES.map(x => x.key + " " + (srcState(x.key).ok ? srcState(x.key).ms + " ms" : "offline")).join(" \u00b7 "));
+      paintSide(performance.now());
+      if (selected) paintInspect(performance.now());
+      return res;
+    });
+  }
+
+  function kv(label, value) {
+    const d = document.createElement("div");
+    d.className = "kv";
+    d.innerHTML = "<span></span><b></b>";
+    d.firstChild.textContent = label;
+    d.lastChild.textContent = value;
+    return d;
+  }
+
+  function paintLattice() {
+    const a = lat("audit"), s = lat("star"), p = lat("pulse");
+    const ok = sourcesOk();
+    const head = document.getElementById("lat-yield");
+    const pill = document.getElementById("pill-lattice");
+    head.innerHTML = "<span class='dot " + (ok ? "ok" : "bad") + "'></span><span id='lat-word'></span><i id='lat-sub'></i>";
+    document.getElementById("lat-word").textContent = a ? a.yield : ok ? "PARTIAL" : "OFFLINE";
+    document.getElementById("lat-sub").textContent = ok + "/" + SOURCES.length + " feeds";
+    pill.textContent = "LATTICE \u00b7 " + (ok ? "LIVE" : "OFFLINE");
+    pill.style.borderColor = ok ? "rgba(93,255,154,0.7)" : "rgba(255,93,122,0.7)";
+    pill.style.color = ok ? "var(--green)" : "var(--rose)";
+
+    const body = document.getElementById("lat-body");
+    body.innerHTML = "";
+    if (a) {
+      body.appendChild(kv("Yield", a.yield + (claimCount(a) ? " \u00b7 " + passCount(a) + "/" + claimCount(a) + " claims" : "")));
+      body.appendChild(kv("Slots live / future / miss", a.live + " / " + a.future + " / " + a.miss));
+      body.appendChild(kv("Kernel ran", ageText(ageOf(a.utc)) + " ago"));
+    }
+    if (s) body.appendChild(kv("Star chain", "seq " + s.entry_count + (s.chain_valid ? " \u00b7 valid" : " \u00b7 BROKEN")));
+    if (p) body.appendChild(kv("Agora", p.chart_nodes + " nodes \u00b7 " + p.feed_entries + " feed \u00b7 " + p.pending + " pending"));
+    const rm = rootsMatch();
+    if (rm !== null) {
+      const aseq = (a.extras && a.extras.star && isNum(a.extras.star.seq)) ? a.extras.star.seq : null;
+      const lseq = s ? s.entry_count : null;
+      const moved = (!rm && aseq !== null && lseq !== null) ? " · seq " + aseq + " → " + lseq : "";
+      body.appendChild(kv("Audit roots vs live", (rm ? "match" : "stale") + moved));
+    }
+    const st = newestStamp();
+    body.appendChild(kv("Newest data", st ? ageText(Date.now() - st) + " old" : "\u2014"));
+    if (!a && !s && !p) {
+      const why = SOURCES.map(x => x.label + ": " + (srcState(x.key).err || "linking")).join("; ");
+      body.appendChild(kv("No feed answered", why));
+    }
+
+    const feeds = document.getElementById("lat-feeds");
+    feeds.innerHTML = "";
+    SOURCES.forEach(src => {
+      const x = srcState(src.key);
+      const row = document.createElement("a");
+      row.className = "feed-row";
+      row.href = src.url;
+      row.target = "_blank";
+      row.rel = "noopener noreferrer";
+      row.innerHTML = "<strong><span class='dot " + (x.ok ? "ok" : x.pending ? "wait" : "bad") + "'></span><span id='fl-" + src.key + "'></span></strong><em id='fm-" + src.key + "'></em>";
+      row.querySelector("#fl-" + src.key).textContent = src.label;
+      row.querySelector("#fm-" + src.key).textContent = x.ok
+        ? x.ms + " ms \u00b7 " + Math.round((x.bytes || 0) / 1024) + " KB \u00b7 " + ageText(Date.now() - x.at)
+        : (x.pending ? "linking\u2026" : "offline: " + (x.err || ""));
+      feeds.appendChild(row);
+    });
+
+    const slots = document.getElementById("lat-slots");
+    slots.innerHTML = "";
+    if (a && Array.isArray(a.slots) && a.slots.length) {
+      a.slots.forEach(sl => {
+        const el = document.createElement("a");
+        el.className = "slot";
+        el.href = sl.url || "#";
+        el.target = "_blank";
+        el.rel = "noopener noreferrer";
+        el.innerHTML = "<span class='dot " + (sl.live ? "ok" : "wait") + "'></span><span id='sl-t'></span> <i id='sl-c'></i>";
+        el.querySelector("#sl-t").textContent = sl.title || sl.id;
+        el.querySelector("#sl-c").textContent = (sl.class || "") + (sl.era ? " \u00b7 " + sl.era : "");
+        el.title = (sl.note || "") + (sl.url ? "\n" + sl.url : "");
+        slots.appendChild(el);
+      });
+    } else {
+      const e = document.createElement("span");
+      e.className = "slot";
+      e.textContent = a ? "no slots published" : "canon slots need the kernel audit feed";
+      slots.appendChild(e);
+    }
+  }
+
+  /* Which piece of the lattice each body system is wired to, and how to read it live. */
+  const LATTICE_OF = {
+    neural:    { layer: "P0 kernel",    read: function () {
+      const a = lat("audit"); if (!a) return null;
+      return [["Yield", a.yield, ""], ["Claims", passCount(a) + "/" + claimCount(a), ""], ["Kernel age", ageText(ageOf(a.utc)), ""]];
+    } },
+    cardiac:   { layer: "star chain",   read: function () {
+      const s = lat("star"); if (!s) return null;
+      return [["Sequence", s.entry_count, ""], ["Chain", s.chain_valid ? "valid" : "BROKEN", ""], ["Last beat", ageText(ageOf(s.updated_utc)), "ago"]];
+    } },
+    breath:    { layer: "P1 mycelium",  read: function () {
+      const p = lat("pulse"); if (!p) return null;
+      return [["Feed", p.feed_entries, "entries"], ["Accepted", p.accepted, ""], ["Pending", p.pending, ""]];
+    } },
+    metabolic: { layer: "P2\u2013P5",   read: function () {
+      const p = lat("pulse"); if (!p) return null;
+      const mk = p.marks && isNum(p.marks.count) ? p.marks.count : null;
+      const lg = p.alignment_ledger && isNum(p.alignment_ledger.entry_count) ? p.alignment_ledger.entry_count : null;
+      return [["Nodes", p.chart_nodes, ""], ["Marks", mk === null ? "\u2014" : String(mk), ""], ["Ledger", lg === null ? "\u2014" : String(lg), "entries"]];
+    } },
+    frame:     { layer: "P6\u2013P8",   read: function () {
+      const a = lat("audit"); if (!a) return null;
+      return [["Live slots", a.live, ""], ["Future", a.future, "slots"], ["Miss", a.miss, ""]];
+    } },
+    mesh:      { layer: "motes",        read: function () {
+      const p = lat("pulse"); if (!p) return null;
+      return [["Motes", p.chart_nodes, ""], ["Wall root", SHORT(p.marks && p.marks.wall_root), ""], ["Feed root", SHORT(p.feed_root), ""]];
+    } },
+    comms:     { layer: "throat",       read: function () {
+      const ms = avgMs(), st = newestStamp();
+      if (ms === null && st === null) return null;
+      return [["Latency", ms === null ? "\u2014" : String(ms), "ms"], ["Lock", Math.round(sourcesOk() / SOURCES.length * 100), "%"], ["Age", st ? ageText(Date.now() - st) : "\u2014", "old"]];
+    } }
+  };
+
+  function paintLatticeMeters(node) {
+    const box = document.getElementById("ins-lat");
+    if (!node) { box.style.display = "none"; box.innerHTML = ""; return; }
+    const map = LATTICE_OF[node.system];
+    if (!map) { box.style.display = "none"; box.innerHTML = ""; return; }
+    const rows = map.read();
+    box.style.display = "flex";
+    box.innerHTML = "";
+    const cell = (value, label) => {
+      const d = document.createElement("div");
+      d.innerHTML = "<b></b><span></span>";
+      d.firstChild.textContent = value;
+      d.lastChild.textContent = label;
+      return d;
+    };
+    if (!rows) { box.appendChild(cell("\u2014", "no feed")); return; }
+    rows.forEach(r => box.appendChild(cell(String(r[1]) + (r[2] ? " " + r[2] : ""), r[0].toUpperCase() + " · " + map.layer.toUpperCase())));
+  }
+
+  /* The world-mesh rows measure the real mesh: the lattice feeds themselves. */
+  function meshMetric(key) {
+    const a = lat("audit"), s = lat("star");
+    if (key === "latency") {
+      const ms = avgMs();
+      return { text: ms === null ? "\u2014" : String(ms), unit: ms === null ? "NO LINK" : "MS AVG" };
+    }
+    if (key === "yield") {
+      const ok = sourcesOk();
+      return { text: String(Math.round(ok / SOURCES.length * 100)), unit: ok ? "% LIVE" : "% OFFLINE" };
+    }
+    if (key === "drift") {
+      const st = newestStamp();
+      return { text: st ? ageText(Date.now() - st) : "\u2014", unit: "DATA AGE" };
+    }
+    const parts = [s ? s.chain_valid : null, rootsMatch(), a ? a.yield === "ALIGNED" : null];
+    const known = parts.filter(x => x !== null).length;
+    if (!known) return { text: "\u2014", unit: "NO LINK" };
+    return { text: String(Math.round(parts.filter(x => x === true).length / parts.length * 100)), unit: "% AGREEMENT" };
+  }
+
   function boot() {
     ctx = fit(fig);
     w = fig.getBoundingClientRect().width;
@@ -874,10 +1157,14 @@
     for (let i = 0; i < 64; i++) pushHist(i * 140);
     const hash = (location.hash || "").replace("#", "");
     select(byId[hash] || byId.heart);
-    note("BREATH left lung 14 /min");
-    note("NEURAL cortex 64 %");
-    note("MESH mote east 18 ms");
-    note("Twin online. Mesh listening. No external sensor.");
+    note("Twin online. Lattice link opening.");
+    note("Twin numbers are simulated. The lattice layer below reads live feeds.");
+    document.getElementById("lat-refresh").addEventListener("click", () => refreshLattice());
+    refreshLattice();
+    setInterval(refreshLattice, REFRESH_MS);
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && Date.now() - LAT.at > REFRESH_MS) refreshLattice();
+    });
     paintSide(performance.now());
     const hours = new Date().getHours();
     if (hours > 18 || hours < 6) {
@@ -896,30 +1183,33 @@
       }
     }
     sizeField();
-    const particles = Array.from({ length: 500 }, () => ({
+    const particles = Array.from({ length: 260 }, () => ({
       x: Math.random() * field.width,
       y: Math.random() * field.height,
       vx: (Math.random() - 0.5) * 0.5,
       vy: (Math.random() - 0.5) * 0.5,
       size: Math.random() * 2
     }));
+    const neon = getComputedStyle(document.body).getPropertyValue("--neon-primary").trim() || "#00f7ff";
     function paintField() {
-      fctx.fillStyle = "rgba(0,0,0,0.05)";
+      fctx.fillStyle = "rgba(0,0,0,0.06)";
       fctx.fillRect(0, 0, field.width, field.height);
-      particles.forEach(p => {
+      particles.forEach((p, i) => {
         p.x += p.vx;
         p.y += p.vy;
         if (p.x < 0 || p.x > field.width) p.vx *= -1;
         if (p.y < 0 || p.y > field.height) p.vy *= -1;
+        fctx.globalAlpha = i % 3 === 0 ? 0.5 : 0.3;
+        fctx.fillStyle = i % 3 === 0 ? "#c9b6ff" : neon;
         fctx.beginPath();
-        fctx.fillStyle = "hsl(" + (Math.random() * 360) + ", 70%, 50%)";
         fctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         fctx.fill();
       });
+      fctx.globalAlpha = 1;
     }
     function fieldLoop() {
       paintField();
-      requestAnimationFrame(fieldLoop);
+      if (!REDUCE) requestAnimationFrame(fieldLoop);
     }
     fieldLoop();
     requestAnimationFrame(frame);
